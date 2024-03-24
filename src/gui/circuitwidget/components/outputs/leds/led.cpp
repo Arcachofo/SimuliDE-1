@@ -32,7 +32,7 @@ Led::Led( QString type, QString id )
 {
     m_area = QRect(-8, -10, 20, 20 );
 
-    m_linker = true;
+    m_isLinker = true;
 
     m_pin.resize( 2 );
     m_pin[0] = new Pin( 180, QPoint(-16, 0 ), m_id+"-lPin", 0, this);
@@ -43,7 +43,8 @@ Led::Led( QString type, QString id )
     setEpin( 1, m_pin[1] );
 
     addPropGroup( { "Hidden", {
-new StrProp<Led>("Links", "Links","", this, &Led::getLinks , &Led::setLinks )
+        new StrProp<Led>("Links", "Links",""
+                        , this, &Led::getLinks , &Led::setLinks )
     }, groupHidden} );
 }
 Led::~Led(){}

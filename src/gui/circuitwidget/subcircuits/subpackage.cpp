@@ -79,13 +79,26 @@ SubPackage::SubPackage( QString type, QString id )
     m_pkgeFile = "";
 
     addPropGroup( { tr("Main"), {
-new StrProp <SubPackage>("SubcType"    ,tr("Type")  ,""      , this, &SubPackage::subcTypeStr,&SubPackage::setSubcTypeStr,0,"enum" ),
-new IntProp <SubPackage>("Width"       ,tr("Width") ,"_Cells", this, &SubPackage::width,      &SubPackage::setWidth ,0,"uint" ),
-new IntProp <SubPackage>("Height"      ,tr("Height"),"_Cells", this, &SubPackage::height,     &SubPackage::setHeight,0,"uint"  ),
-new StrProp <SubPackage>("Name"        ,tr("Name")        ,"", this, &SubPackage::name,       &SubPackage::setName ),
-new StrProp <SubPackage>("Package_File",tr("Package File"),"", this, &SubPackage::package,    &SubPackage::setPackage),
-new StrProp <SubPackage>("Background"  ,tr("Background")  ,"", this, &SubPackage::background, &SubPackage::setBackground ),
-new BoolProp<SubPackage>("Logic_Symbol",tr("Logic Symbol"),"", this, &SubPackage::logicSymbol,&SubPackage::setLogicSymbol ),
+        new StrProp <SubPackage>("SubcType", tr("Type"),""
+                                , this, &SubPackage::subcTypeStr, &SubPackage::setSubcTypeStr,0,"enum" ),
+
+        new IntProp <SubPackage>("Width", tr("Width"),""
+                                , this, &SubPackage::width, &SubPackage::setWidth ,0,"uint" ),
+
+        new IntProp <SubPackage>("Height", tr("Height"),""
+                                , this, &SubPackage::height, &SubPackage::setHeight,0,"uint" ),
+
+        new StrProp <SubPackage>("Name",tr("Name"),""
+                                , this, &SubPackage::name, &SubPackage::setName ),
+
+        new StrProp <SubPackage>("Package_File", tr("Package File"),""
+                                , this, &SubPackage::package, &SubPackage::setPackage),
+
+        new StrProp <SubPackage>("Background", tr("Background")  ,""
+                                , this, &SubPackage::background, &SubPackage::setBackground ),
+
+        new BoolProp<SubPackage>("Logic_Symbol", tr("Logic Symbol"),""
+                                , this, &SubPackage::logicSymbol, &SubPackage::setLogicSymbol ),
     }, 0} );
 }
 SubPackage::~SubPackage()
@@ -189,7 +202,7 @@ void SubPackage::mousePressEvent( QGraphicsSceneMouseEvent* event )
         QColor color = m_isLS ? Qt::black : QColor( 250, 250, 200 );
 
         m_eventPin = new PackagePin( m_angle, QPoint(m_p1X,m_p1Y ), "name", 0, this );
-        ///m_eventPin->setEnabled( false );
+
         m_eventPin->setPinId( "Id" );
         m_eventPin->setLabelColor( color );
         m_eventPin->setLabelPos();
@@ -322,7 +335,6 @@ void SubPackage::setHeight( int height )
 Pin* SubPackage::addPin( QString id, QString type, QString label, int pos, int xpos, int ypos, int angle, int length, int space )
 {
     PackagePin* pin = new PackagePin( angle, QPoint(xpos, ypos), m_id+"-"+id, pos-1, this ); // pos in package starts at 1
-    //pin->setEnabled( false );
 
     QColor color = m_isLS ? Qt::black : QColor( 250, 250, 200 );
 
@@ -332,6 +344,7 @@ Pin* SubPackage::addPin( QString id, QString type, QString label, int pos, int x
     pin->setLength( length );
     pin->setSpace( space );
     pin->setLabelText( label );
+    pin->setIsBus( type == "bus" );
     pin->setInverted( type == "inverted" || type == "inv" );
 
     m_pkgePins.append( pin );
@@ -410,7 +423,7 @@ void SubPackage::unusePin( bool unuse )
     m_changed = true;
 }
 
-void SubPackage::pointPin( bool point )
+void SubPackage::setPointPin( bool point )
 {
     int length = 8;
     if( point ) length = 1;
@@ -426,6 +439,14 @@ void SubPackage::pointPin( bool point )
     else if( m_angle == 0 )   m_eventPin->moveBy( deltaL, 0 );// Right
     else if( m_angle == 90 )  m_eventPin->moveBy( 0,-deltaL );// Top
     else if( m_angle == 270 ) m_eventPin->moveBy( 0, deltaL );// Bottom
+
+    Circuit::self()->update();
+    m_changed = true;
+}
+
+void SubPackage::setBusPin( bool bus )
+{
+    m_eventPin->setIsBus( bus );
 
     Circuit::self()->update();
     m_changed = true;
@@ -565,8 +586,10 @@ QString SubPackage::pinEntry( Pin* pin )
     QString label  = "label=\""+pin->getLabelText().replace("<","&#x3C;").replace("=","&#x3D;").replace(">","&#x3E;")+"\"";
     QString space  = "space=\""+QString::number( pin->space() )+"\"";
     QString type;
-    if( pin->inverted() ) type = "inv";
-    if( pin->unused()   ) type = "nc";
+    if     ( pin->unused()   ) type = "nc";
+    else if( pin->isBus()    ) type = "bus";
+    else if( pin->inverted() ) type = "inv";
+
     type = "type=\""+type+"\"";
 
     return "    <pin "
@@ -628,7 +651,7 @@ EditDialog::EditDialog( SubPackage* pack, Pin* eventPin, QWidget* parent )
     idLayout->addWidget( m_idLabel );
     idLayout->addWidget( m_idLineEdit );
 
-    m_spaceLabel = new QLabel( tr("Space to Pin:") );
+    m_spaceLabel = new QLabel( tr("Space to Label:") );
     m_spaceBox   = new QDoubleSpinBox();
     m_spaceBox->setValue( eventPin->space() );
     QHBoxLayout* spaceLayout = new QHBoxLayout;
@@ -656,6 +679,9 @@ EditDialog::EditDialog( SubPackage* pack, Pin* eventPin, QWidget* parent )
     m_pointCheckBox = new QCheckBox(tr("Point Pin"));
     m_pointCheckBox->setChecked( (eventPin->length() < 7) );
 
+    m_busCheckBox = new QCheckBox(tr("Bus Pin"));
+    m_busCheckBox->setChecked( eventPin->isBus() );
+
     QDialogButtonBox* bb = new QDialogButtonBox( QDialogButtonBox::Ok );
     QPushButton* okBtn = bb->button(QDialogButtonBox::Ok);
     okBtn->setAutoDefault(true);
@@ -669,7 +695,15 @@ EditDialog::EditDialog( SubPackage* pack, Pin* eventPin, QWidget* parent )
     layout->addWidget( m_invertCheckBox );
     layout->addWidget( m_unuseCheckBox );
     layout->addWidget( m_pointCheckBox );
+    layout->addWidget( m_busCheckBox );
     layout->addWidget( bb );
+
+    QFontMetrics fm( m_nameLabel->font() );
+    double scale = fm.width(" ")/2.0;
+    m_nameLineEdit->setFixedWidth( 60*scale );
+    m_idLineEdit->setFixedWidth( 60*scale );
+    m_spaceBox->setFixedWidth( 60*scale );
+    m_angleBox->setFixedWidth( 60*scale );
 
     setLayout( layout );
     setWindowTitle( tr("Edit Pin ")+eventPin->getLabelText() );
@@ -695,15 +729,21 @@ EditDialog::EditDialog( SubPackage* pack, Pin* eventPin, QWidget* parent )
                       [=](bool t){ m_package->unusePin(t); } );
 
     QObject::connect( m_pointCheckBox,  &QCheckBox::toggled,
-                      [=](bool t){ m_package->pointPin(t); } );
+                      [=](bool t){ this->setPointPin(t); } );
+
+    QObject::connect( m_busCheckBox,  &QCheckBox::toggled,
+                      [=](bool t){ this->setBusPin(t); } );
 }
 
-void EditDialog::invertPin( bool invert )
+void EditDialog::setPointPin( bool p )
 {
-    QString id = m_idLineEdit->text();
-    if( invert && !id.startsWith("!") ) id.prepend("!");
-    else if( !invert && id.startsWith("!") ) id.remove( 0, 1 );
-
-    m_idLineEdit->setText( id );
-    m_package->invertPin( invert );
+    m_package->setPointPin( p );
+    if( m_invertCheckBox->isChecked() ) m_invertCheckBox->setChecked( !p );
 }
+
+void EditDialog::setBusPin( bool b )
+{
+    m_package->setBusPin( b );
+    if( m_invertCheckBox->isChecked() ) m_invertCheckBox->setChecked( !b );
+}
+

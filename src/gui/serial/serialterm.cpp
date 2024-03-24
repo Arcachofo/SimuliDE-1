@@ -43,7 +43,9 @@ SerialTerm::SerialTerm( QString type, QString id )
           , UsartModule( NULL, id+"-Uart" )
           , eElement( (id+"-eElement") )
 {
-    m_area = QRect(-16,-16, 32, 32 );
+    m_graphical = true;
+
+    m_area = QRect(-16,-16, 72, 32 );
     setLabelPos(-20,-32 );
 
     m_pin.resize(2);
@@ -53,14 +55,29 @@ SerialTerm::SerialTerm( QString type, QString id )
     pinTx->setOutHighV( 5 );
     m_pin[0] = pinTx;
     m_sender->setPins( {pinTx} );
+    m_sending = false;
 
     IoPin* pinRx = new IoPin( 180, QPoint(-24, 8), id+"-pin1", 0, this, input );
     pinRx->setLabelText( "Rx" );
     m_pin[1] = pinRx;
     m_receiver->setPins( {pinRx} );
-
-    m_sending   = false;
     m_receiving = false;
+
+    m_button = new CustomButton( );
+    m_button->setMaximumSize( 44, 20 );
+    m_button->setGeometry(-44,-20, 44, 20 );
+    m_button->setCheckable( true );
+    m_button->setText( tr("Open") );
+
+    QFont font = m_button->font();
+    font.setFamily( MainWindow::self()->defaultFontName() );
+    font.setPixelSize(12);
+    m_button->setFont( font );
+    QObject::connect( m_button, &CustomButton::clicked  , [=](){ onbuttonclicked(); });
+
+    m_proxy = Circuit::self()->addWidget( m_button );
+    m_proxy->setParentItem( this );
+    m_proxy->setPos( QPoint( 8,-10) );
 
     setBaudRate( 9600 );
 
@@ -70,14 +87,21 @@ SerialTerm::SerialTerm( QString type, QString id )
 //new BoolProp  <Chip>( "Logic_Symbol","","", this, &Chip::logicSymbol, &Chip::setLogicSymbol ),
     }, 0 } );
 
-    addPropGroup( { "Config", {
-new IntProp<SerialTerm>("Baudrate", tr("Baudrate"),"_Bauds", this, &SerialTerm::baudRate, &SerialTerm::setBaudRate,0,"uint" ),
-new IntProp<SerialTerm>("DataBits", tr("Data Bits"),"_Bits", this, &SerialTerm::dataBits, &SerialTerm::setDataBits,0,"uint" ),
-new IntProp<SerialTerm>("StopBits", tr("Stop Bits"),"_Bits", this, &SerialTerm::stopBits, &SerialTerm::setStopBits,0,"uint" ),
+    addPropGroup( { tr("Config"), {
+        new IntProp<SerialTerm>("Baudrate", tr("Baudrate"),"_Bd"
+                               , this, &SerialTerm::baudRate, &SerialTerm::setBaudRate,0,"uint" ),
+
+        new IntProp<SerialTerm>("DataBits", tr("Data Bits"),"_bits"
+                               , this, &SerialTerm::dataBits, &SerialTerm::setDataBits,0,"uint" ),
+
+        new IntProp<SerialTerm>("StopBits", tr("Stop Bits"),"_bits"
+                               , this, &SerialTerm::stopBits, &SerialTerm::setStopBits,0,"uint" ),
     }, 0 } );
+
     addPropGroup( {"Hidden", {
-new BoolProp<SerialTerm>("SerialMon","","", this, &SerialTerm::serialMon, &SerialTerm::setSerialMon ),
-}, groupHidden} );
+        new BoolProp<SerialTerm>("SerialMon","",""
+                                , this, &SerialTerm::serialMon, &SerialTerm::setSerialMon ),
+    }, groupHidden} );
 }
 SerialTerm::~SerialTerm(){}
 
@@ -133,6 +157,12 @@ void SerialTerm::frameSent( uint8_t data )
     else m_sending = false;
 }
 
+void SerialTerm::onbuttonclicked()
+{
+    if( m_button->isChecked() ) slotOpenTerm();
+    else                        m_monitor->close();
+}
+
 void SerialTerm::slotOpenTerm()
 {
     openMonitor( m_id, 0, /*send=*/true );
@@ -144,6 +174,19 @@ void SerialTerm::setSerialMon( bool s )
     if( s ) slotOpenTerm();
 }
 
+void SerialTerm::monitorClosed()
+{
+    UsartModule::monitorClosed();
+    m_button->setChecked( false );
+}
+
+void SerialTerm::setflip()
+{
+    Component::setflip();
+    m_proxy->setPos( QPoint( 8 + ( m_Hflip>0 ? 0 : m_button->width() ),-10 + ( m_Vflip>0 ? 0 : m_button->height() ) ) );
+    m_proxy->setTransform( QTransform::fromScale( m_Hflip, m_Vflip ) );
+}
+
 void SerialTerm::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu )
 {
     QAction* openSerMon = menu->addAction( QIcon(":/terminal.svg"),tr("Open Serial Monitor.") );
@@ -153,9 +196,9 @@ void SerialTerm::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu
     Component::contextMenu( event, menu );
 }
 
-void SerialTerm::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void SerialTerm::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w )
 {
-    Component::paint( p, option, widget );
+    Component::paint( p, o, w );
     
     p->setBrush( Qt::darkBlue );
     p->drawRoundedRect( m_area, 4, 4 );

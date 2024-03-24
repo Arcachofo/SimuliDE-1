@@ -46,8 +46,11 @@ Battery::Battery( QString type, QString id )
     Simulator::self()->addToUpdateList( this );
 
     addPropGroup( { tr("Main"), {
-new DoubProp<Battery>( "Voltage"   , tr("Voltage")   ,"V", this, &Battery::volt, &Battery::setVolt ),
-new DoubProp<Battery>( "Resistance", tr("Resistance"),"Ω", this, &Battery::res,  &Battery::setRes ),
+        new DoubProp<Battery>("Voltage", tr("Voltage"),"V"
+                             , this, &Battery::volt, &Battery::setVolt ),
+
+        new DoubProp<Battery>("Resistance", tr("Resistance"),"mΩ"
+                             , this, &Battery::res,  &Battery::setRes ),
     },0 } );
 }
 Battery::~Battery() {}

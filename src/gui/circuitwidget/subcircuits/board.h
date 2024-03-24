@@ -16,13 +16,18 @@ class BoardSubc : public SubCircuit
         BoardSubc( QString type, QString id );
         ~BoardSubc();
 
+        virtual void setLogicSymbol( bool ls ) override;
+
         void attachShield( ShieldSubc* shield );
         void detachShield( ShieldSubc* shield ) { m_shields.removeAll( shield); }
 
-        virtual void remove() override;
+        BoardSubc* parentBoard() { return m_parentBoard; }
+
+        virtual QString toString() override;
 
     protected:
-        QList<ShieldSubc*> m_shields; // A shield attached to this
+        QList<ShieldSubc*> m_shields; // A list of shields attached to this
+        BoardSubc* m_parentBoard;     // A board this is attached to (this is a shield)
 
 };
 #endif

@@ -39,41 +39,41 @@ class Ssd1306 : public Component, public TwiModule
         int height() { return m_height; }
         void setHeight( int h );
 
+        bool imgRotated() { return m_rotate; }
+        void setImgRotated( bool r ) { m_rotate = r; }
+
         virtual void initialize() override;
         virtual void stamp() override;
         virtual void updateStep() override;
-        virtual void remove() override;
 
+        virtual void startWrite() override;
         virtual void readByte() override;
-        virtual void I2Cstop() override;
         
-        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget ) override;
+        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w ) override;
 
     protected:
         void writeData();
         void proccessCommand();
-        void clearLcd();
         void incrementPointer();
         void reset();
         void clearDDRAM();
         void updateSize();
-        
-        QImage* m_pdisplayImg;    //Visual representation of the LCD
+
         dispColor m_dColor;
 
         unsigned char m_aDispRam[128][8]; //128x64 DDRAM
 
-        int m_cdr;                // Clock Divide Ratio
-        int m_mr;                 // Multiplex Ratio
-        int m_fosc;               // Oscillator Frequency
-        int m_frm;                // Frame Frequency
+        int m_cdr;       // Clock Divide Ratio
+        int m_mr;        // Multiplex Ratio
+        int m_fosc;      // Oscillator Frequency
+        int m_frm;       // Frame Frequency
 
         int m_width;
         int m_height;
         int m_rows;
 
-        int m_addrX;              // X RAM address
-        int m_addrY;              // Y RAM address
+        int m_addrX;     // X RAM address
+        int m_addrY;     // Y RAM address
         int m_startX;
         int m_endX;
         int m_startY;
@@ -94,6 +94,8 @@ class Ssd1306 : public Component, public TwiModule
         bool m_dispOn;
         bool m_dispFull;
         bool m_dispInv;
+        bool m_scanInv;
+        bool m_rotate;
 
         //bool m_reset;
         bool m_command;
@@ -108,6 +110,8 @@ class Ssd1306 : public Component, public TwiModule
         //Pin m_pinRst;
         //Pin m_pinDC;
         //Pin m_pinCS;
+
+        QColor m_foreground;
 };
 
 #endif

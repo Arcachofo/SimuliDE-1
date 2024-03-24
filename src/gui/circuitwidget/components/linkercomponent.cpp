@@ -14,28 +14,21 @@
 LinkerComponent::LinkerComponent( QString type, QString id )
                : Component( type, id )
 {
-    m_linker = true;
+    m_isLinker = true;
 
     addPropGroup( { "Hidden", {
-new StrProp<LinkerComponent>("Links", "Links","", this, &LinkerComponent::getLinks , &LinkerComponent::setLinks )
+        new StrProp<LinkerComponent>("Links", "Links",""
+                                    , this, &LinkerComponent::getLinks , &LinkerComponent::setLinks )
     }, groupHidden} );
 }
 LinkerComponent::~LinkerComponent(){}
 
-void LinkerComponent::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
+void LinkerComponent::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu )
 {
-    if( !acceptedMouseButtons() ) { event->ignore(); return; }
+    QAction* linkCompAction = menu->addAction( QIcon(":/subcl.png"),tr("Link to Component") );
+    QObject::connect( linkCompAction, &QAction::triggered, [=](){ slotLinkComp(); } );
 
-    event->accept();
-    QMenu* menu = new QMenu();
+    menu->addSeparator();
 
-    if( !parentItem() )
-    {
-        QAction* linkCompAction = menu->addAction( QIcon(":/subcl.png"),tr("Link to Component") );
-        QObject::connect( linkCompAction, &QAction::triggered, [=](){ slotLinkComp(); } );
-
-        menu->addSeparator();
-    }
     Component::contextMenu( event, menu );
-    menu->deleteLater();
 }

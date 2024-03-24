@@ -20,6 +20,8 @@ class Linker
         QString getLinks();
         void setLinks( QString links );
 
+        void removeLinked( Component* comp ) { m_linkedComp.removeOne( comp ); }
+
         Component* getLinkedComp( int i ) { return m_linkedComp.value( i ); }
 
         bool hasLinks() { return !m_linkedStr.isEmpty(); }
@@ -29,7 +31,7 @@ class Linker
 
  static Linker* m_selecComp;
 
-        virtual void createLinks( QSet<Component*>* );
+        virtual void createLinks( QList<Component*>* );
         virtual void compSelected( Component* comp );
 
         void showLinked( bool show );

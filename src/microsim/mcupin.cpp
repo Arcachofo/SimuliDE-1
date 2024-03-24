@@ -68,14 +68,16 @@ void McuPin::voltChanged()
     {
         bool raise = true;
         bool trigger = false;
-        switch( m_extIntTrigger ) { // Trigger pinLow without pin change at simulation start
-            case pinLow:     trigger = (Simulator::self()->circTime() == 0); raise = !newState;
+        switch( m_extIntTrigger ) {
+            case pinLow:     trigger = (Simulator::self()->circTime() == 1);// Trigger Low level without pin change at simulation start
+                             raise = !newState;                 // Fallthrough: Trigger Low level at pin change
             case pinChange:  trigger |= (oldState != newState); break;
             case pinFalling: trigger = (oldState && !newState); break;
             case pinRising:  trigger = (!oldState && newState); break;
             case pinDisabled:                                   break;
         }
-        if( trigger ) m_extInt->raise( raise );
+        if( trigger )
+            m_extInt->raise( raise );
     }
     if( oldState != newState )
     {
@@ -151,8 +153,6 @@ void McuPin::setPullup( bool up )
         m_inpState = up;
         uint8_t val = up ? m_pinMask : 0;
         m_port->pinChanged( m_pinMask, val );
-        //if     ( m_pinMode == openCo ) setPinState( up? open_high  : open_low  ); // High : Low colors
-        //else if( m_pinMode == input  ) setPinState( up? input_high : input_low ); // High : Low colors
     }
 }
 
@@ -167,7 +167,7 @@ void McuPin::ConfExtInt( uint8_t bits )
 {
     if( !m_extInt ) return;
     m_extIntTrigger = (extIntTrig_t)getRegBitsVal( bits, m_extIntBits );
-    m_extInt->setAutoClear( m_extIntTrigger != pinLow );
+    voltChanged();
 }
 
 void McuPin::setExtInt( uint mode )

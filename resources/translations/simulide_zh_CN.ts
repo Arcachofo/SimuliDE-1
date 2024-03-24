@@ -44,15 +44,187 @@
     </message>
     <message>
         <source>About SimulIDE</source>
-        <translation type="vanished">关于SimulIDE</translation>
+        <translation>关于SimulIDE</translation>
     </message>
     <message>
         <source>Dialog</source>
-        <translation>对话框</translation>
+        <translation type="vanished">对话框</translation>
     </message>
     <message>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;https://www.patreon.com/simulide/&quot;&gt;https://www.patreon.com/simulide&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Website:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Patreon:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Santiago González</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Jarda Vrana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       kellneka.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sergey Roenko.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Benoit ZERR.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Tim Fischer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>n3645.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Roy Qu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Alex Salishchev.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jan K. S.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>acebrian.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       bjacquot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       P. de Francisco</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tfrei.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maico Smaniotto.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pt. Brasil:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>@rkanoid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doğu Kocatepe.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turkish:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Italian:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dutch       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Santiago Gonzalez.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>French:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spanish:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tim Fischer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chinese:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Czech:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Russian:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>labf2121</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jarda Vrana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>German:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>mvandorp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slovak:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portuguese:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pascal Cotret.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tomas714</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1376,6 +1548,10 @@ Can&apos;t find file:
         <source>Set current time at start</source>
         <translation>设置开始时的当前时间</translation>
     </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished">主要特性</translation>
+    </message>
 </context>
 <context>
     <name>DS1621</name>
@@ -1759,7 +1935,11 @@ Can&apos;t find file:
         <translation>下</translation>
     </message>
     <message>
-        <source>Space to Pin:</source>
+        <source>Space to Label:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus Pin</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2114,6 +2294,10 @@ Can&apos;t find file:
         <source>Open Serial Monitor.</source>
         <translation>打开串口监视器.</translation>
     </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished">主要特性</translation>
+    </message>
 </context>
 <context>
     <name>FileBrowser</name>
@@ -2142,7 +2326,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Search Files (Doesn&apos;t work)</source>
-        <translation>搜索文件(暂不可用)</translation>
+        <translation type="vanished">搜索文件(暂不可用)</translation>
     </message>
 </context>
 <context>
@@ -2492,7 +2676,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Control_Code</source>
-        <translation>控制码</translation>
+        <translation type="vanished">控制码</translation>
     </message>
     <message>
         <source>I2C Frequency</source>
@@ -2514,6 +2698,10 @@ Can&apos;t find file:
         <source>Show Memory Table</source>
         <translation>显示内存表</translation>
     </message>
+    <message>
+        <source>I2C Address</source>
+        <translation type="unfinished">I2C地址</translation>
+    </message>
 </context>
 <context>
     <name>I2CToParallel</name>
@@ -2527,11 +2715,15 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Control_Code</source>
-        <translation>控制码</translation>
+        <translation type="vanished">控制码</translation>
     </message>
     <message>
         <source>I2C Frequency</source>
         <translation>I2C频率</translation>
+    </message>
+    <message>
+        <source>I2C Address</source>
+        <translation type="unfinished">I2C地址</translation>
     </message>
 </context>
 <context>
@@ -2615,7 +2807,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Libraries Path</source>
-        <translation>库文件夹路径</translation>
+        <translation type="vanished">库文件夹路径</translation>
     </message>
     <message>
         <source>Board</source>
@@ -2624,6 +2816,10 @@ Can&apos;t find file:
     <message>
         <source>Custom Board</source>
         <translation>自定义板</translation>
+    </message>
+    <message>
+        <source>Custom Library Path</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2716,7 +2912,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>_Steps</source>
-        <translation>_Steps</translation>
+        <translation type="vanished">_Steps</translation>
     </message>
 </context>
 <context>
@@ -2743,7 +2939,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>_Buttons</source>
-        <translation>_Buttons</translation>
+        <translation type="vanished">_Buttons</translation>
     </message>
 </context>
 <context>
@@ -3900,15 +4096,15 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Screen Size X</source>
-        <translation>屏幕尺寸X</translation>
+        <translation type="vanished">屏幕尺寸X</translation>
     </message>
     <message>
         <source>Screen Size Y</source>
-        <translation>屏幕尺寸Y</translation>
+        <translation type="vanished">屏幕尺寸Y</translation>
     </message>
     <message>
         <source>_Pixels</source>
-        <translation>_Pixels</translation>
+        <translation type="vanished">_Pixels</translation>
     </message>
     <message>
         <source>Buffer Size</source>
@@ -3916,11 +4112,27 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Samples</source>
-        <translation>采样</translation>
+        <translation type="vanished">采样</translation>
     </message>
     <message>
-        <source>Admittance to ground</source>
+        <source>Screen Width</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>_Px</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screen Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to ground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impedance</source>
+        <translation type="unfinished">阻抗</translation>
     </message>
 </context>
 <context>
@@ -4743,6 +4955,14 @@ Not valid Package file:
         <source>Auto Open</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">关闭</translation>
+    </message>
+    <message>
+        <source>Config</source>
+        <translation type="unfinished">配置</translation>
+    </message>
 </context>
 <context>
     <name>SerialTerm</name>
@@ -4770,6 +4990,14 @@ Not valid Package file:
         <source>Open Serial Monitor.</source>
         <translation type="unfinished">打开串口监视器.</translation>
     </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">打开</translation>
+    </message>
+    <message>
+        <source>Config</source>
+        <translation type="unfinished">配置</translation>
+    </message>
 </context>
 <context>
     <name>Servo</name>
@@ -4791,7 +5019,7 @@ Not valid Package file:
     </message>
     <message>
         <source>_sec/60º</source>
-        <translation>_sec/60º</translation>
+        <translation type="vanished">_sec/60º</translation>
     </message>
     <message>
         <source>Min. Pulse Width</source>
@@ -4799,7 +5027,7 @@ Not valid Package file:
     </message>
     <message>
         <source>_us</source>
-        <translation>_us</translation>
+        <translation type="vanished">_us</translation>
     </message>
     <message>
         <source>Max. Pulse Width</source>
@@ -5019,11 +5247,23 @@ Not valid Package file:
     </message>
     <message>
         <source>_Pixels</source>
-        <translation>_Pixels</translation>
+        <translation type="vanished">_Pixels</translation>
     </message>
     <message>
         <source>Height</source>
         <translation>高度</translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I2C</source>
+        <translation type="unfinished">I2C</translation>
+    </message>
+    <message>
+        <source>_px</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5050,7 +5290,7 @@ Not valid Package file:
     </message>
     <message>
         <source>_Teeth</source>
-        <translation>_Teeth</translation>
+        <translation type="vanished">_Teeth</translation>
     </message>
 </context>
 <context>
@@ -5280,10 +5520,6 @@ Do you want to save your changes?
     <message>
         <source>_Switches</source>
         <translation type="vanished">_Switches</translation>
-    </message>
-    <message>
-        <source>_Lines</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exclusive</source>
@@ -5831,7 +6067,7 @@ Do you want to save your changes?
     </message>
     <message>
         <source>Real Speed: </source>
-        <translation>实际速度: </translation>
+        <translation type="vanished">实际速度: </translation>
     </message>
     <message>
         <source>Load:</source>
@@ -5847,6 +6083,22 @@ Do you want to save your changes?
     </message>
     <message>
         <source>Update Load:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real FPS:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation type="unfinished">100% {0?}</translation>
+    </message>
+    <message>
+        <source>GUI overload:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real Speed:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

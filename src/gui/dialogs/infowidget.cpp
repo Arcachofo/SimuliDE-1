@@ -29,9 +29,16 @@ InfoWidget::InfoWidget( QWidget* parent )
     simLoadVal->setFont( font );
     guiLoadLabel->setFont( font );
     guiLoadVal->setFont( font );
+    overLoadLabel->setFont( font );
+    overLoadVal->setFont( font );
+    fpsLabel->setFont( font );
+    fpsVal->setFont( font );
     mainMcuLabel->setFont( font );
     mainMcu->setFont( font );
     mainMcuName->setFont( font );
+
+    overLoadLabel->setVisible( false );
+    overLoadVal->setVisible( false );
 }
 
 void InfoWidget::setTargetSpeed( double s )
@@ -39,7 +46,7 @@ void InfoWidget::setTargetSpeed( double s )
     QString speed = QString::number( s,'f', 2 )+" %";
     if( s < 100 ) speed = "0"+speed;
     if( s < 10 )  speed = "0"+speed;
-    targetSpeed->setText( speed );
+    targetSpeed->setText("  "+speed );
     updtMcu();
 }
 
@@ -49,7 +56,7 @@ void InfoWidget::updtMcu()
     {
         QString device = Mcu::self()->device();
         QString freq = QString::number( Mcu::self()->freq()*1e-6 );
-        mainMcu->setText( device+" at "+freq+" MHz" );
+        mainMcu->setText( "  "+device+" at "+freq+" MHz" );
 
         QString name;
         Mcu* mcu = Mcu::self();
@@ -59,36 +66,56 @@ void InfoWidget::updtMcu()
             name = comp->idLabel();
         }
         else name = mcu->idLabel();
-        mainMcuName->setText( name );
+        mainMcuName->setText( "  "+name );
     }else{
-        mainMcu->setText( "---" );
-        mainMcuName->setText( "---" );
+        mainMcu->setText( "  ---" );
+        mainMcuName->setText( "  ---" );
     }
     mainMcuLabel->setVisible( Mcu::self() );
     mainMcu->setVisible( Mcu::self() );
     mainMcuName->setVisible( Mcu::self() );
 }
 
-void InfoWidget::setRate( double rate, double simLoad, double guiLoad )
+void InfoWidget::setRate( double rate, double simLoad, double guiLoad, int fps )
 {
     updtMcu();
     if( rate < 0 )
     {
-        if( rate == -1 ) realSpeed->setText( tr("Speed: Debugger") );
-        else             realSpeed->setText( tr("Circuit ERROR!!!") );
+        if( rate == -1 ) realSpeed->setText( "  "+tr("Speed: Debugger") );
+        else             realSpeed->setText( "  "+tr("Circuit ERROR!!!") );
     }else{
         //if( (load > 150) || (load < 0) ) load = 0;
         double speed = rate/100;
         QString Srate = QString::number( speed,'f', 2 );
         while( Srate.size() < 6 ) Srate = "0"+Srate;
+
+        if( simLoad > 101 )
+        {
+            int overLoad = simLoad-100;
+            simLoad = 100;
+
+            QString Oload = QString::number( overLoad,'f', 2 );
+            while( Oload.size() < 6 ) Oload = "0"+Oload;
+
+            overLoadVal->setText( "  "+Oload+" %    ");
+            overLoadLabel->setVisible( true );
+            overLoadVal->setVisible( true );
+        }else{
+            overLoadLabel->setVisible( false );
+            overLoadVal->setVisible( false );
+        }
         QString Sload = QString::number( simLoad,'f', 2 );
         while( Sload.size() < 6 ) Sload = "0"+Sload;
+
         QString Gload = QString::number( guiLoad,'f', 2 );
         while( Gload.size() < 6 ) Gload = "0"+Gload;
 
-        realSpeed->setText( Srate+" %" );
-        simLoadVal->setText( Sload+" %    ");
-        guiLoadVal->setText( Gload+" %    ");
+        QString FPS = QString::number( fps );
+
+        realSpeed->setText( "  "+Srate+" %" );
+        simLoadVal->setText( "  "+Sload+" %    ");
+        guiLoadVal->setText( "  "+Gload+" %    ");
+        fpsVal->setText( "  "+FPS );
 }   }
 
 void InfoWidget::setCircTime( uint64_t tStep )

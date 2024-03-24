@@ -38,14 +38,21 @@ Inductor::Inductor( QString type, QString id )
     m_value = m_inductance = 1; // H
 
     addPropGroup( { tr("Main"), {
-new DoubProp<Inductor>("Inductance", tr("Inductance")     , "H", this, &Inductor::value,    &Inductor::setValue ),
-new DoubProp<Inductor>("Resistance", tr("Resistance")     , "Ω", this, &Inductor::resist  , &Inductor::setResist ),
-new DoubProp<Inductor>("InitVolt"  , tr("Initial Current"), "A", this, &Inductor::initCurr, &Inductor::setInitCurr ),
-new DoubProp<Inductor>("ReaStep"    , tr("Reactive Step") , "ns",this, &Inductor::reaStep , &Inductor::setReaStep,0,"uint" )
+        new DoubProp<Inductor>("Inductance", tr("Inductance"), "H"
+                              , this, &Inductor::value, &Inductor::setValue ),
+
+        new DoubProp<Inductor>("Resistance", tr("Resistance"), "µΩ"
+                              , this, &Inductor::resist , &Inductor::setResist ),
+
+        new DoubProp<Inductor>("InitVolt", tr("Initial Current"), "A"
+                              , this, &Inductor::initCurr, &Inductor::setInitCurr ),
+
+        new DoubProp<Inductor>("ReaStep", tr("Reactive Step"), "ns"
+                              ,this, &Inductor::reaStep , &Inductor::setReaStep, 0 )
     },0 } );
 
     setShowProp("Inductance");
-    setPropStr( "Inductance", "1" );
+    setPropStr("Inductance", "1");
 }
 Inductor::~Inductor(){}
 
@@ -55,9 +62,9 @@ void Inductor::setCurrentValue( double c )
     m_changed = true;
 }
 
-void Inductor::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void Inductor::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w )
 {
-    Component::paint( p, option, widget );
+    Component::paint( p, o, w );
 
     QPen pen = p->pen();
     pen.setWidth( 2 );

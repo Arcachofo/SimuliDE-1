@@ -43,17 +43,24 @@ class SerialTerm : public Component, public UsartModule, public eElement
         virtual void byteReceived( uint8_t byte ) override;
         virtual void frameSent( uint8_t data ) override;
 
-        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget ) override;
+        virtual void monitorClosed() override;
 
-    public slots:
+        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w ) override;
+
+    //public slots:
+        void onbuttonclicked();
         void slotOpenTerm();
 
     protected:
+        virtual void setflip() override;
         virtual void contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu ) override;
 
     private:
         bool m_receiving;
         bool m_sending;
+
+        CustomButton* m_button;
+        QGraphicsProxyWidget* m_proxy;
 
         QByteArray m_uartData;
 };

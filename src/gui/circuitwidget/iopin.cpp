@@ -256,7 +256,11 @@ void IoPin::setInputImp( double imp )
 void IoPin::setOutputImp( double imp )
 {
     m_outputImp = imp;
-    if( m_pinMode == output ) m_vddAdmit = 1/m_outputImp;
+    if( m_pinMode == output )
+    {
+        m_vddAdmit = 1/m_outputImp;
+        updtState();
+    }
 }
 
 void IoPin::setInverted( bool inverted )

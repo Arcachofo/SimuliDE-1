@@ -14,6 +14,7 @@
 #include "textval.h"
 #include "enumval.h"
 #include "boolval.h"
+#include "colorval.h"
 #include "mainwindow.h"
 
 #include "comproperty.h"
@@ -26,18 +27,20 @@ PropDialog::PropDialog( QWidget* parent, QString help )
 
     m_component = NULL;
 
-    m_scale = MainWindow::self()->fontScale();
-    m_minW  = 280*m_scale;
-    m_minH  = 100*m_scale;
-
     m_helpExpanded = false;
-    helpText->setVisible( false );
     mainLayout->removeWidget( helpText );
     helpText->setText( help );
+    helpText->adjustSize();
+    helpText->setVisible( false );
 }
 
 void PropDialog::setComponent( CompBase* comp, bool isComp )
 {
+    QFontMetrics fm( labelLabel->font() );
+    m_scale = fm.width(" ")/2.0;
+    m_minW  = 265*m_scale;
+    m_minH  = 100*m_scale;
+
     QString title = isComp ? "Uid: " : "";
     this->setWindowTitle( title+comp->getUid() );
     type->setText( "Type: "+comp->itemType() );
@@ -97,6 +100,7 @@ void PropDialog::setComponent( CompBase* comp, bool isComp )
                 PropVal* mp = NULL;
 
                 if     ( type == "double"  ) mp = new NumVal( this, comp, prop );
+                else if( type == "color"   ) mp = new ColorVal( this, comp, prop );
                 else if( type == "uint"    ) mp = new NumVal( this, comp, prop );
                 else if( type == "int"     ) mp = new NumVal( this, comp, prop );
                 else if( type == "string"  ) mp = new StrVal( this, comp, prop );
@@ -108,8 +112,6 @@ void PropDialog::setComponent( CompBase* comp, bool isComp )
                 if( !mp ) continue;
 
                 mp->setup( isComp );
-                //w = mp->width();
-                //mp->setMinimumWidth( w );
                 m_propList.append( mp );
                 groupWidget->layout()->addWidget( mp );
 
@@ -118,12 +120,9 @@ void PropDialog::setComponent( CompBase* comp, bool isComp )
 
                 mp->setEnabled( groupEnabled && propEnabled );
             }
-            groupWidget->setMinimumHeight( propList.size()*22*m_scale);
-            groupWidget->setMinimumWidth( 250*m_scale );
             tabList->addTab( groupWidget, group.name );
     }   }
     if( tabList->count() == 0 ) tabList->setVisible( false ); // Hide tab widget if empty
-    adjustWidgets();
 }
 
 void PropDialog::showProp( QString name, bool show )
@@ -132,6 +131,7 @@ void PropDialog::showProp( QString name, bool show )
     {
         if( prop->propName() != name ) continue;
         prop->setHidden( !show );
+        if( show ) this->adjustSize();
         break;
     }
 }
@@ -167,27 +167,25 @@ void PropDialog::on_helpButton_clicked()
 void PropDialog::adjustWidgets()
 {
     int h = 0;
-    int w = 0;
+    int w = m_minW;
+    if( helpText->isVisible() ) w += helpText->width()+6;
+
     QWidget* widget = tabList->currentWidget();
-    if( widget ){
-        h = widget->minimumHeight()+100*m_scale;
-        w = widget->minimumWidth()+25*m_scale;
+    if( widget )
+    {
+        int count = 0;
+        for( int i=0; i<widget->layout()->count(); ++i )
+            if( !widget->layout()->itemAt(i)->widget()->isHidden() )
+                count++;
+
+        h = count*24*m_scale+90*m_scale;
     }
     if( h < m_minH ) h = m_minH;
-    if( w < m_minW ) w = m_minW;
 
-    if( helpText->isVisible() )
-    {
-        helpText-> setFixedWidth( helpText->width() );
-        w += helpText->width()+6;
-    }
-    this->setMinimumHeight( h );
-    this->setMaximumHeight( h+100 );
-
-    this->setMinimumWidth( w );
-    this->setMaximumWidth( w+150 );
-
+    this->setFixedHeight( h );
+    this->setMaximumWidth( w+100*m_scale );
     this->adjustSize();
+    this->setMaximumHeight( h+70*m_scale );
 }
 
 void PropDialog::updtValues()

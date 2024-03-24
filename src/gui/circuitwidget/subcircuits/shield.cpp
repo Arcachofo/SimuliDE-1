@@ -22,44 +22,28 @@ ShieldSubc::ShieldSubc( QString type, QString id )
           : BoardSubc( type, id )
 {
     m_subcType = Chip::Shield;
-    m_attached = false;
     m_boardId = "";
-    m_board = NULL;
     setZValue( 1 );
 
     addPropGroup( {"Hidden", {
-new StrProp<ShieldSubc>( "BoardId" , "","", this, &ShieldSubc::boardId, &ShieldSubc::setBoardId )
+new StrProp<ShieldSubc>( "BoardId", "","", this, &ShieldSubc::boardId, &ShieldSubc::setBoardId )
     }, groupHidden} );
 }
 ShieldSubc::~ShieldSubc(){}
 
-void ShieldSubc::remove()
-{
-    if( m_board ) return;
-    SubCircuit::remove();
-}
-
 void ShieldSubc::setBoard( BoardSubc* board )
 {
-    if( board )
-    {
-        m_boardId = board->getUid();
-        board->attachShield( this );
-        //Circuit::self()->compList()->remove( this );
-    }else{
-        m_boardId = "";
-        m_board->detachShield( this );
-        //Circuit::self()->compList()->insert( this );
-    }
+    m_parentBoard = board;
+    m_boardId = board->getUid();
+    board->attachShield( this );
+    if( m_subcType == Shield ) attachToBoard();
     setParentItem( board );
-    m_attached = board  ? true : false;
-    m_board = board;
+    Circuit::self()->compList()->removeOne( this );
 }
 
 void ShieldSubc::connectBoard()
 {
-    //slotAttach();return;
-    m_board = NULL;
+    m_parentBoard = NULL;
     if( m_boardId == "" ) return;
 
     QString name = Circuit::self()->origId( m_boardId );
@@ -68,10 +52,8 @@ void ShieldSubc::connectBoard()
     Component* comp = Circuit::self()->getCompById( m_boardId );
     if( comp && comp->itemType() == "Subcircuit" )
     {
-        //Circuit::self()->compList()->removeOne( this );
-        m_board = static_cast<BoardSubc*>(comp);
-        attachToBoard();
-        setBoard( m_board );
+        m_parentBoard = static_cast<BoardSubc*>(comp);
+        setBoard( m_parentBoard );
 }   }
 
 void ShieldSubc::slotAttach()
@@ -79,47 +61,47 @@ void ShieldSubc::slotAttach()
     QList<QGraphicsItem*> list = this->collidingItems();
     for( QGraphicsItem* it : list )
     {
-        if( it->parentItem() ) continue;
-        if( it->type() != UserType+1 ) continue;    // not a Component
+        if( it->type() != UserType+1 ) continue;             // Not a Component
 
-        Component* comp =  qgraphicsitem_cast<Component*>( it );
+        Component* comp = qgraphicsitem_cast<Component*>( it );
+        if( !(comp->itemType() == "Subcircuit") ) continue;  // Not a Subcircuit
 
-        if( comp->itemType() == "Subcircuit" )
-        {
-            BoardSubc* board =  (BoardSubc*)comp;
-            if( board->subcType() < Board ) continue;
+        BoardSubc* board = (BoardSubc*)comp;
+        if( board->subcType() != Board ) continue;           // Not a Board
 
-            if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
-            /// FIXME UNDOREDO: Circuit::self()->saveState();
+        if( board->logicSymbol() ) continue;                 // Don't attach to logic symbol
 
-            m_circPos = this->pos();
-            m_board = board;
-            attachToBoard();
-            setBoard( board );
-            this->moveTo( m_boardPos );
-            break;
-}   }   }
+        if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
+        /// FIXME UNDOREDO: Circuit::self()->saveState();
+
+        setBoard( board );
+        break;
+    }
+}
 
 void ShieldSubc::attachToBoard()
 {
-    int origX = 8*(m_board->pkgWidth()-m_width)/2;
+    int origX = 8*(m_parentBoard->pkgWidth()-m_width)/2;
     m_boardPos = QPointF(origX, 0);
+    this->moveTo( m_boardPos );
     this->setRotation(0);
     for( Tunnel* tunnel : m_subcTunnels ) tunnel->setName( m_boardId+"-"+tunnel->tunnelUid() );
 }
 
 void ShieldSubc::slotDetach()
 {
-    if( m_board )
-    {
-        if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
-        /// FIXME UNDO REDO: Circuit::self()->saveState();
+    if( !m_parentBoard ) return;
 
-        this->moveTo( this->scenePos()+QPointF( 8,-8 ) );
-        setBoard( NULL );
-        renameTunnels();
-    }
-    m_attached = false;
+    if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
+    /// FIXME UNDO REDO: Circuit::self()->saveState();
+
+    this->moveTo( this->scenePos()+QPointF( 8,-8 ) );
+    m_parentBoard->detachShield( this );
+    m_boardId = "";
+    m_parentBoard = NULL;
+    setParentItem( NULL );
+    Circuit::self()->compList()->append( this );
+    renameTunnels();
 }
 
 void ShieldSubc::renameTunnels()
@@ -137,17 +119,16 @@ void ShieldSubc::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 
 void ShieldSubc::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu )
 {
-        event->accept();
+    event->accept();
 
-        if( m_attached )
-        {
-            QAction* detachAction = menu->addAction( QIcon(":/detach.png"),tr("Detach") );
-            QObject::connect( detachAction, &QAction::triggered, [=](){ slotDetach(); } );
-        }else{
-            QAction* attachAction = menu->addAction( QIcon(":/attach.png"),tr("Attach") );
-            QObject::connect( attachAction, &QAction::triggered, [=](){ slotAttach(); } );
-        }
-
-        if( m_board ) m_board->contextMenu( event, menu );
-        else          SubCircuit::contextMenu( event, menu );
+    if( m_parentBoard )
+    {
+        QAction* detachAction = menu->addAction( QIcon(":/detach.png"),tr("Detach") );
+        QObject::connect( detachAction, &QAction::triggered, [=](){ slotDetach(); } );
+        m_parentBoard->contextMenu( event, menu );
+    }else{
+        QAction* attachAction = menu->addAction( QIcon(":/attach.png"),tr("Attach") );
+        QObject::connect( attachAction, &QAction::triggered, [=](){ slotAttach(); } );
+        SubCircuit::contextMenu( event, menu );
+    }
 }

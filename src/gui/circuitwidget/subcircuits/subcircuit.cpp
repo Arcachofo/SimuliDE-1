@@ -37,9 +37,15 @@ Component* SubCircuit::construct( QString type, QString id )
 
     QString name;
     QStringList list = id.split("-");
-    if( list.size() > 1 ) name = list.at( list.size()-2 ); // for example: "atmega328-1" to: "atmega328"
+    if( list.size() > 1 ){
+        name = list.at( list.size()-2 ); // for example: "atmega328-1" to: "atmega328"
+        list.takeLast();
+    }
 
-    list = name.split("_");
+    int rev = MainWindow::self()->revision();
+    if( rev >= 2220 ){ if( name.contains("@") ) list = name.split("@");}
+    else if( name.contains("_") ) list = name.split("_");
+
     if( list.size() > 1 )  // Subcircuit inside Subcircuit: 1_74HC00 to 74HC00
     {
         QString n = list.first();
@@ -99,6 +105,9 @@ Component* SubCircuit::construct( QString type, QString id )
     QString pkgFileLS = m_subcDir+"/"+name+"_LS.package";
     QString subcFile  = m_subcDir+"/"+name+".sim1";
 
+    // Package in sim file
+
+
     bool dip = QFile::exists( pkgeFile );
     bool ls  = QFile::exists( pkgFileLS );
 
@@ -135,13 +144,15 @@ Component* SubCircuit::construct( QString type, QString id )
 
         if( dip && ls ) // If no both files exist, this prop. is not needed
         subcircuit->addPropGroup( { tr("Main"), {
-        new BoolProp<SubCircuit>( "Logic_Symbol", tr("Logic Symbol"),"", subcircuit, &SubCircuit::logicSymbol, &SubCircuit::setLogicSymbol ),
+        new BoolProp<SubCircuit>("Logic_Symbol", tr("Logic Symbol"),"",
+                                subcircuit, &SubCircuit::logicSymbol, &SubCircuit::setLogicSymbol, propNoCopy ),
         },groupNoCopy} );
+
         Circuit::self()->m_createSubc = false;
     }
     if( m_error > 0 )
     {
-        Circuit::self()->compList()->remove( subcircuit );
+        Circuit::self()->compList()->removeOne( subcircuit );
         delete subcircuit;
         m_error = 0;
         return NULL;
@@ -209,14 +220,14 @@ void SubCircuit::loadSubCircuit( QString file )
                 }
                 else if( prop.endsWith("/>") ) continue;
                 else{
-                    if     ( name == "itemtype"   ) type  = prop.toString();
-                    else if( name == "CircId"     ) uid   = prop.toString();
-                    else if( name == "objectName" ) uid   = prop.toString();
-                    else if( name == "label"      ) label = prop.toString();
-                    else if( name == "id"         ) label = prop.toString();
+                    if     ( name == "itemtype"  ) type  = prop.toString();
+                    else if( name == "CircId"    ) uid   = prop.toString();
+                    else if( name == "objectName") uid   = prop.toString();
+                    else if( name == "label"     ) label = prop.toString();
+                    else if( name == "id"        ) label = prop.toString();
                     else properties << name << prop ;
             }   }
-            newUid = numId+"_"+uid;
+            newUid = numId+"@"+uid;
 
             if( type == "Connector" )
             {
@@ -228,8 +239,8 @@ void SubCircuit::loadSubCircuit( QString file )
                 {
                     if( name.isEmpty() ) { name = prop.toString(); continue; }
 
-                    if     ( name == "startpinid") startPinId = numId+"_"+prop.toString();
-                    else if( name == "endpinid"  ) endPinId   = numId+"_"+prop.toString();
+                    if     ( name == "startpinid") startPinId = numId+"@"+prop.toString();
+                    else if( name == "endpinid"  ) endPinId   = numId+"@"+prop.toString();
                     else if( name == "enodeid"   ) enodeId    = prop.toString();
                     else if( name == "pointList" ) pointList  = prop.toString().split(",");
                     name = "";
@@ -300,14 +311,14 @@ void SubCircuit::loadSubCircuit( QString file )
                     }
                     if( comp->isMainComp() ) m_mainComponents[uid] = comp; // This component will add it's Context Menu and properties
 
-                    m_compList.insert( comp );
+                    m_compList.append( comp );
 
-                    if( comp->m_linker ){
+                    if( comp->m_isLinker ){
                         Linker* l = dynamic_cast<Linker*>(comp);
                         if( l->hasLinks() ) linkList.append( l );
                     }
 
-                    if( type == "Tunnel" ) // Make Tunnel names unique for this subcircuit
+                    if( type == "Tunnel" ) // Make Circuit Tunnel names unique for this subcircuit
                     {
                         Tunnel* tunnel = static_cast<Tunnel*>( comp );
                         tunnel->setTunnelUid( tunnel->name() );
@@ -330,18 +341,18 @@ Pin* SubCircuit::addPin( QString id, QString type, QString label, int pos, int x
         QColor color = Qt::black;
         if( !m_isLS ) color = QColor( 250, 250, 200 );
 
-        Tunnel* tunnel = new Tunnel( "Tunnel", m_id+"-"+id );
-        Circuit::self()->compList()->remove( tunnel );
-        m_compList.insert( tunnel );
-
         QString pId = m_id+"-"+id;
+        Tunnel* tunnel = new Tunnel("Tunnel", pId );
+        m_compList.append( tunnel );
+
         tunnel->setParentItem( this );
         tunnel->setAcceptedMouseButtons( Qt::NoButton );
         tunnel->setShowId( false );
         tunnel->setTunnelUid( id );
-        tunnel->setName( pId ); // Make tunel name unique for this component
+        tunnel->setName( pId );           // Make Pin Tunel names unique for this component
         tunnel->setPos( xpos, ypos );
         tunnel->setPacked( true );
+        if( type == "bus" ) tunnel->setIsbus( true );
         m_pinTunnels.insert( pId, tunnel );
 
         Pin* pin = tunnel->getPin();
@@ -367,16 +378,17 @@ Pin* SubCircuit::updatePin( QString id, QString type, QString label, int xpos, i
 {
     Pin* pin = NULL;
     Tunnel* tunnel = m_pinTunnels.value( m_id+"-"+id );
-    if( !tunnel )
-    {
+    if( !tunnel ){
         qDebug() <<"SubCircuit::updatePin Pin Not Found:"<<id<<type<<label;
         return NULL;
     }
     tunnel->setPos( xpos, ypos );
     tunnel->setRotated( angle >= 180 );      // Our Pins at left side
 
+    tunnel->setIsbus( type == "bus" );
+
     if     ( angle == 180) tunnel->setRotation( 0 );
-    else if( angle == 90 ) tunnel->setRotation( -90 ); // QGraphicsItem 0º i at right side
+    else if( angle == 90 ) tunnel->setRotation(-90 ); // QGraphicsItem 0º i at right side
     else                   tunnel->setRotation( angle );
 
     pin  = tunnel->getPin();
@@ -388,8 +400,7 @@ Pin* SubCircuit::updatePin( QString id, QString type, QString label, int xpos, i
     if( type == "unused" || type == "nc" )
     {
         pin->setUnused( true );
-        if( m_isLS )
-        {
+        if( m_isLS ){
             pin->setVisible( false );
             pin->setLabelText( "" );
         }
@@ -448,12 +459,14 @@ void SubCircuit::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu
 
     for( Component* mainComp : m_mainComponents.values() )
     {
-        QString compType = mainComp->getUid();
-        int pos  = compType.indexOf("_")+1;
-        int len  = compType.lastIndexOf("-")-pos;
-        compType = compType.mid( pos, len );
+        QString name = mainComp->idLabel();
+        int pos = 0;
+        if( name.contains("@") ) pos = name.lastIndexOf("@")+1;
 
-        QMenu* submenu = menu->addMenu( QIcon(":/subc.png"), compType );
+        int len  = name.length()-pos;
+        name = name.mid( pos, len );
+
+        QMenu* submenu = menu->addMenu( QIcon(":/subc.png"), name );
 
         mainComp->contextMenu( NULL, submenu );
     }

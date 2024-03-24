@@ -35,10 +35,6 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> Version:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -48,6 +44,182 @@
     </message>
     <message>
         <source> Compiled:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About SimulIDE</source>
+        <translation type="unfinished">Over SimulIDE</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;https://www.patreon.com/simulide/&quot;&gt;https://www.patreon.com/simulide&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Website:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Patreon:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Santiago González</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Jarda Vrana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       kellneka.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sergey Roenko.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Benoit ZERR.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Tim Fischer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>n3645.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Roy Qu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Alex Salishchev.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jan K. S.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>acebrian.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       bjacquot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       P. de Francisco</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tfrei.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maico Smaniotto.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pt. Brasil:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>@rkanoid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doğu Kocatepe.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turkish:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Italian:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dutch       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Santiago Gonzalez.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>French:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spanish:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tim Fischer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chinese:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Czech:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Russian:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>labf2121</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jarda Vrana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>German:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>mvandorp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slovak:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portuguese:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pascal Cotret.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tomas714</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1244,6 +1416,10 @@ Can&apos;t find file:
         <source>Set current time at start</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DS1621</name>
@@ -1623,7 +1799,11 @@ Can&apos;t find file:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Space to Pin:</source>
+        <source>Space to Label:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus Pin</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1956,6 +2136,10 @@ Can&apos;t find file:
         <source>Open Serial Monitor.</source>
         <translation type="unfinished">Open Seriële Monitor.</translation>
     </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FileBrowser</name>
@@ -1977,10 +2161,6 @@ Can&apos;t find file:
     <message>
         <source>cd Up</source>
         <translation type="unfinished">map omhoog</translation>
-    </message>
-    <message>
-        <source>Search Files (Doesn&apos;t work)</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove Bookmark</source>
@@ -2367,10 +2547,6 @@ Can&apos;t find file:
         <translation type="unfinished">Grootte</translation>
     </message>
     <message>
-        <source>Control_Code</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>I2C Frequency</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2394,6 +2570,10 @@ Can&apos;t find file:
         <source>Memory</source>
         <translation type="obsolete">Geheugen</translation>
     </message>
+    <message>
+        <source>I2C Address</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>I2CToParallel</name>
@@ -2410,16 +2590,16 @@ Can&apos;t find file:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Control_Code</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>I2C Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converters</source>
         <translation type="obsolete">Omzetters</translation>
+    </message>
+    <message>
+        <source>I2C Address</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2494,16 +2674,16 @@ Can&apos;t find file:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Libraries Path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Board</source>
         <translation type="unfinished">Bord</translation>
     </message>
     <message>
         <source>Custom Board</source>
         <translation type="unfinished">Maatwerk bord</translation>
+    </message>
+    <message>
+        <source>Custom Library Path</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2586,10 +2766,6 @@ Can&apos;t find file:
         <source>Steps per Rotation</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>_Steps</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>KeyPad</name>
@@ -2616,10 +2792,6 @@ Can&apos;t find file:
     <message>
         <source>Key Labels</source>
         <translation type="unfinished">Toetslabels</translation>
-    </message>
-    <message>
-        <source>_Buttons</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3717,28 +3889,28 @@ Can&apos;t find file:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Screen Size X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Screen Size Y</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>_Pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Buffer Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Samples</source>
+        <source>Screen Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Admittance to ground</source>
+        <source>_Px</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screen Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to ground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impedance</source>
+        <translation type="unfinished">Impedantie</translation>
     </message>
 </context>
 <context>
@@ -4478,6 +4650,14 @@ p, li { white-space: pre-wrap; }
         <source>Auto Open</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Config</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SerialTerm</name>
@@ -4505,6 +4685,14 @@ p, li { white-space: pre-wrap; }
         <source>Open Serial Monitor.</source>
         <translation type="unfinished">Open Seriële Monitor.</translation>
     </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Config</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Servo</name>
@@ -4525,15 +4713,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>_sec/60º</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Min. Pulse Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>_us</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4745,15 +4925,23 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Breedte</translation>
     </message>
     <message>
-        <source>_Pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Height</source>
         <translation type="unfinished">Hoogte</translation>
     </message>
     <message>
         <source>I2C Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I2C</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>_px</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4778,10 +4966,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Resistance</source>
         <translation type="unfinished">Weestand</translation>
-    </message>
-    <message>
-        <source>_Teeth</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4996,10 +5180,6 @@ Wijzigingen opslaan?
     <message>
         <source>Size</source>
         <translation type="unfinished">Grootte</translation>
-    </message>
-    <message>
-        <source>_Lines</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exclusive</source>
@@ -5526,10 +5706,6 @@ Wijzigingen opslaan?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Real Speed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Main MCU:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5539,6 +5715,22 @@ Wijzigingen opslaan?
     </message>
     <message>
         <source>Update Load:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real FPS:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GUI overload:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real Speed:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

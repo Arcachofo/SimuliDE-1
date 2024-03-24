@@ -40,8 +40,9 @@ class Interrupt
         uint8_t priority() { return m_priority; }
         void setPriority( uint8_t p ) { m_priority = p; }
 
-        //void setMode( uint8_t mod )   { m_mode = mod;}
         void setAutoClear( bool a ) { m_autoClear = a; }
+        void setContinuous( bool c ); // Pin INT
+        bool isContinuous() { return m_continuous; }
 
         void callBack( McuModule* mod, bool call );
         void exitCallBack( McuModule* mod, bool call );
@@ -60,7 +61,6 @@ class Interrupt
         uint8_t  m_number;
         uint16_t m_vector;
 
-        //uint8_t m_mode;
         uint8_t m_enabled;
         uint8_t m_priority;
 
@@ -72,6 +72,7 @@ class Interrupt
         bool m_raised;
         bool m_autoClear;
         bool m_remember;
+        bool m_continuous;
 
         QList<McuModule*> m_callBacks;
         QList<McuModule*> m_exitCallBacks;
@@ -88,7 +89,6 @@ class Interrupts
         virtual ~Interrupts();
 
         void enableGlobal( uint8_t en ) ;
-        //{ m_enabled = en; }
         uint8_t enabled() { return m_enabled; }
 
         void runInterrupts();

@@ -34,7 +34,8 @@ MainWindow::MainWindow()
     m_circuit = NULL;
     m_autoBck = 15;
     m_state = "■";
-    m_version = "SimulIDE-"+QString( APP_VERSION )+" R"+QString( REVNO );
+    m_revision = QString( REVNO ).remove("R").toInt();
+    m_version = "SimulIDE-"+QString( APP_VERSION );
 
     this->setWindowTitle( m_version );
 
@@ -94,8 +95,6 @@ MainWindow::MainWindow()
     QDir compSetDir = m_filesDir.absoluteFilePath("data");
     if( compSetDir.exists() ) ComponentSelector::self()->LoadCompSetAt( compSetDir );
 
-    m_circuit->newCircuit();
-
     readSettings();
 
 
@@ -106,7 +105,7 @@ MainWindow::MainWindow()
         msgBox.setText( tr("Looks like SimulIDE crashed...")+"\n\n"
                        +tr("There is an auto-saved copy of the Circuit\n")
                        +tr("You must save it with any other name if you want to keep it")+"\n\n"
-                       +tr("This file will be auto-deleted!!" )+"\n");
+                       +tr("This file will be auto-deleted!!")+"\n");
         msgBox.setInformativeText(tr("Do you want to open the auto-saved copy of the Circuit?"));
         msgBox.setStandardButtons( QMessageBox::Open | QMessageBox::Discard );
         msgBox.setDefaultButton( QMessageBox::Open );
@@ -273,9 +272,7 @@ void MainWindow::createWidgets()
 
     baseWidgetLayout->addWidget( m_Centralsplitter, 0, 0 );
 
-    QList<int> sizes;
-    sizes << 150 << 350 << 500;
-    m_Centralsplitter->setSizes( sizes );
+    m_Centralsplitter->setSizes( {150, 350, 500} );
 
     this->showMaximized();
 }
@@ -300,7 +297,7 @@ QString MainWindow::getHelp( QString name, bool save )
     }
     else locale = "";
 
-    name= name.toLower().replace( " ", "" );
+    name = name.toLower().replace( " ", "" );
     QString dfPath = getDataFilePath("help/"+localeFolder+name+locale+".txt");
 
     if( !QFileInfo::exists( dfPath ) ) dfPath = getDataFilePath( "help/"+name+".txt" );
@@ -314,8 +311,9 @@ QString MainWindow::getHelp( QString name, bool save )
             {
                 QString file = line.remove("#include ");
                 line = getHelp( file );
+                help.append( line );
             }
-            help.append( line+"\n" );
+            else help.append( line+"\n" );
         }
     }
     if( save ) m_help[name] = help;
@@ -351,7 +349,7 @@ QString MainWindow::getDataFilePath( QString file )
         {
             QDir circuitDir = QFileInfo( circPath ).absoluteDir();
             path = circuitDir.absoluteFilePath("data/"+file );
-            if( QFileInfo::exists( path ) ) return path;          // File in Circuit data folder
+            if( QFileInfo::exists( path ) ) return path;      // File in Circuit data folder
         }
     }
     path = MainWindow::self()->getUserFilePath( file );       // File in user data folder

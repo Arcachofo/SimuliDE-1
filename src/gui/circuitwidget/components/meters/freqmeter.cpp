@@ -59,7 +59,8 @@ FreqMeter::FreqMeter( QString type, QString id )
     FreqMeter::initialize();
 
     addPropGroup( { tr("Main"), {
-new DoubProp<FreqMeter>("Filter", tr("Filter"), "V", this, &FreqMeter::filter, &FreqMeter::setFilter ),
+new DoubProp<FreqMeter>("Filter", tr("Filter"), "V"
+                       , this, &FreqMeter::filter, &FreqMeter::setFilter ),
     },0 } );
 }
 FreqMeter::~FreqMeter(){}
@@ -116,7 +117,7 @@ void FreqMeter::updateStep()
 
         if( freq > 999 )
         {
-            freq /= 1e3; unit = " KHz";
+            freq /= 1e3; unit = " kHz";
             if( freq > 999 ) {
                 freq /= 1e3; unit = " MHz";
                 if( freq > 999 ) {

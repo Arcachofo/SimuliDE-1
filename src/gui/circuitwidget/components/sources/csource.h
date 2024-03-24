@@ -44,17 +44,17 @@ class Csource : public Component, public eResistor
 
         void setVoltage( double v );
 
-        virtual void setLinked( bool l ) override;
+        virtual bool setLinkedTo( Linker* li ) override;
         virtual void setLinkedValue( double v, int i=0 ) override;
 
         //virtual QPainterPath shape() const;
-        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget ) override;
+        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w ) override;
 
     protected slots:
         virtual void slotProperties() override;
 
     private:
-        void udtProperties();
+        void updtProperties();
 
         double m_volt;
         double m_curr;

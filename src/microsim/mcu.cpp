@@ -79,7 +79,8 @@ Mcu::Mcu( QString type, QString id )
     addPropGroup( { tr("Main"), {},0} );
 
     m_device = m_name;//.split("_").last(); // for example: "atmega328-1" to: "atmega328"
-    if( m_device.contains("_") ) m_device = m_device.split("_").last(); // MCU in Subcircuit
+    if     ( m_device.contains("@") ) m_device = m_device.split("@").last(); // MCU in Subcircuit
+    else if( m_device.contains("_") ) m_device = m_device.split("_").last(); // MCU in Subcircuit Old
 
     if( m_device.startsWith("p") ) // PICs TODELETE
     {
@@ -96,7 +97,9 @@ Mcu::Mcu( QString type, QString id )
     m_autoLoad = false;
     m_scripted = false;
     m_resetPol = false;
-    m_linker   = true;
+    m_isLinker = true;
+
+    m_extFreq = 0;
 
     m_serialMon = -1;
 
@@ -173,8 +176,7 @@ Mcu::Mcu( QString type, QString id )
         }
         if( !dataFile.exists() || !pkgeFile.exists() )
         {
-            MessageBoxNB( "Mcu::Mcu", "                               \n"+
-                      tr("Files not found for: %1").arg( m_device ) );
+            qDebug() << "Mcu::Mcu Files not found for:" << m_device;
             m_error = 1;
             return;
         }
@@ -279,7 +281,9 @@ void Mcu::stamp()
             m_portRstPin->controlPin( true, true );
             m_portRstPin->setPinMode( input );
         }
-        m_resetPin->warning( !m_resetPin->connector() );
+        bool resetWarning = !m_resetPin->isConnected();
+        m_resetPin->warning( resetWarning );
+        if( resetWarning ) qDebug() << "    Warning!!"<<idLabel()<<"Reset pin not connected:\n";
     }
     else m_eMcu.start();
 

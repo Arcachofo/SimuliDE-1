@@ -77,23 +77,45 @@ WaveGen::WaveGen( QString type, QString id )
     Simulator::self()->addToUpdateList( this );
 
     remPropGroup( tr("Main") );
+
     addPropGroup( { tr("Main"), {
-new StrProp <WaveGen>("Wave_Type", tr("Wave Type")  ,""      , this, &WaveGen::waveType,  &WaveGen::setWaveType,0,"enum" ),
-new DoubProp<WaveGen>("Freq"     , tr("Frequency")  ,"Hz"    , this, &WaveGen::freq,      &WaveGen::setFreq ),
-new DoubProp<WaveGen>("Phase"    , tr("Phase shift"),"_º"    , this, &WaveGen::phaseShift,&WaveGen::setPhaseShift ),
-new IntProp <WaveGen>("Steps"    , tr("Quality")    ,"_Steps", this, &WaveGen::steps,     &WaveGen::setSteps ),
-new DoubProp<WaveGen>("Duty"     , tr("Duty")       ,"_\%"   , this, &WaveGen::duty,      &WaveGen::setDuty ),
-new StrProp <WaveGen>("File"     , tr("File")       ,""      , this, &WaveGen::fileName,  &WaveGen::setFile ),
-new BoolProp<WaveGen>("Always_On", tr("Always On")  ,""      , this, &WaveGen::alwaysOn,  &WaveGen::setAlwaysOn )
-    },0} );
-    addPropGroup( { tr("Electric"), {
-new BoolProp<WaveGen>("Bipolar"   , tr("Bipolar")       ,"" , this, &WaveGen::bipolar,   &WaveGen::setBipolar, propNoCopy ),
-new BoolProp<WaveGen>("Floating"  , tr("Floating")      ,"" , this, &WaveGen::floating,  &WaveGen::setFloating, propNoCopy ),
-new DoubProp<WaveGen>("Semi_Ampli", tr("Semi Amplitude"),"V", this, &WaveGen::semiAmpli, &WaveGen::setSemiAmpli ),
-new DoubProp<WaveGen>("Mid_Volt"  , tr("Middle Voltage"),"V", this, &WaveGen::midVolt,   &WaveGen::setMidVolt )
+        new StrProp <WaveGen>("Wave_Type", tr("Wave Type"), ""
+                             , this, &WaveGen::waveType, &WaveGen::setWaveType,0,"enum" ),
+
+        new DoubProp<WaveGen>("Freq", tr("Frequency"), "kHz"
+                             , this, &WaveGen::freq, &WaveGen::setFreq ),
+
+        new DoubProp<WaveGen>("Phase", tr("Phase shift"), "_º"
+                             , this, &WaveGen::phaseShift, &WaveGen::setPhaseShift ),
+
+        new IntProp <WaveGen>("Steps", tr("Quality"), "_Steps"
+                             , this, &WaveGen::steps, &WaveGen::setSteps ),
+
+        new DoubProp<WaveGen>("Duty", tr("Duty"), "_\%"
+                             , this, &WaveGen::duty, &WaveGen::setDuty ),
+
+        new StrProp <WaveGen>("File", tr("File"), ""
+                             , this, &WaveGen::fileName, &WaveGen::setFile ),
+
+        new BoolProp<WaveGen>("Always_On", tr("Always On"), ""
+                             , this, &WaveGen::alwaysOn, &WaveGen::setAlwaysOn )
     },0} );
 
-    setWaveType( "Sine" );
+    addPropGroup( { tr("Electric"), {
+        new BoolProp<WaveGen>("Bipolar", tr("Bipolar"), ""
+                             , this, &WaveGen::bipolar, &WaveGen::setBipolar, propNoCopy ),
+
+        new BoolProp<WaveGen>("Floating", tr("Floating"), ""
+                             , this, &WaveGen::floating, &WaveGen::setFloating, propNoCopy ),
+
+        new DoubProp<WaveGen>("Semi_Ampli", tr("Semi Amplitude"), "V"
+                             , this, &WaveGen::semiAmpli, &WaveGen::setSemiAmpli ),
+
+        new DoubProp<WaveGen>("Mid_Volt", tr("Middle Voltage"), "V"
+                             , this, &WaveGen::midVolt, &WaveGen::setMidVolt )
+    },0} );
+
+    setWaveType("Sine");
 }
 WaveGen::~WaveGen()
 {
@@ -258,7 +280,7 @@ void WaveGen::setBipolar(bool b )
     if( b ) m_outpin->setY( -4 );
     else    m_outpin->setY( 0 );
 
-    udtProperties();
+    updtProperties();
 }
 
 void WaveGen::setFloating( bool f )
@@ -268,7 +290,7 @@ void WaveGen::setFloating( bool f )
 
     if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
 
-    udtProperties();
+    updtProperties();
 }
 
 void WaveGen::setWaveType( QString t )
@@ -289,11 +311,11 @@ void WaveGen::setWaveType( QString t )
     }
     if( m_wavePixmap ) delete m_wavePixmap;
     m_wavePixmap = new QPixmap( pixmapPath );
-    udtProperties();
+    updtProperties();
     update();
 }
 
-void WaveGen::udtProperties()
+void WaveGen::updtProperties()
 {
     if( !m_propDialog ) return;
 
@@ -313,12 +335,13 @@ void WaveGen::udtProperties()
 
     //m_propDialog->showProp("Mid_Volt", !m_bipolar || !m_floating );
     m_propDialog->showProp("Floating", m_bipolar );
+    m_propDialog->adjustWidgets();
 }
 
 void WaveGen::slotProperties()
 {
     Component::slotProperties();
-    udtProperties();
+    updtProperties();
 }
 
 void WaveGen::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu )

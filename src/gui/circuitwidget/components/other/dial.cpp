@@ -42,7 +42,7 @@ Dial::Dial( QString type, QString id )
     m_area     = m_areaComp;
 
     m_graphical = true;
-    m_linker    = true;
+    m_isLinker = true;
 
     m_minVal = 0;
     m_maxVal = 1000;
@@ -55,15 +55,28 @@ Dial::Dial( QString type, QString id )
 
     Simulator::self()->addToUpdateList( this );
 
-    addPropGroup( { tr("Main"), {
-new IntProp<Dial>( "Min_Val", tr("Minimum Value"), "", this, &Dial::minVal, &Dial::setMinVal ),
-new IntProp<Dial>( "Max_Val", tr("Maximum Value"), "", this, &Dial::maxVal, &Dial::setMaxVal ),
-new IntProp<Dial>( "Steps"  , tr("Steps")        , "", this, &Dial::steps,  &Dial::setSteps )
+    addPropGroup( { tr("Main"),
+    {
+        new IntProp<Dial>("Min_Val", tr("Minimum Value"), ""
+                         , this, &Dial::minVal, &Dial::setMinVal ),
+
+        new IntProp<Dial>("Max_Val", tr("Maximum Value"), ""
+                         , this, &Dial::maxVal, &Dial::setMaxVal ),
+
+        new IntProp<Dial>("Steps", tr("Steps"), ""
+                         , this, &Dial::steps, &Dial::setSteps )
     },0 } );
+
     addPropGroup( { tr("Dial"), Dialed::dialProps(), groupNoCopy } );
-    addPropGroup( { "Hidden", {
-new StrProp<Dial>("Links", "Links","", this, &Dial::getLinks , &Dial::setLinks )
-    }, groupHidden} );
+
+    addPropGroup( { "Hidden",
+    {
+        new StrProp<Dial>("Links", "Links",""
+                         , this, &Dial::getLinks , &Dial::setLinks ),
+
+        new IntProp<Dial>("Value", "", ""
+                         , this, &Dial::value, &Dial::setValue ),
+    }, groupHidden } );
 }
 Dial::~Dial() {}
 
@@ -80,6 +93,16 @@ void Dial::updateStep()
         Component* comp = m_linkedComp.at( i );
         comp->setLinkedValue( v );  //update();
     }
+}
+
+int Dial::value()
+{
+    return m_dialW.dial()->value();
+}
+
+void Dial::setValue( int v )
+{
+    m_dialW.dial()->setValue( v );
 }
 
 void Dial::setMinVal( int min )
@@ -105,11 +128,11 @@ void Dial::setSteps( int s )
     if( s < 2 ) s = 2;
     if( m_steps == s ) return;
     m_steps = s;
-    m_dialW.dial()->setMaximum( s-1 );
+    m_dialW.setMaximum( s-1 );
 
     int single = s/40;
     if( single < 1 ) single = 1;
-    m_dialW.dial()->setSingleStep( single );
+    m_dialW.setSingleStep( single );
 }
 
 /*void Dial::compSelected( Component* comp )

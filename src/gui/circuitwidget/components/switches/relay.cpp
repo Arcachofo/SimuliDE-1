@@ -60,18 +60,33 @@ Relay::Relay( QString type, QString id )
     SetupSwitches( 1, 1 );
 
     addPropGroup( { tr("Main"), {
-new BoolProp<Relay>( "Norm_Close", tr("Normally Closed"),""      , this, &Relay::nClose, &Relay::setNClose ),
-new BoolProp<Relay>( "DT"        , tr("Double Throw")   ,""      , this, &Relay::dt,     &Relay::setDt, propNoCopy ),
-new IntProp <Relay>( "Poles"     , tr("Poles")          ,"_Poles", this, &Relay::poles,  &Relay::setPoles, propNoCopy,"uint" ),
+        new BoolProp<Relay>("Norm_Close", tr("Normally Closed"),""
+                           , this, &Relay::nClose, &Relay::setNClose ),
+
+        new BoolProp<Relay>("DT", tr("Double Throw"),""
+                           , this, &Relay::dt, &Relay::setDt, propNoCopy ),
+
+        new IntProp <Relay>("Poles", tr("Poles"),""
+                           , this, &Relay::poles, &Relay::setPoles, propNoCopy,"uint" ),
     }, 0} );
+
     addPropGroup( { tr("Electric"), {
-new DoubProp<Relay>( "IOn" , tr("IOn") ,"A", this, &Relay::iTrig, &Relay::setITrig),
-new DoubProp<Relay>( "IOff", tr("IOff"),"A", this, &Relay::iRel,  &Relay::setIRel )
+        new DoubProp<Relay>("IOn" , tr("IOn"),"mA"
+                           , this, &Relay::iTrig, &Relay::setITrig),
+
+        new DoubProp<Relay>("IOff", tr("IOff"),"mA"
+                           , this, &Relay::iRel, &Relay::setIRel )
     }, 0} );
+
     addPropGroup( { tr("Coil"), {
-new DoubProp<Inductor>("Inductance", tr("Inductance"),"H", m_inductor, &Inductor::value , &Inductor::setValue ),
-new DoubProp<Inductor>("Rcoil"     , tr("Resistance"),"Ω", m_inductor, &Inductor::resist, &Inductor::setResist),
-new DoubProp<Inductor>("ReaStep", tr("Reactive Step"),"ns", m_inductor, &Inductor::reaStep, &Inductor::setReaStep,0,"uint" )
+        new DoubProp<Inductor>("Inductance", tr("Inductance"),"mH"
+                              , m_inductor, &Inductor::value , &Inductor::setValue ),
+
+        new DoubProp<Inductor>("Rcoil", tr("Resistance"),"Ω"
+                              , m_inductor, &Inductor::resist, &Inductor::setResist),
+
+        new DoubProp<Inductor>("ReaStep", tr("Reactive Step"),"ns"
+                              ,m_inductor, &Inductor::reaStep, &Inductor::setReaStep,0,"uint" )
     }, 0} );
 }
 Relay::~Relay(){}
@@ -105,11 +120,11 @@ void Relay::voltChanged()
     if( relayOn != m_closed ) setSwitch( relayOn );
 }
 
-void Relay::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void Relay::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w )
 {
-    Component::paint( p, option, widget );
+    Component::paint( p, o, w );
 
     p->drawRect( m_area );
 
-    MechContact::paint( p, option, widget );
+    MechContact::paint( p, o, w );
 }

@@ -55,11 +55,16 @@ Tunnel::Tunnel( QString type, QString id )
     setRotated( false );
 
     addPropGroup( { tr("Main"), {
-new StrProp <Tunnel>("Name" , tr("Id") ,"", this, &Tunnel::name,  &Tunnel::setName ),
-new BoolProp<Tunnel>("IsBus", tr("Bus"),"", this, &Tunnel::isBus, &Tunnel::setIsbus )
+        new StrProp <Tunnel>("Name" , tr("Id") ,""
+                            , this, &Tunnel::name,  &Tunnel::setName ),
+
+        new BoolProp<Tunnel>("IsBus", tr("Bus"),""
+                            , this, &Tunnel::isBus, &Tunnel::setIsbus )
     }, groupNoCopy} );
+
     addPropGroup( {"Hidden", {
-new StrProp<Tunnel>( "Uid","","", this, &Tunnel::tunnelUid, &Tunnel::setTunnelUid ),
+        new StrProp<Tunnel>("Uid","","", this
+                           , &Tunnel::tunnelUid, &Tunnel::setTunnelUid ),
     }, groupNoCopy | groupHidden} );
 }
 Tunnel::~Tunnel() {}
@@ -295,11 +300,16 @@ void Tunnel::paint( QPainter* p, const QStyleOptionGraphicsItem *option, QWidget
     Component::paintSelected( p );
 }
 
-eNode* Tunnel::getEnode( QString n )
+eNode* Tunnel::getEnode( QString n ) // Static
 {
     QList<Tunnel*>* list = m_tunnels.value( n );
     if( !list ) return NULL;
     Tunnel* tunnel= list->first();
     if( tunnel ) return tunnel->getPin()->getEnode();
     return NULL;
+}
+
+void Tunnel::clearTunnels() // Static
+{
+    m_tunnels.clear();
 }

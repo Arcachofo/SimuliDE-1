@@ -48,10 +48,17 @@ Transformer::Transformer( QString type, QString id )
     m_secondary.x     = 16;
 
     addPropGroup( { tr("Main"), {
-new DoubProp<Transformer>("CoupCoeff", tr("Coupling Coefficient"), "", this, &Transformer::coupCoeff, &Transformer::setCoupCoeff ),
-new DoubProp<Transformer>("BaseInd"  , tr("Base Inductance"), "H", this, &Transformer::baseInd,   &Transformer::setBaseInd ),
-new StrProp <Transformer>("Primary"  , tr("Primary")        , "" , this, &Transformer::primary,   &Transformer::setPrimary  , propNoCopy ),
-new StrProp <Transformer>("Secondary", tr("Secondary")      , "" , this, &Transformer::secondary, &Transformer::setSecondary, propNoCopy ),
+        new DoubProp<Transformer>("CoupCoeff", tr("Coupling Coefficient"), ""
+                                 , this, &Transformer::coupCoeff, &Transformer::setCoupCoeff ),
+
+        new DoubProp<Transformer>("BaseInd"  , tr("Base Inductance"), "H"
+                                 , this, &Transformer::baseInd, &Transformer::setBaseInd ),
+
+        new StrProp <Transformer>("Primary"  , tr("Primary"), ""
+                                 , this, &Transformer::primary, &Transformer::setPrimary, propNoCopy ),
+
+        new StrProp <Transformer>("Secondary", tr("Secondary"), ""
+                                 , this, &Transformer::secondary, &Transformer::setSecondary, propNoCopy ),
     },0 } );
 
     setPrimary("1");
@@ -375,7 +382,7 @@ void Transformer::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QW
     Component::paint( p, option, widget );
 
     QPen pen = p->pen();
-    pen.setWidth(2.8);
+    pen.setWidthF( 2 );
     p->setPen(pen);
 
     for( int i=0; i<2; ++i )
@@ -404,6 +411,11 @@ void Transformer::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QW
     }
     p->drawLine(-2, 0,-2, 8*m_lenght );
     p->drawLine( 2, 0, 2, 8*m_lenght );
+
+    pen.setBrush( Qt::red );
+    pen.setWidthF( 2.8 );
+    p->setPen( pen );
+    p->drawLine( QPointF(-2, 0 ), QPointF(-2, 0.1) );
 
     Component::paintSelected( p );
 }

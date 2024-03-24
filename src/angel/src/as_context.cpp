@@ -239,12 +239,7 @@ int asCContext::AddRef() const
 int asCContext::Release() const
 {
 	int r = m_refCount.atomicDec();
-
-	if( r == 0 )
-	{
-		asDELETE(const_cast<asCContext*>(this),asCContext);
-		return 0;
-	}
+    if( r == 0 ) asDELETE(const_cast<asCContext*>(this),asCContext);
 	return r;
 }
 
@@ -1082,9 +1077,11 @@ int asCContext::Prepare( asIScriptFunction *func )
 
         // Make sure the stack pointer is pointing to the original position,
         // otherwise something is wrong with the way it is being updated
-        asASSERT( /*IsNested() ||*/ m_stackIndex > 0 || (m_regs.stackPointer == m_stackBlocks[0] + m_stackBlockSize) );
+        //asASSERT( IsNested() || m_stackIndex > 0 || (m_regs.stackPointer == m_stackBlocks[0] + m_stackBlockSize) );
+        asASSERT( m_stackIndex > 0 || (m_regs.stackPointer == m_stackBlocks[0] + m_stackBlockSize) );
     }
-    else{
+    else
+    {
         if( m_initialFunction )
         {
             m_initialFunction->Release();
@@ -1123,7 +1120,7 @@ int asCContext::Prepare( asIScriptFunction *func )
         // Set up the call stack too
         if (m_callStack.GetCapacity() < m_engine->ep.initCallStackSize)
             m_callStack.AllocateNoConstruct(m_engine->ep.initCallStackSize * CALLSTACK_FRAME_SIZE, true);
-/// Moved
+/*// Moved
         // Reserve space for the arguments and return value
         m_regs.stackFramePointer = m_regs.stackPointer - m_argumentsSize - m_returnValueSize;
         m_originalStackPointer   = m_regs.stackPointer;
@@ -1140,6 +1137,7 @@ int asCContext::Prepare( asIScriptFunction *func )
 
             *(void**)ptr = (void*)(m_regs.stackFramePointer + m_argumentsSize);
         }
+//*/
     }
     // Reset state
     // Most of the time the previous state will be asEXECUTION_FINISHED, in which case the values are already initialized
@@ -1154,7 +1152,9 @@ int asCContext::Prepare( asIScriptFunction *func )
     }
     m_status = asEXECUTION_PREPARED;
     m_regs.programPointer = 0;
-/*
+
+/// Crash if this is moved at dtor if used: setLinkedValue( double val, int i )
+
     // Reserve space for the arguments and return value
     m_regs.stackFramePointer = m_regs.stackPointer - m_argumentsSize - m_returnValueSize;
     m_originalStackPointer   = m_regs.stackPointer;
@@ -1172,7 +1172,7 @@ int asCContext::Prepare( asIScriptFunction *func )
 
         *(void**)ptr = (void*)(m_regs.stackFramePointer + m_argumentsSize);
     }
-*/
+///
     return asSUCCESS;
 }
 

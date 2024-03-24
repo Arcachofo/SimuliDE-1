@@ -17,17 +17,23 @@ class ColorVal : public PropVal, private Ui::ColorVal
     Q_OBJECT
     
     public:
-        ColorVal( PropDialog* parent, Component* comp, ComProperty* prop );
+        ColorVal( PropDialog* parent, CompBase* comp, ComProperty* prop );
         ~ColorVal();
 
         virtual void setup( bool ) override;
         virtual void updtValues() override;
 
-    public slots:
-        void on_valueBox_currentIndexChanged( int index );
+        bool eventFilter( QObject* object, QEvent* event) override;
+
+    //public slots:
+
 
     private:
+        void changeColor();
+
         QColor m_color;
+
+        bool m_blocked;
 };
 
 #endif

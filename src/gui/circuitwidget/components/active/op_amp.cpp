@@ -77,15 +77,26 @@ OpAmp::OpAmp( QString type, QString id )
     m_voltNegDef = 0;
 
     addPropGroup( { tr("Main"), {
-new DoubProp<OpAmp>( "Gain"     , tr("Gain")            ,"" , this, &OpAmp::gain,   &OpAmp::setGain ),
-new DoubProp<OpAmp>( "Out_Imped", tr("Output Impedance"),"Ω", this, &OpAmp::outImp, &OpAmp::setOutImp ),
-    },0} );
+        new DoubProp<OpAmp>("Gain", tr("Gain"),""
+                           , this, &OpAmp::gain, &OpAmp::setGain ),
+
+        new DoubProp<OpAmp>("Out_Imped", tr("Output Impedance"),"Ω"
+                           , this, &OpAmp::outImp, &OpAmp::setOutImp )
+    },0 } );
+
     addPropGroup( { tr("Supply"), {
-new BoolProp<OpAmp>("Power_Pins" , tr("Use Supply Pins")   ,"" , this, &OpAmp::powerPins,  &OpAmp::setPowerPins, propNoCopy ),
-new BoolProp<OpAmp>("Switch_Pins", tr("Switch Supply Pins"),"" , this, &OpAmp::switchPins, &OpAmp::setSwitchPins, propNoCopy ),
-new DoubProp<OpAmp>("Volt_Pos"   , tr("V+")                ,"V", this, &OpAmp::voltPos,    &OpAmp::setVoltPos ),
-new DoubProp<OpAmp>("Volt_Neg"   , tr("V-")                ,"V", this, &OpAmp::voltNeg,    &OpAmp::setVoltNeg ),
-    },0} );
+        new BoolProp<OpAmp>("Power_Pins", tr("Use Supply Pins"),""
+                           , this, &OpAmp::powerPins, &OpAmp::setPowerPins, propNoCopy ),
+
+        new BoolProp<OpAmp>("Switch_Pins", tr("Switch Supply Pins"),""
+                           , this, &OpAmp::switchPins, &OpAmp::setSwitchPins, propNoCopy ),
+
+        new DoubProp<OpAmp>("Volt_Pos", tr("V+"),"V"
+                           , this, &OpAmp::voltPos,&OpAmp::setVoltPos ),
+
+        new DoubProp<OpAmp>("Volt_Neg", tr("V-"),"V"
+                           , this, &OpAmp::voltNeg, &OpAmp::setVoltNeg ),
+    },0 } );
 }
 OpAmp::~OpAmp(){}
 
@@ -188,7 +199,7 @@ void OpAmp::setPowerPins( bool set )
         m_pin[4]->removeConnector();
     }
     m_powerPins = set;
-    udtProperties();
+    updtProperties();
 }
 
 void OpAmp::setSwitchPins( bool s )
@@ -204,18 +215,19 @@ void OpAmp::setSwitchPins( bool s )
     m_pin[4]->setY( yN );
 }
 
-void OpAmp::udtProperties()
+void OpAmp::updtProperties()
 {
     if( !m_propDialog ) return;
     m_propDialog->showProp("Volt_Pos", !m_powerPins );
     m_propDialog->showProp("Volt_Neg", !m_powerPins );
     m_propDialog->showProp("Switch_Pins", m_powerPins );
+    m_propDialog->adjustWidgets();
 }
 
 void OpAmp::slotProperties()
 {
     Component::slotProperties();
-    udtProperties();
+    updtProperties();
 }
 
 QPainterPath OpAmp::shape() const

@@ -69,12 +69,23 @@ Csource::Csource( QString type, QString id )
     Simulator::self()->addToUpdateList( this );
 
     addPropGroup( { tr("Main"), {
-new BoolProp<Csource>( "CurrSource"  , tr("Current Source")    ,"" , this, &Csource::currSource , &Csource::setCurrSource ),
-new BoolProp<Csource>( "CurrControl" , tr("Current Controlled"),"" , this, &Csource::currControl, &Csource::setCurrControl, propNoCopy ),
-new BoolProp<Csource>( "Control_Pins", tr("Use Control Pins")  ,"" , this, &Csource::controlPins, &Csource::setControlPins, propNoCopy ),
-new DoubProp<Csource>( "Gain"        , tr("Gain")              ,"" , this, &Csource::gain       , &Csource::setGain ),
-new DoubProp<Csource>( "Voltage"     , tr("Voltage")           ,"V", this, &Csource::volt       , &Csource::setVolt ),
-new DoubProp<Csource>( "Current"     , tr("Current")           ,"A", this, &Csource::outCurrent , &Csource::setOutCurrent )
+        new BoolProp<Csource>("Control_Pins", tr("Use Control Pins"), ""
+                             , this, &Csource::controlPins, &Csource::setControlPins, propNoCopy ),
+
+        new BoolProp<Csource>("CurrSource", tr("Current Source"),""
+                             , this, &Csource::currSource , &Csource::setCurrSource ),
+
+        new BoolProp<Csource>("CurrControl", tr("Current Controlled"), ""
+                             , this, &Csource::currControl, &Csource::setCurrControl, propNoCopy ),
+
+        new DoubProp<Csource>("Gain", tr("Gain"), ""
+                             , this, &Csource::gain, &Csource::setGain ),
+
+        new DoubProp<Csource>("Voltage", tr("Voltage"), "V"
+                             , this, &Csource::volt, &Csource::setVolt ),
+
+        new DoubProp<Csource>("Current", tr("Current"), "A"
+                             , this, &Csource::outCurrent , &Csource::setOutCurrent )
     }, 0 } );
 }
 Csource::~Csource() {}
@@ -106,12 +117,12 @@ void Csource::updateStep()
     if( !m_changed ) return;
     m_changed = false;
 
-    udtProperties();
+    updtProperties();
 
-    m_pin[0]->setEnabled( m_controlPins && !m_linked );
-    m_pin[0]->setVisible( m_controlPins && !m_linked );
-    m_pin[1]->setEnabled( m_controlPins && !m_linked );
-    m_pin[1]->setVisible( m_controlPins && !m_linked );
+    m_pin[0]->setEnabled( m_controlPins && !m_linkedTo );
+    m_pin[0]->setVisible( m_controlPins && !m_linkedTo );
+    m_pin[1]->setEnabled( m_controlPins && !m_linkedTo );
+    m_pin[1]->setVisible( m_controlPins && !m_linkedTo );
 
     if( m_currControl )
     {
@@ -134,7 +145,7 @@ void Csource::updateStep()
         m_pin[3]->stampAdmitance( 1/cero_doub );
     }
 
-    if( !m_controlPins && !m_linked )
+    if( !m_controlPins && !m_linkedTo )
     {
         m_pin[0]->removeConnector();
         m_pin[1]->removeConnector();
@@ -171,10 +182,11 @@ void Csource::setVoltage( double v )
     m_pin[3]->stampCurrent(-curr );
 }
 
-void Csource::setLinked( bool l )
+bool Csource::setLinkedTo( Linker* li )
 {
-    Component::setLinked( l );
+    bool linked = Component::setLinkedTo( li );
     setControlPins( m_controlPins );
+    return linked;
 }
 
 void Csource::setLinkedValue( double v, int i )
@@ -222,7 +234,7 @@ void Csource::setCurrSource( bool c )
 
 void Csource::setControlPins( bool set )
 {
-    int length = (set || m_linked) ? 8 : 10;
+    int length = (set || m_linkedTo) ? 8 : 10;
     m_pin[2]->setLength( length );
     m_pin[3]->setLength( length );
 
@@ -231,30 +243,32 @@ void Csource::setControlPins( bool set )
     if( !Simulator::self()->isRunning() ) updateStep();
 }
 
-void Csource::udtProperties()
+void Csource::updtProperties()
 {
     if( !m_propDialog ) return;
-    bool controlled = m_controlPins || m_linked; // Controlled by pins or Linked
+    bool controlled = m_controlPins || m_linkedTo; // Controlled by pins or Linked
 
     m_propDialog->showProp("Voltage"    , !controlled && !m_currSource );
     m_propDialog->showProp("Current"    , !controlled &&  m_currSource );
     m_propDialog->showProp("CurrControl",  controlled );
     m_propDialog->showProp("Gain"       ,  controlled );
+
+    m_propDialog->adjustWidgets();
 }
 
 void Csource::slotProperties()
 {
     Component::slotProperties();
-    udtProperties();
+    updtProperties();
 }
 
-void Csource::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void Csource::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w )
 {
-    Component::paint( p, option, widget );
+    Component::paint( p, o, w);
 
     QPen pen = p->pen();
 
-    if( m_controlPins && !m_linked )
+    if( m_controlPins && !m_linkedTo )
     {
         pen.setWidth(1);
         p->setPen(pen);
@@ -263,7 +277,7 @@ void Csource::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidge
     pen.setWidth(2);
     p->setPen(pen);
 
-    if( !m_controlPins && !m_linked )
+    if( !m_controlPins && !m_linkedTo )
     {
         p->drawEllipse(-10,-10, 20, 20 );
     }
@@ -292,7 +306,7 @@ void Csource::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidge
         p->drawLine( 0,-6, 0,-2 );
         p->drawLine(-2, 4, 2, 4 );
     }
-    if( m_currControl && m_controlPins && !m_linked )
+    if( m_currControl && m_controlPins && !m_linkedTo )
     {
         pen.setWidthF(0.6);
         p->setPen(pen);

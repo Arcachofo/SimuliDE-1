@@ -50,7 +50,8 @@ VarSource::VarSource( QString type, QString id )
     QObject::connect( m_voltw.dial(), &QDial::valueChanged, [=](int v){ dialChanged(v); } );
 
     addPropGroup( { "Hidden1", {
-new BoolProp<VarSource>( "Running","","", this, &VarSource::running, &VarSource::setRunning ),
+        new BoolProp<VarSource>("Running","",""
+                               , this, &VarSource::running, &VarSource::setRunning ),
     }, groupHidden} );
 }
 VarSource::~VarSource() { }
@@ -107,7 +108,7 @@ void VarSource::setMinValue( double v )
 {
     if( v > m_maxValue ) v = m_maxValue-1e-3;
     m_minValue = v;
-    if( m_outValue > v ) m_outValue = v;
+    if( m_outValue < v ) m_outValue = v;
     m_voltw.setValue( m_outValue*1000/(m_maxValue-m_minValue) );
     m_changed = true;
 }

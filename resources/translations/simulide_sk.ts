@@ -44,14 +44,186 @@
     </message>
     <message>
         <source>About SimulIDE</source>
-        <translation type="vanished">O aplikácii SimulIDE</translation>
+        <translation>O aplikácii SimulIDE</translation>
     </message>
     <message>
         <source>Dialog</source>
-        <translation type="unfinished">Dialóg</translation>
+        <translation type="obsolete">Dialóg</translation>
     </message>
     <message>
         <source>TextLabel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;https://www.patreon.com/simulide/&quot;&gt;https://www.patreon.com/simulide&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Website:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Patreon:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Santiago González</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Jarda Vrana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       kellneka.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sergey Roenko.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Benoit ZERR.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Tim Fischer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>n3645.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Roy Qu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Alex Salishchev.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jan K. S.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>acebrian.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       bjacquot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       P. de Francisco</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tfrei.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maico Smaniotto.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pt. Brasil:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>@rkanoid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Doğu Kocatepe.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turkish:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Italian:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dutch       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Santiago Gonzalez.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>French:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spanish:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tim Fischer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chinese:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Czech:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Russian:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>labf2121</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jarda Vrana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>German:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>mvandorp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slovak:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portuguese:       </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pascal Cotret.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tomas714</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1375,6 +1547,10 @@ Nemožno nájsť súbor:
         <source>Set current time at start</source>
         <translation>Nastaviť aktuálny čas pri štarte</translation>
     </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished">Základné</translation>
+    </message>
 </context>
 <context>
     <name>DS1621</name>
@@ -1754,7 +1930,11 @@ Nemožno nájsť súbor:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Space to Pin:</source>
+        <source>Space to Label:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus Pin</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2110,6 +2290,10 @@ Súbor nemožno nájsť:
         <source>Open Serial Monitor.</source>
         <translation>Otvoriť monitor sériového portu</translation>
     </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished">Základné</translation>
+    </message>
 </context>
 <context>
     <name>FileBrowser</name>
@@ -2135,10 +2319,6 @@ Súbor nemožno nájsť:
     <message>
         <source>Remove Bookmark</source>
         <translation>Odstrániť záložku</translation>
-    </message>
-    <message>
-        <source>Search Files (Doesn&apos;t work)</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2488,7 +2668,7 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>Control_Code</source>
-        <translation>Riadiace slovo</translation>
+        <translation type="vanished">Riadiace slovo</translation>
     </message>
     <message>
         <source>I2C Frequency</source>
@@ -2510,6 +2690,10 @@ Súbor nemožno nájsť:
         <source>Show Memory Table</source>
         <translation>Zobraziť tabuľku pamäti</translation>
     </message>
+    <message>
+        <source>I2C Address</source>
+        <translation type="unfinished">I2C Adresa</translation>
+    </message>
 </context>
 <context>
     <name>I2CToParallel</name>
@@ -2523,11 +2707,15 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>Control_Code</source>
-        <translation>Riadiace slovo</translation>
+        <translation type="vanished">Riadiace slovo</translation>
     </message>
     <message>
         <source>I2C Frequency</source>
         <translation>I2C Frekvencia</translation>
+    </message>
+    <message>
+        <source>I2C Address</source>
+        <translation type="unfinished">I2C Adresa</translation>
     </message>
 </context>
 <context>
@@ -2611,7 +2799,7 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>Libraries Path</source>
-        <translation type="unfinished">Cesta ku knižniciam</translation>
+        <translation type="obsolete">Cesta ku knižniciam</translation>
     </message>
     <message>
         <source>Board</source>
@@ -2620,6 +2808,10 @@ Súbor nemožno nájsť:
     <message>
         <source>Custom Board</source>
         <translation type="unfinished">Vlastná doska</translation>
+    </message>
+    <message>
+        <source>Custom Library Path</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2712,7 +2904,7 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>_Steps</source>
-        <translation>_krokov</translation>
+        <translation type="vanished">_krokov</translation>
     </message>
 </context>
 <context>
@@ -2739,7 +2931,7 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>_Buttons</source>
-        <translation>_tlačidiel</translation>
+        <translation type="vanished">_tlačidiel</translation>
     </message>
 </context>
 <context>
@@ -3882,15 +4074,15 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>Screen Size X</source>
-        <translation>Šírka obrazovky X</translation>
+        <translation type="vanished">Šírka obrazovky X</translation>
     </message>
     <message>
         <source>Screen Size Y</source>
-        <translation>Výška obrazovky Y</translation>
+        <translation type="vanished">Výška obrazovky Y</translation>
     </message>
     <message>
         <source>_Pixels</source>
-        <translation>_bodov</translation>
+        <translation type="vanished">_bodov</translation>
     </message>
     <message>
         <source>Buffer Size</source>
@@ -3898,11 +4090,27 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>Samples</source>
-        <translation>Vzorky</translation>
+        <translation type="vanished">Vzorky</translation>
     </message>
     <message>
-        <source>Admittance to ground</source>
+        <source>Screen Width</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>_Px</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screen Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to ground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impedance</source>
+        <translation type="unfinished">Impedancia</translation>
     </message>
 </context>
 <context>
@@ -4713,6 +4921,14 @@ Neplatný súbor balíka:
         <source>Auto Open</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">Zavrieť</translation>
+    </message>
+    <message>
+        <source>Config</source>
+        <translation type="unfinished">Konfigurácia</translation>
+    </message>
 </context>
 <context>
     <name>SerialTerm</name>
@@ -4740,6 +4956,14 @@ Neplatný súbor balíka:
         <source>Open Serial Monitor.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">Otvoriť</translation>
+    </message>
+    <message>
+        <source>Config</source>
+        <translation type="unfinished">Konfigurácia</translation>
+    </message>
 </context>
 <context>
     <name>Servo</name>
@@ -4761,14 +4985,10 @@ Neplatný súbor balíka:
     </message>
     <message>
         <source>_sec/60º</source>
-        <translation>_sek/60º</translation>
+        <translation type="vanished">_sek/60º</translation>
     </message>
     <message>
         <source>Min. Pulse Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>_us</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4985,11 +5205,23 @@ Neplatný súbor balíka:
     </message>
     <message>
         <source>_Pixels</source>
-        <translation type="unfinished">_bodov</translation>
+        <translation type="obsolete">_bodov</translation>
     </message>
     <message>
         <source>Height</source>
         <translation type="unfinished">Výška</translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I2C</source>
+        <translation type="unfinished">I2C</translation>
+    </message>
+    <message>
+        <source>_px</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5016,7 +5248,7 @@ Neplatný súbor balíka:
     </message>
     <message>
         <source>_Teeth</source>
-        <translation>_zubov</translation>
+        <translation type="vanished">_zubov</translation>
     </message>
 </context>
 <context>
@@ -5235,10 +5467,6 @@ Chcete uložiť zmeny?
     <message>
         <source>_Switches</source>
         <translation type="vanished">_spínačov</translation>
-    </message>
-    <message>
-        <source>_Lines</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exclusive</source>
@@ -5781,10 +6009,6 @@ Chcete uložiť zmeny?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Real Speed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Main MCU:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5794,6 +6018,22 @@ Chcete uložiť zmeny?
     </message>
     <message>
         <source>Update Load:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real FPS:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation type="unfinished">100% {0?}</translation>
+    </message>
+    <message>
+        <source>GUI overload:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real Speed:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

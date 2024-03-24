@@ -20,7 +20,7 @@
 #include "doubleprop.h"
 #include "stringprop.h"
 
-#define tr(str) simulideTr("Ds18B20",str)
+#define tr(str) simulideTr("Ds18b20",str)
 
 Component* Ds18b20::construct( QString type, QString id )
 { return new Ds18b20( type, id ); }
@@ -30,7 +30,7 @@ LibraryItem* Ds18b20::libraryItem()
     return new LibraryItem(
         "DS18B20",
         "Sensors",
-        "ic_comp.png",
+        "ic2_comp.png",
         "DS18B20",
         Ds18b20::construct );
 }
@@ -97,9 +97,14 @@ Ds18b20::Ds18b20( QString type, QString id )
     Simulator::self()->addToUpdateList( this );
 
     addPropGroup( { tr("Main"), {
-new StrProp <Ds18b20>("ROM"    ,"ROM"                 ,""  , this, &Ds18b20::getROM,  &Ds18b20::setROM, propNoCopy ),
-new DoubProp<Ds18b20>("Temp"   , tr("Temperature")    ,"°C", this, &Ds18b20::temp   , &Ds18b20::setTemp    ),
-new DoubProp<Ds18b20>("TempInc", tr("Temp. increment"),"°C", this, &Ds18b20::tempInc, &Ds18b20::setTempInc ),
+        new StrProp <Ds18b20>("ROM","ROM", ""
+                             , this, &Ds18b20::getROM, &Ds18b20::setROM, propNoCopy ),
+
+        new DoubProp<Ds18b20>("Temp", tr("Temperature"), "°C"
+                             , this, &Ds18b20::temp, &Ds18b20::setTemp ),
+
+        new DoubProp<Ds18b20>("TempInc", tr("Temp. increment"), "°C"
+                             , this, &Ds18b20::tempInc, &Ds18b20::setTempInc ),
     },0} );
 }
 Ds18b20::~Ds18b20(){}

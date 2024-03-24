@@ -64,7 +64,7 @@ Chip::Chip( QString type, QString id )
     m_label.setFont( f );
     m_label.setDefaultTextColor( QColor( 125, 125, 110 ) );
     m_label.setAcceptedMouseButtons( 0 );
-    m_label.setRotation( -90 );
+    m_label.setRotation(-90 );
     m_label.setVisible( true );
     
     setLabelPos( m_area.x(), m_area.y()-20, 0);
@@ -97,34 +97,8 @@ void Chip::initChip()
     QDomDocument domDoc = fileToDomDoc( fileNameAbs, "Chip::initChip" );
     QDomElement   root  = domDoc.documentElement();
 
-    if( root.tagName() == "packageB" )
-    {
-        if( m_pkgeFile.endsWith( "_LS.package" )) m_isLS = true;
-        else                                      m_isLS = false;
-
-        if( m_isLS ) m_color = m_lsColor;
-        else         m_color = m_icColor;
-
-        m_width   = root.attribute( "width" ).toInt();
-        m_height  = root.attribute( "height" ).toInt();
-        m_area = QRect( 0, 0, 8*m_width, 8*m_height );
-
-        for( Pin* pin : m_unusedPins ) if( pin ) deletePin( pin );
-        m_unusedPins.clear();
-        m_ePin.clear();
-        m_pin.clear();
-
-        if( root.hasAttribute("type") ) setSubcTypeStr( root.attribute("type") );
-        if( root.hasAttribute("background") ) setBackground( root.attribute("background") );
-        if( m_subcType >= Board ) setTransformOriginPoint( toGrid( boundingRect().center()) );
-        if( root.hasAttribute("name"))
-        {
-            QString name = root.attribute("name");
-            if( name.toLower() != "package" ) m_name = name;
-        }
-        initPackage( root );
-        setName( m_name );
-    }else{
+    if( root.tagName() == "packageB" ) initPackage( root );
+    else{
         qDebug() <<"Chip::initChip"<<"Error: Not valid Package file:\n"<< m_pkgeFile;
         m_error = 3;
         return;
@@ -139,10 +113,35 @@ void Chip::setName( QString name )
     m_label.adjustSize();
     m_label.setY( m_area.height()/2+m_label.textWidth()/2 );
     m_label.setX( ( m_area.width()/2-m_label.boundingRect().height()/2 ) );
+    setflip();
 }
 
 void Chip::initPackage( QDomElement root )
 {
+    if( m_pkgeFile.endsWith( "_LS.package" )) m_isLS = true;
+    else                                      m_isLS = false;
+
+    if( m_isLS ) m_color = m_lsColor;
+    else         m_color = m_icColor;
+
+    m_width   = root.attribute( "width" ).toInt();
+    m_height  = root.attribute( "height" ).toInt();
+    m_area = QRect( 0, 0, 8*m_width, 8*m_height );
+
+    for( Pin* pin : m_unusedPins ) if( pin ) deletePin( pin );
+    m_unusedPins.clear();
+    m_ePin.clear();
+    m_pin.clear();
+
+    if( root.hasAttribute("type") ) setSubcTypeStr( root.attribute("type") );
+    if( root.hasAttribute("background") ) setBackground( root.attribute("background") );
+    if( m_subcType >= Board ) setTransformOriginPoint( toGrid( boundingRect().center()) );
+    if( root.hasAttribute("name"))
+    {
+        QString name = root.attribute("name");
+        if( name.toLower() != "package" ) m_name = name;
+    }
+
     int chipPos = 0;
     QDomNode node = root.firstChild();
     while( !node.isNull() )
@@ -165,6 +164,7 @@ void Chip::initPackage( QDomElement root )
         }
         node = node.nextSibling();
     }
+    setName( m_name );
     update();
 }
 
@@ -187,8 +187,7 @@ void Chip::addNewPin( QString id, QString type, QString label, int pos, int xpos
         pin->setFlag( QGraphicsItem::ItemStacksBehindParent, false );
 
         m_unusedPins.append( pin );
-    }
-    else{
+    }else{
         Pin* pin = addPin( id, type, label, pos, xpos, ypos, angle, length, space );
         m_ePin.emplace_back( pin );
         m_pin.emplace_back( pin );
@@ -201,17 +200,13 @@ void Chip::setLogicSymbol( bool ls )
 
     if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
 
-    /// Undo/Redo stack for Properties ??
-    /// Circuit::self()->addCompState( this, "Logic_Symbol" );
-    
-    if(  ls && m_pkgeFile.endsWith(".package"))    m_pkgeFile.replace( ".package", "_LS.package" );
-    if( !ls && m_pkgeFile.endsWith("_LS.package")) m_pkgeFile.replace( "_LS.package", ".package" );
+    if(  ls && m_pkgeFile.endsWith(".package"))    m_pkgeFile.replace(".package", "_LS.package" );
+    if( !ls && m_pkgeFile.endsWith("_LS.package")) m_pkgeFile.replace("_LS.package", ".package" );
 
     m_error = 0;
     Chip::initChip();
     
     if( m_error == 0 ) Circuit::self()->update();
-    /// else               Circuit::self()->unSaveState();
 }
 
 void Chip::setBackground( QString bck )
@@ -245,6 +240,17 @@ void Chip::setBackground( QString bck )
     update();
 }
 
+
+void Chip::setflip()
+{
+    Component::setflip();
+    m_label.setTransform( QTransform::fromScale( m_Hflip, m_Vflip ) );
+    int xDelta = m_Hflip*m_label.boundingRect().height()/2;
+    int yDelta = m_Vflip*m_label.textWidth()/2;
+    m_label.setY( m_area.height()/2+yDelta );
+    m_label.setX( ( m_area.width()/2-xDelta ) );
+}
+
 void Chip::findHelp()
 {
     QString helpFile = changeExt( m_dataFile, "txt" );
@@ -252,30 +258,31 @@ void Chip::findHelp()
     else                                m_help = MainWindow::self()->getHelp( m_name, false );
 }
 
-void Chip::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void Chip::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w )
 {
-    Component::paint( p, option, widget );
+    Component::paint( p, o, w );
 
     if( m_backPixmap ) p->drawPixmap( QRect(m_area.x(), m_area.y(), m_width*8, m_height*8), *m_backPixmap );
     else{
         p->drawRoundedRect( m_area, 1, 1);
         if( m_backData  )
         {
-            /*int w = m_backImage->width();
-            int h = m_backImage->height();
-            int mW = m_area.x()+(m_width*8 - w)/2;
-            int mH = m_area.y()+(m_height*8 - h)/2;
-            p->drawRoundedRect( mW, mH, w, h, 1, 1);
-            p->drawImage( mW, +mH, *m_backImage ); // Image centered*/
+            double w = m_backData->size();
+            double h = m_backData->at(0).size();
 
-            int w = m_backData->size();
-            int h = m_backData->at(0).size();
-            int mW = m_area.x()+(m_width*8 - w)/2;
-            int mH = m_area.y()+(m_height*8 - h)/2;
+            QImage img( w*3, h*3, QImage::Format_RGB32 );
+            QPainter painter;
+            painter.begin( &img );
 
-            for( int x=0; x<w; x++ )
+            for( int col=0; col<w; col++ )
+            {
+                int x = col*3;
+
                 for( int y=0; y<h; y++ )
-                    p->fillRect( QRectF( mW+x, mH+y, 1, 1), QColor(m_backData->at(x).at(y) ) );
+                    painter.fillRect( QRectF( x, y*3, 3, 3 ), QColor(m_backData->at(col).at(y) ) );
+            }
+            painter.end();
+            p->drawImage( m_area, img );
         }
         else if( !m_isLS && m_background.isEmpty() )
         {
