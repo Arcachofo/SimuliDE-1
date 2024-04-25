@@ -44,10 +44,6 @@ Function::Function( QString type, QString id )
     m_lastDir = Circuit::self()->getFilePath();
     m_width = 4;
 
-    m_inHighV = 0;
-    m_inLowV  = 0;
-    m_ouHighV = 0;
-
     m_voltChanged = NULL;
     m_aEngine->RegisterObjectType("Function",0, asOBJ_REF | asOBJ_NOCOUNT );
     m_aEngine->RegisterGlobalProperty("Function fu", this );
