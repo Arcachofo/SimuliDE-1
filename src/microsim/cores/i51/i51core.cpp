@@ -699,7 +699,7 @@ void I51Core::Decode()
             case 0xd2: addrBit();                break;   // 2-1 SETBb b = 1
             case 0xd3:                           break;   // 1-1 SETBc C = 1
             case 0xd4:                           break;   // 1-1 DAa
-            case 0xd5: operDir(); addrDir();
+            case 0xd5: operI08(); addrDir();
                                   m_rCycles = 4; break;   // 3-2 DJNZ Dir-- ? Jump : 0
             case 0xd6:
             case 0xd7: addrInd();                break;   // 1-1 XCHD A In @Indirect
