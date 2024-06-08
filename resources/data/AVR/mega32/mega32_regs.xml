@@ -94,11 +94,11 @@
     <register  name="OCR1AH"  addr="0x002B"  reset=""  mask="" bits="" />
     <register  name="TCNT1L"  addr="0x002C"  reset=""  mask="" bits="" />
     <register  name="TCNT1H"  addr="0x002D"  reset=""  mask="" bits="" />
-    <register  name="TCCR1B"  addr="0x002E"  reset=""  mask="" 
-               bits="CS10,CS11,CS12,CTC1,CTC11,0,ICES1,ICNC1" />
+    <register  name="TCCR1B"  addr="0x002E"  reset=""  mask="11011111" 
+               bits="CS10,CS11,CS12,WGM12,WGM13,0,ICES1,ICNC1" />
 
     <register  name="TCCR1A"  addr="0x002F"  reset=""  mask="" 
-               bits="PWM10,PWM11,FOC1B,FOC1A,COM1B0,COM1B1,COM1A0,COM1A1" />
+               bits="WGM10,WGM11,FOC1B,FOC1A,COM1B0,COM1B1,COM1A0,COM1A1" />
 
     <register  name="SFIOR"   addr="0x0030"  reset=""  mask="11101111" 
                bits="PSR10,0,PUD,ACME,0,ADTS0,ADTS1,ADTS2" />
