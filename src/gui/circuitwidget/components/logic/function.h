@@ -18,7 +18,7 @@ class Function : public IoComponent, public ScriptModule
     public:
         Function( QString type, QString id );
         ~Function();
-        
+
         static Component* construct( QString type, QString id );
         static LibraryItem* libraryItem();
 
@@ -30,7 +30,7 @@ class Function : public IoComponent, public ScriptModule
         void setFunctions( QString f );
 
         virtual void remove() override;
-        
+
         void setNumInputs( int inputs );
         void setNumOutputs( int outs );
 
@@ -39,18 +39,20 @@ class Function : public IoComponent, public ScriptModule
         void   setOutputState( int pin, bool s );
         void   setOutputVoltage( int pin, double v );
         double getOutputVoltage( int pin );
-        
+
     public slots:
         void onbuttonclicked( int i );
         void loadData();
         void saveData();
-        
+
     protected:
         virtual void contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu ) override;
 
     private:
-        void updateFunctions();
+        void createScript();
         void updateArea( uint ins, uint outs );
+
+        bool m_compiled;
 
         asIScriptFunction* m_voltChanged;
         QStringList m_funcList;
