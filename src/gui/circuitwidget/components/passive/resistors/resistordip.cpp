@@ -94,6 +94,7 @@ void ResistorDip::updateStep()
     m_changed = false;
 
     for( eResistor* res : m_resistor ) res->setRes( m_resist );
+    stamp();
 }
 
 void ResistorDip::createResistors( int c )
