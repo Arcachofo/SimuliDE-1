@@ -17,11 +17,13 @@ AvrSpi::AvrSpi( eMcu* mcu, QString name )
     n.toInt( &ok );
     if( !ok ) n = "";
 
-    m_SPE  = getRegBits( "SPE"+n, mcu );
-    m_DODR = getRegBits( "DODR"+n, mcu );
-    m_MSTR = getRegBits( "MSTR"+n, mcu );
-    m_CPOL = getRegBits( "CPOL"+n, mcu );
-    m_CPHA = getRegBits( "CPHA"+n, mcu );
+    m_SPR   = getRegBits( "SPR"+n+"0,SPR"+n+"1", mcu );
+    m_SPE   = getRegBits( "SPE"+n, mcu );
+    m_DODR  = getRegBits( "DODR"+n, mcu );
+    m_MSTR  = getRegBits( "MSTR"+n, mcu );
+    m_CPOL  = getRegBits( "CPOL"+n, mcu );
+    m_CPHA  = getRegBits( "CPHA"+n, mcu );
+    m_SPI2X = getRegBits( "SPI2X"+n, mcu );
 }
 AvrSpi::~AvrSpi(){}
 
@@ -70,19 +72,24 @@ void AvrSpi::configureA( uint8_t newSPCR ) // SPCR is being written
 
     bool clkPol = getRegBitsBool( newSPCR, m_CPOL ); // Clock polarity
     m_leadEdge = clkPol ? Clock_Falling : Clock_Rising;
-    m_tailEdge = clkPol ? Clock_Rising : Clock_Falling;
+    m_tailEdge = clkPol ? Clock_Rising  : Clock_Falling;
     m_clkPin->setOutState( clkPol );
+    updateClock();
 
-    bool clkPha = getRegBitsVal( newSPCR, m_CPHA ); // Clock phase
+    bool clkPha = getRegBitsBool( newSPCR, m_CPHA ); // Clock phase
     m_sampleEdge = ( clkPol == clkPha ) ? Clock_Rising : Clock_Falling; // This shows up in the truth table
 
-    m_prescaler = m_prescList[newSPCR & 0b00000011];
-    m_clockPeriod = m_mcu->psInst()*m_prescaler/2;
+    uint8_t spr = getRegBitsVal( newSPCR, m_SPR );
+    m_prescaler = m_prescList[spr];
+    updateSpeed();
 }
 
 void AvrSpi::writeStatus( uint8_t newSPSR ) // SPSR is being written
 {
-    m_mcu->m_regOverride = newSPSR | (*m_statReg & 0b00000001); // Preserve Status bits
+    uint8_t spi2x = getRegBitsVal( newSPSR, m_SPI2X );
+    m_speed2x = spi2x > 0;
+    updateSpeed();
+    m_mcu->m_regOverride = (*m_statReg & ~m_SPI2X.mask) | spi2x; // Preserve Status bits
 }
 
 void AvrSpi::writeSpiReg( uint8_t newSPDR ) // SPDR is being written
@@ -101,4 +108,10 @@ void AvrSpi::endTransaction()
     SpiModule::endTransaction();
     *m_dataReg = m_srReg;
     m_interrupt->raise();
+}
+
+void AvrSpi::updateSpeed()
+{
+    uint64_t div = m_speed2x ? 4 : 2;
+    m_clockPeriod = m_mcu->psInst()*m_prescaler/div;
 }
