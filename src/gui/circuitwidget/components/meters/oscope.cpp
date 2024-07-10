@@ -88,9 +88,6 @@ Oscope::Oscope( QString type, QString id )
         new DoubProp<Oscope>("Filter", "", "V"
                             , this, &Oscope::filter, &Oscope::setFilter ),
 
-        new IntProp <Oscope>("Trigger","", ""
-                            , this, &Oscope::trigger, &Oscope::setTrigger ),
-
         new IntProp <Oscope>("AutoSC" ,"", ""
                             , this, &Oscope::autoSC, &Oscope::setAutoSC ),
 
