@@ -155,13 +155,6 @@ void MainWindow::writeSettings()
     FileWidget::self()->writeSettings();
 }
 
-void MainWindow::setFontScale(float scale )
-{
-    if     ( scale < 0.2 ) scale = 0.2;
-    else if( scale > 10  ) scale = 10;
-    m_fontScale = scale;
-}
-
 QString MainWindow::loc()
 {
     if( m_lang == Chinese )    return "zh_CN";
