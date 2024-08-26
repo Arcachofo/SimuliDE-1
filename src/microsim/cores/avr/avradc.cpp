@@ -43,6 +43,7 @@ AvrAdc::AvrAdc( eMcu* mcu, QString name )
     {
         m_aVccPin = mcu->getMcuPin( "PORTV0" );
         m_aRefPin = mcu->getMcuPin( "PORTV1" );
+        if( m_aRefPin ) m_aRefPin->setInputImp( 32000 ); // Internal 32K resistor on the AREF pin
     }
 
     m_timer0 = (AvrTimer800*)mcu->getTimer( "TIMER0" );
@@ -76,11 +77,12 @@ void AvrAdc::configureA( uint8_t newADCSRA ) // ADCSRA
     if( m_enabled != enabled )
     {
         m_enabled = enabled;
+        if( !m_enabled && enabled ) m_initCycles = 12; // First conversion after enabling ADC
         toAdcMux();
     }
 
     uint8_t prs = getRegBitsVal( newADCSRA, m_ADPS );
-    m_convTime = m_mcu->psInst()*13*m_prescList[prs];
+    m_convTime = m_mcu->psInst()*(13+m_initCycles)*m_prescList[prs];
 
     m_autoTrigger = getRegBitsBool( newADCSRA, m_ADATE );
     if( m_autoTrigger ) autotriggerConf();
@@ -125,9 +127,11 @@ void AvrAdc::toAdcMux() // Connect Comparator with ADC multiplexer
 
 void AvrAdc::setChannel( uint8_t newADMUX ) // ADMUX
 {
-    m_channel = getRegBitsVal( newADMUX, m_MUX ); //newADMUX & 0x0F;
+    m_channel    = getRegBitsVal( newADMUX, m_MUX ); //newADMUX & 0x0F;
     m_leftAdjust = getRegBitsBool( newADMUX, m_ADLAR );
     m_refSelect  = getRegBitsVal(  newADMUX, m_REFS );
+
+    updtVref();
 
     if( !m_mcu->comparator() ) return;
     if( m_acme && !m_enabled ) m_mcu->comparator()->setPinN( m_adcPin[m_channel] );
@@ -171,12 +175,17 @@ void AvrAdc00::autotriggerConf()
 
 void AvrAdc00::updtVref()
 {
-    m_vRefP = m_mcu->vdd();
-    switch( m_refSelect ){
-        case 0: m_vRefP = m_aRefPin->getVoltage(); break; // AREF
-        case 1: m_vRefP = m_aVccPin->getVoltage(); break; // AVcc
-        case 3: m_vRefP = m_fixedVref;                 // Internal ref Volt
-}   }
+    double vRefP = 0;
+
+    if( m_refSelect & 1 ) // Connect aRefPin to multiplexer
+    {
+        if( m_refSelect & 2 ) vRefP = m_fixedVref;
+        else                  vRefP = m_aVccPin->getVoltage();
+    }
+    m_aRefPin->setVoltage( vRefP );
+
+    m_vRefP = m_aRefPin->getVoltage();
+}
 
 //------------------------------------------------------
 //-- AVR ADC Type 01 -----------------------------------
