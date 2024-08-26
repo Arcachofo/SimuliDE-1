@@ -121,9 +121,9 @@ void KeyPad::setupButtons()
                 pin->setLength( 4 );
                 m_pin[index] = pin;
             }
-            Circuit::self()->update();
     }   }
     setflip();
+    Circuit::self()->update();
 }
 
 void KeyPad::setRows( int rows )

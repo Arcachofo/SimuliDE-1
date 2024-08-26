@@ -621,7 +621,7 @@ void SubPackage::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget*
     Chip::paint( p, o, w);
 
     //if( m_background != "" )
-        p->setBrush( Qt::transparent );
+    p->setBrush( Qt::transparent );
     p->drawRoundedRect( m_area, 1, 1);
 
     if( m_fakePin )

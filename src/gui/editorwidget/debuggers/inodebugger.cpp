@@ -40,6 +40,11 @@ InoDebugger::InoDebugger( CodeEditor* parent, OutPanelText* outPane )
 //            << "Leonardo"
             << tr("custom");
 
+    m_boardMap.insert( "Uno", "arduino:avr:uno" );
+    m_boardMap.insert( "Mega", "arduino:avr:megaADK" );
+    m_boardMap.insert( "Nano", "arduino:avr:nano" );
+    m_boardMap.insert( "Duemilanove", "arduino:avr:diecimila" );
+
     addProperty( tr("Compiler Settings"),
     new StrProp<Compiler>("InclPath", tr("Custom Library Path"),"", this
                            , &Compiler::includePath, &Compiler::setIncludePath, 0,"path") );

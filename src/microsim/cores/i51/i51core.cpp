@@ -147,6 +147,7 @@ void I51Core::runStep()  // Machine cycle: 1/6 frequency
         m_readCycle = 0;
         m_readPC++;
         m_lastPC = m_readPC;
+
         Decode();
         m_cpuState = cpu_OPERAND;
     }
@@ -160,6 +161,7 @@ void I51Core::runStep()  // Machine cycle: 1/6 frequency
     {
         //qDebug("Before exec: PC:%x opcode:%x op0:%x opaddr:%x op2:%x",m_PC,m_opcode,m_op0,m_opAddr,m_op2);
         m_PC = m_lastPC;
+        m_RET_ADDR = m_lastPC;
         Exec();
         m_readPC = m_PC;
         m_cpuState = cpu_FETCH;
