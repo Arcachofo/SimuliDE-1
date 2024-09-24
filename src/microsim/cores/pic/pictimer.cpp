@@ -191,11 +191,17 @@ void PicTimer16bit::sheduleEvents()
         uint32_t ovfPeriod = m_ovfPeriod;
         if( m_countVal > m_ovfPeriod ) ovfPeriod += m_maxCount;
 
-        uint64_t cycles = (ovfPeriod-m_countVal)*m_scale; // cycles in ps
-        m_ovfCycle = circTime + cycles;// In simulation time (ps)
+        uint64_t time2ovf = (ovfPeriod-m_countVal)*m_scale; // cycles in ps
+        if( m_timeOffset ) time2ovf -= m_scale-m_timeOffset;
 
-        Simulator::self()->cancelEvents( this );
-        Simulator::self()->addEvent( cycles, this );
+        uint64_t ovfCycle = circTime + time2ovf;// In simulation time (ps)
+
+        if( m_ovfCycle != ovfCycle )
+        {
+            m_ovfCycle = ovfCycle;
+            Simulator::self()->cancelEvents( this );
+            Simulator::self()->addEvent( time2ovf, this );
+        }
     }
     else McuTimer::sheduleEvents();
 }

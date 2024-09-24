@@ -166,12 +166,16 @@ AvrTimer8bit::~AvrTimer8bit(){}
 void AvrTimer8bit::updtWgm()
 {
     m_wgmMode = (wgmMode_t)m_wgm10Val;
+    if( m_wgmMode != wgmPHAS ) m_reverse = false;
+
     configureOcUnits( !m_wgm32Val );
     topReg0Changed( *m_topReg0L );
 }
 
 void AvrTimer8bit::topReg0Changed( uint8_t val )
 {
+    calcCounter();
+
     *m_topReg0L = val;
 
     uint16_t  ovf = 0xFF;
@@ -186,9 +190,10 @@ void AvrTimer8bit::topReg0Changed( uint8_t val )
         if( m_bidirec ) m_ovfPeriod = m_ovfMatch;
         else            m_ovfPeriod = m_ovfMatch+1;
 
+        m_OCA->ocrWriteL( val );
         sheduleEvents();
     }
-    m_OCA->ocrWriteL( val );
+    else m_OCA->ocrWriteL( val );
 }
 
 //--------------------------------------------------
@@ -430,6 +435,8 @@ void AvrTimer16bit::updtWgm()
     if( m_ICunit ) m_ICunit->enable( !m_useICR );
 
     m_wgmMode = mode;
+    if( m_wgmMode != wgmPHAS ) m_reverse = false;
+
     bool shedule = m_ovfMatch != ovf;
     m_ovfMatch = ovf;
     bool wgm3 = (m_wgm32Val & 1<<3)==0;

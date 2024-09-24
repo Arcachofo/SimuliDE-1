@@ -44,6 +44,9 @@ void McuTimer::initialize()
     m_ovfCycle   = 0;
     m_mode       = 0;
 
+    m_circTime = 0;
+    m_timeOffset = 0;
+
     m_prescaler = 1;
     m_prIndex = 0;
 
@@ -98,6 +101,8 @@ void McuTimer::runEvent()            // Overflow
     for( McuOcUnit* ocUnit : m_ocUnit ) ocUnit->tov();
 
     m_countVal = m_countStart;             // Reset count value
+    m_timeOffset = 0;
+
     if( m_bidirec ) m_reverse = !m_reverse;
     if( !m_reverse && m_interrupt ) m_interrupt->raise();
 
@@ -107,6 +112,7 @@ void McuTimer::runEvent()            // Overflow
 void McuTimer::resetTimer()
 {
     m_countVal = m_countStart;             // Reset count value
+    m_timeOffset = 0;
     sheduleEvents();
 }
 
@@ -119,10 +125,13 @@ void McuTimer::sheduleEvents()
         for( McuOcUnit* ocUnit : m_ocUnit ) Simulator::self()->cancelEvents( ocUnit );
     }else{
         uint64_t circTime = Simulator::self()->circTime();
+
         uint64_t ovfPeriod = m_ovfPeriod;
-        if( m_countVal > m_ovfPeriod ) ovfPeriod += m_maxCount;
+        if( m_countVal > m_ovfMatch ) ovfPeriod += m_maxCount;
 
         uint64_t cycles = (ovfPeriod-m_countVal)*m_scale; // cycles in ps
+        if( m_timeOffset ) cycles -= m_scale-m_timeOffset;
+
         uint64_t ovfCycle = circTime + cycles;// In simulation time (ps)
 
         if( m_ovfCycle != ovfCycle )
@@ -149,6 +158,8 @@ void McuTimer::countWriteL( uint8_t val ) // Someone wrote to counter low byte
 {
     updtCount();
     *m_countL = val;
+    m_countVal &= 0xFFFFFF00;
+    m_countVal |= val;
     updtCycles();       // update & Reshedule
 }
 
@@ -156,7 +167,9 @@ void McuTimer::countWriteH( uint8_t val ) // Someone wrote to counter high byte
 {
     updtCount();
     *m_countH = val;
-    updtCycles();       // update & Reshedule
+    m_countVal &= 0x000000FF;
+    m_countVal |= uint32_t(val)<<8;
+    updtCycles();                   // update & Reshedule
 }
 
 void McuTimer::updtCount( uint8_t )       // Write counter values to Ram
@@ -165,24 +178,35 @@ void McuTimer::updtCount( uint8_t )       // Write counter values to Ram
 
     calcCounter();
 
-    if( m_countL ) *m_countL = m_countVal & 0xFF;
-    if( m_countH ) *m_countH = (m_countVal>>8) & 0xFF;
+    uint32_t countVal = m_reverse ? (m_ovfMatch-m_countVal) : m_countVal;
+
+    if( m_countL ) *m_countL = countVal & 0xFF;
+    if( m_countH ) *m_countH = (countVal>>8) & 0xFF;
 }
 
 void McuTimer::calcCounter()
 {
     if( m_extClock ) return;
 
+    uint64_t circTime = Simulator::self()->circTime();
+    if( m_circTime == circTime ) return;
+    m_circTime = circTime;
+
     uint64_t time2Ovf = m_ovfCycle-Simulator::self()->circTime(); // Next overflow time - current time
     uint64_t cycles2Ovf = time2Ovf/m_scale;
-    if( m_ovfMatch > cycles2Ovf ) m_countVal = m_ovfMatch-cycles2Ovf;
+
+    if( m_ovfMatch > cycles2Ovf )
+    {
+        m_countVal = m_ovfMatch-cycles2Ovf;
+        m_timeOffset = time2Ovf%m_scale;
+        if( m_timeOffset ) m_countVal--;
+    }
 }
 
 void McuTimer::updtCycles() // Recalculate ovf, comps, etc
 {
-    m_countVal = *m_countL;
-    if( m_countH ) m_countVal |= *m_countH << 8;
-    /// m_countStart = 0;
+    ///m_countVal = *m_countL;
+    ///if( m_countH ) m_countVal |= *m_countH << 8;
     sheduleEvents();
 }
 
@@ -196,7 +220,7 @@ void McuTimer::enableExtClock( bool en )
 {
     if( m_extClock == en ) return;
     updtCount();
-    m_extClock = en; //m_clkSrc = en? clkEXT : clkMCU;
+    m_extClock = en;
     updtCycles();      // update & Reshedule
 
     if( m_clockPin ){
@@ -204,4 +228,3 @@ void McuTimer::enableExtClock( bool en )
         m_clkState = m_clockPin->getInpState();
     }
 }
-

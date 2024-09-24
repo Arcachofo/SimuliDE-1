@@ -41,10 +41,10 @@ void McuOcUnit::clockStep( uint16_t count )
 void McuOcUnit::runEvent()  // Compare match
 {
     m_interrupt->raise();   // Trigger interrupt
-    if( m_enabled ) drivePin( m_comAct );
+    if( m_enabled ) drivePin( m_comAct, m_timer->scale() );
 }
 
-void McuOcUnit::drivePin( ocAct_t act )
+void McuOcUnit::drivePin( ocAct_t act, uint64_t time )
 {
     if( !act ) return;
     bool pinState = false;
@@ -53,19 +53,18 @@ void McuOcUnit::drivePin( ocAct_t act )
     else if( act == ocCLR ) pinState = !m_pinSet;
     else if( act == ocSET ) pinState =  m_pinSet;
 
-    setPinSate( pinState );
+    setPinSate( pinState, time );
 }
 
-void McuOcUnit::setPinSate( bool state )
+void McuOcUnit::setPinSate( bool state, uint64_t time )
 {
-    m_ocPin->setOutState( state );
+    m_ocPin->scheduleState( state, time );
 }
 
 void McuOcUnit::sheduleEvents( uint32_t ovf, uint32_t countVal, int rot )
 {
     ovf      <<= rot;  // Used by Pic CCP PWM mode: 8+2 bits (rot=2)
     countVal <<= rot;
-    uint64_t cycles = 0;
     uint64_t match;
 
     if( m_timer->reverse() )
@@ -78,12 +77,19 @@ void McuOcUnit::sheduleEvents( uint32_t ovf, uint32_t countVal, int rot )
     }
     Simulator::self()->cancelEvents( this );
 
-    if( m_timer->extClocked() ) m_extMatch = match; // Using external clock
-    else{
-        if( (match <= ovf )&&(match >= countVal) ) // be sure next comp match is still ahead
-            cycles = (match-countVal)*m_timer->scale() + m_mcu->psInst()/*run it 1 cycle after match*/; // cycles in ps
+    if( m_timer->extClocked() ) // Using external clock
+    {
+        m_extMatch = match;
+    }
+    else if( match <= ovf && match >= countVal ) // be sure next comp match is still ahead
+    {
+        uint64_t psPerTick  = m_timer->scale();
+        uint64_t timeOffset = m_timer->timeOffset();
 
-        if( cycles ) Simulator::self()->addEvent( cycles>>rot, this );
+        uint64_t time2ovf = (match-countVal)*psPerTick; // Time in ps
+        if( timeOffset ) time2ovf -= psPerTick-timeOffset;
+
+        Simulator::self()->addEvent( time2ovf>>rot, this );
     }
 }
 
