@@ -160,25 +160,24 @@ void Ssd1306::updateStep()
     if( m_scroll )
     {
         m_scrollCount--;
-        if( m_scrollCount <= 0 )
+        if( m_scrollCount > 0 ) return;
+
+        m_scrollCount = m_scrollInterval;
+
+        int lastX = m_width-1;
+
+        for( int row=m_scrollStartPage; row<=m_scrollEndPage; row++ )
         {
-            m_scrollCount = m_scrollInterval;
-
-            for( int row=m_scrollStartPage; row<=m_scrollEndPage; row++ )
+            if( m_scrollR )
             {
-                unsigned char start = m_aDispRam[0][row];
-                unsigned char end   = m_aDispRam[127][row];
-
-                for( int col=0; col<128; col++ )
-                {
-                    if( m_scrollR ){
-                        int c = 127-col;
-                        if( c < 127  ) m_aDispRam[c][row] = m_aDispRam[c-1][row];
-                        if( col == 0 ) m_aDispRam[0][row] = end;
-                    }else{
-                        if( col < 127  ) m_aDispRam[col][row] = m_aDispRam[col+1][row];
-                        if( col == 127 ) m_aDispRam[col][row] = start;
-    }   }   }   }   }
+                uint8_t end = m_aDispRam[lastX][row];
+                for( int col=lastX; col>0; --col ) m_aDispRam[col][row] = m_aDispRam[col-1][row];
+                m_aDispRam[0][row] = end;
+            }else{
+                uint8_t start = m_aDispRam[0][row];
+                for( int col=0; col<lastX; ++col ) m_aDispRam[col][row] = m_aDispRam[col+1][row];
+                m_aDispRam[lastX][row] = start;
+    }   }   }
 
     update();
 }
