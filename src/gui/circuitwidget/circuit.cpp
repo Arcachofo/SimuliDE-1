@@ -53,7 +53,6 @@ Circuit::Circuit( qreal x, qreal y, qreal width, qreal height, CircuitView*  par
     m_deleting   = false;
     m_loading    = false;
     m_conStarted = false;
-    m_createSubc = false;
     m_acceptKeys = true;
     m_cicuitBatch = 0;
 
@@ -173,7 +172,6 @@ void Circuit::loadStrDoc( QString &doc )
     QList<Node*> nodeList;        // Pasting node list
 
     m_newComp = NULL;
-    Component* lastComp = NULL;
     QList<ShieldSubc*> shieldList;
 
     int rev = 0;
@@ -205,9 +203,8 @@ void Circuit::loadStrDoc( QString &doc )
         }
         else if( line.contains("<mainCompProps") )
         {
-            if( !lastComp ) continue;
-            SubCircuit* subci = static_cast<SubCircuit*>(lastComp);
-            Component* mComp = subci->getMainComp();      // Old circuits with only 1 MainComp
+            if( !m_subCircuit ) continue;
+            Component* mComp = m_subCircuit->getMainComp();      // Old circuits with only 1 MainComp
             if( !mComp ) continue;
 
             QString propName = "";
@@ -224,7 +221,7 @@ void Circuit::loadStrDoc( QString &doc )
                 if( propName == "MainCompId")  // If more than 1 mainComp then get Component
                 {
                     QString compName = prop.toString();
-                    mComp = subci->getMainComp( compName );
+                    mComp = m_subCircuit->getMainComp( compName );
                     if( !mComp ) qDebug() << "ERROR: Could not get Main Component:"<< compName;
                 }
                 else if( mComp ) mComp->setPropStr( propName, prop.toString() );
@@ -379,12 +376,11 @@ void Circuit::loadStrDoc( QString &doc )
                     newUid = newUid.replace( "pic", "p" );
                 }
                 else if( type == "Frequencimeter" ) type = "FreqMeter";
-                lastComp = NULL;
+                m_subCircuit= nullptr;  // Subcircuits set this value
                 Component* comp = createItem( type, newUid );
                 if( comp )
                 {
                     m_newComp = comp;
-                    lastComp = comp;
                     if( m_pasting ) m_idMap[getSeqNumber( uid )] = newNum; // Map simu id to new id
 
                     Mcu* mcu = NULL;
@@ -395,8 +391,11 @@ void Circuit::loadStrDoc( QString &doc )
                     }
                     if( comp->itemType() == "Subcircuit")
                     {
-                        ShieldSubc* shield = static_cast<ShieldSubc*>(comp);
-                        if( shield->subcType() >= Chip::Shield ) shieldList.append( shield );
+                        if( m_subCircuit->subcType() >= Chip::Shield )
+                        {
+                            ShieldSubc* shield = static_cast<ShieldSubc*>(comp);
+                            shieldList.append( shield );
+                        }
                     }
                     comp->setPropStr( "label", label ); //setIdLabel( label );
 

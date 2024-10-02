@@ -11,6 +11,8 @@
 
 #include "mcucreator.h"
 #include "circuitwidget.h"
+#include "circuit.h"
+#include "subcircuit.h"
 #include "datautils.h"
 #include "regwatcher.h"
 #include "e_mcu.h"
@@ -212,12 +214,13 @@ int McuCreator::processFile( QString fileName, bool main )
                 QDomElement e = node.toElement();
                 QString  part = e.tagName();
 
-                if( part == "propertygroup" )
+                if( part == "propertygroup" )  // Properties in .mcu file
                 {
+                    SubCircuit* subC = Circuit::self()->getSubcircuit();
                     QString group = e.attribute("name");
 
-                    QList<ComProperty*> propList;
-                    m_mcuComp->addPropGroup( {group, propList, 0} );
+                    QList<ComProperty*> mcuProps;
+                    QList<ComProperty*> subProps;
 
                     QDomNode node = e.firstChild();
                     while( !node.isNull() )
@@ -230,9 +233,25 @@ int McuCreator::processFile( QString fileName, bool main )
                             QString type = el.attribute("type");
                             QString unit = el.attribute("unit");
 
-                            cpu->addProperty( group, name, type, unit );
+                            ComProperty* p = cpu->addProperty( name, type, unit );
+
+                            if( el.attribute("add") == "true" ) subProps.append( p );
+                            else                                mcuProps.append( p );
                         }
                         node = node.nextSibling();
+                    }
+                    propGroup* pg = m_mcuComp->getPropGroup( group );
+                    if( pg ){
+                        for( ComProperty* p : mcuProps ) m_mcuComp->addProperty( group, p );
+                    }
+                    else m_mcuComp->addPropGroup( {group, mcuProps, 0} );
+
+                    if( subC ){
+                        pg = subC->getPropGroup( group );
+                        if( pg ){
+                            for( ComProperty* p : subProps ) subC->addProperty( group, p, false );
+                        }
+                        else subC->addPropGroup( {group, subProps, 0}, false );
                     }
                 }
                 node = node.nextSibling();

@@ -316,7 +316,7 @@ void Mcu::voltChanged() // Reset Pin callBack
 void Mcu::setProgram( QString pro )
 {
     if( pro == "" ) return;
-    if( Circuit::self()->isSubc() ) m_eMcu.m_firmware = pro; // Let Subcircuit load firmware with path to subc dir
+    if( Circuit::self()->getSubcircuit() ) m_eMcu.m_firmware = pro; // Let Subcircuit load firmware with path to subc dir
     else load( pro );
 }
 

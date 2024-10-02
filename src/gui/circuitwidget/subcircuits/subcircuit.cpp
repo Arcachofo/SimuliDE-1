@@ -137,7 +137,7 @@ Component* SubCircuit::construct( QString type, QString id )
         m_error = 0;
         return NULL;
     }else{
-        Circuit::self()->m_createSubc = true;
+        Circuit::self()->setSubcircuit( subcircuit );
         subcircuit->m_pkgeFile = pkgeFile;
         subcircuit->initChip();
         if( m_error == 0 ) subcircuit->loadSubCircuit( subcFile );
@@ -147,8 +147,6 @@ Component* SubCircuit::construct( QString type, QString id )
         new BoolProp<SubCircuit>("Logic_Symbol", tr("Logic Symbol"),"",
                                 subcircuit, &SubCircuit::logicSymbol, &SubCircuit::setLogicSymbol, propNoCopy ),
         },groupNoCopy} );
-
-        Circuit::self()->m_createSubc = false;
     }
     if( m_error > 0 )
     {

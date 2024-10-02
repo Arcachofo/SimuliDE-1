@@ -18,6 +18,7 @@
 class CircuitView;
 class SubPackage;
 class Simulator;
+class SubCircuit;
 class Node;
 
 class Circuit : public QGraphicsScene
@@ -80,7 +81,6 @@ class Circuit : public QGraphicsScene
         void newconnector( Pin* startpin, bool save=true );
         void closeconnector( Pin* endpin, bool save=false );
         void deleteNewConnector();
-        //void updateConnectors();
         Connector* getNewConnector() { return m_newConnector; }
 
         void addNode( Node* node );
@@ -99,9 +99,12 @@ class Circuit : public QGraphicsScene
         SubPackage* getBoard() { return m_board; }
         void setBoard( SubPackage* b ) { m_board = b; }
 
+        SubCircuit* getSubcircuit() { return m_subCircuit; }
+        void setSubcircuit( SubCircuit* sc ) { m_subCircuit = sc; }
+
         bool pasting() { return m_pasting; }
         bool isBusy()  { return m_busy || m_pasting | m_deleting; }
-        bool isSubc()  { return m_createSubc; }
+        //bool isSubc()  { return m_createSubc; }
 
         void addPin( Pin* pin, QString pinId ) { m_pinMap[ pinId ] = pin; m_LdPinMap[ pinId ] = pin; }
         void remPin( QString pinId ) { m_pinMap.remove( pinId ); }
@@ -170,7 +173,7 @@ class Circuit : public QGraphicsScene
         bool m_undo;
         bool m_redo;
         bool m_acceptKeys;
-        bool m_createSubc;
+        //bool m_createSubc;
         int m_cicuitBatch;
 
         QPointF m_eventpoint;
@@ -181,6 +184,7 @@ class Circuit : public QGraphicsScene
         QList<Node*>      m_nodeList;   // Node list
 
         SubPackage* m_board;
+        SubCircuit* m_subCircuit;
 
         QHash<QString, Pin*>      m_pinMap;   // Pin Id to Pin*
         QHash<QString, Pin*>      m_LdPinMap; // Pin Id to Pin* while loading/pasting/importing
