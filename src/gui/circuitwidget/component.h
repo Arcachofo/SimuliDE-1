@@ -126,7 +126,7 @@ class Component : public CompBase, public QGraphicsItem, public Updatable
         virtual void move( QPointF delta ) { setPos( pos() + delta ); moveSignal(); }//emit moved(); }
         void moveTo( QPointF pos ){ setPos( pos ); moveSignal(); }//emit moved(); }
 
-        void moveSignal();
+        virtual void moveSignal();
 
         virtual void rotateAngle( double a );
 

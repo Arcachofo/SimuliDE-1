@@ -38,9 +38,13 @@ class SubPackage : public Chip, public Linker
         virtual void setSubcTypeStr( QString s ) override;
         virtual void setLogicSymbol( bool ls ) override;
 
+        virtual std::vector<Pin*> getPins() override { std::vector<Pin*> p; return p; } // Used to access wires (we have no wires)
+
         virtual void remove() override;
 
         virtual void compSelected( Component* comp ) override;  // Use link mechanism to select main components
+
+        virtual void moveSignal() override {;}
 
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w ) override;
 
