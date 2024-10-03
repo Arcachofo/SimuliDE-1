@@ -44,10 +44,14 @@ void Line::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* 
 {
     Component::paint( p, option, widget );
 
+    double opacity = p->opacity();
+    p->setOpacity( opacity*m_opac );
+
     QPen pen( m_color, m_border, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     p->setPen( pen );
 
     p->drawLine( -m_hSize/2, m_vSize/2, m_hSize/2, -m_vSize/2 );
 
+    p->setOpacity( opacity );
     Component::paintSelected( p );
 }
