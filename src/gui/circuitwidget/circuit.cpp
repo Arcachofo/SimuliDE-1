@@ -58,6 +58,7 @@ Circuit::Circuit( qreal x, qreal y, qreal width, qreal height, CircuitView*  par
 
     m_board = NULL;
     m_newConnector = NULL;
+    m_subCircuit = NULL;
     m_seqNumber = 0;
     m_conNumber = 0;
     m_maxUndoSteps = 100;
@@ -465,6 +466,7 @@ void Circuit::loadStrDoc( QString &doc )
 
     if( m_pasting ) m_idMap.clear();
     m_busy = false;
+    m_subCircuit = NULL;
     QApplication::restoreOverrideCursor();
     update();
 }
