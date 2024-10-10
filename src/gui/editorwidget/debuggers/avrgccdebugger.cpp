@@ -3,7 +3,7 @@
  *                                                                         *
  ***( see copyright.txt file at root folder )*******************************/
 
-//#include <QDebug>
+#include <QDebug>
 #include <QFileInfo>
 #include <QDir>
 
@@ -224,6 +224,7 @@ bool AvrGccDebugger::mapFlashToSource()
         for( int flashAddr=0; flashAddr<flashSize; ++flashAddr ) // Map Flash Address to Source Line
         {
             QString p_stdout = flashToLine.readLine();
+            //qDebug() << flashAddr <<"..."<< p_stdout;
             if( p_stdout.isEmpty() ) continue;
             if( p_stdout.startsWith("?") ) continue;
 

@@ -57,7 +57,7 @@ void Socket::updatePins( bool connect )
             if( pin ){
                 if( connect )
                 {
-                    qDebug()<<"Connecting"<< m_sockPins[i]->pinId()<<"To"<<pin->pinId();
+                    //qDebug()<<"Connecting"<< m_sockPins[i]->pinId()<<"To"<<pin->pinId();
                     m_connPins[i] = pin;
                     m_sockPins[i]->setConPin( pin );
                     pin->setConPin( m_sockPins[i] );

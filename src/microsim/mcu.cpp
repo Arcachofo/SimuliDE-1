@@ -316,8 +316,7 @@ void Mcu::voltChanged() // Reset Pin callBack
 void Mcu::setProgram( QString pro )
 {
     if( pro == "" ) return;
-    if( Circuit::self()->getSubcircuit() ) m_eMcu.m_firmware = pro; // Let Subcircuit load firmware with path to subc dir
-    else load( pro );
+    load( m_subcFolder+pro );
 }
 
 QString Mcu::varList()
@@ -461,17 +460,6 @@ bool Mcu::load( QString fileName )
 
     return true;
 }
-
-/*void Mcu::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
-{
-    if( !acceptedMouseButtons() ) event->ignore();
-    else{
-        event->accept();
-        QMenu* menu = new QMenu();
-        contextMenu( event, menu );
-        Component::contextMenu( event, menu );
-        menu->deleteLater();
-}   }*/
 
 void Mcu::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu )
 {
@@ -671,9 +659,6 @@ bool Mcu::clockOut()
 }
 
 void Mcu::setClockOut( bool clkOut ) { if( m_eMcu.m_intOsc ) m_eMcu.m_intOsc->setClockOut( clkOut ); }
-
-QStringList Mcu::getEnumUids( QString e) { return m_eMcu.m_cpu->getEnumUids( e ); }
-QStringList Mcu::getEnumNames( QString e) { return m_eMcu.m_cpu->getEnumNames( e ); }
 
 void Mcu::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {

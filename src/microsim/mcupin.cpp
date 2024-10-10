@@ -76,8 +76,7 @@ void McuPin::voltChanged()
             case pinRising:  trigger = (!oldState && newState); break;
             case pinDisabled:                                   break;
         }
-        if( trigger )
-            m_extInt->raise( raise );
+        if( trigger ) m_extInt->raise( raise );
     }
     if( oldState != newState )
     {

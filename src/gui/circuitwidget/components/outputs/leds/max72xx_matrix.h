@@ -21,7 +21,7 @@ class Max72xx_matrix : public LogicComponent
  static Component* construct( QString type, QString id );
  static LibraryItem* libraryItem();
 
-        QString colorStr() { return m_enumUids.at((int)m_ledColor ); }
+        QString colorStr() { return m_colorList.at( m_ledColor ); }
         void setColorStr( QString color );
 
         int numDisplays() { return m_numDisplays; }
@@ -34,7 +34,7 @@ class Max72xx_matrix : public LogicComponent
 
         virtual void setHidden( bool hid, bool hidArea=false, bool hidLabel=false ) override;
 
-        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget ) override;
+        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w ) override;
 
     private:
         void proccessCommand();
@@ -54,6 +54,7 @@ class Max72xx_matrix : public LogicComponent
 
         int m_ledColor;
         QColor m_colors[7];
+        QStringList m_colorList;
 
         //Inputs
         Pin* m_pinCS;

@@ -50,7 +50,7 @@ LatchD::LatchD( QString type, QString id )
         new IntProp <LatchD>("Channels", tr("Size"),"_bits"
                             , this, &LatchD::channels, &LatchD::setChannels, propNoCopy,"uint" ),
 
-        new StrProp <LatchD>("Trigger", tr("Trigger Type"),""
+        new StrProp <LatchD>("Trigger", tr("Trigger Type"), LogicComponent::m_triggerList
                             , this, &LatchD::triggerStr, &LatchD::setTriggerStr, propNoCopy,"enum" ),
 
         new BoolProp<LatchD>("Tristate", tr("Tristate"),""

@@ -25,12 +25,7 @@ class Ssd1306 : public Component, public TwiModule
  static Component* construct( QString type, QString id );
  static LibraryItem* libraryItem();
 
-        enum dispColor {
-            White = 0,
-            Blue,
-            Yellow
-        };
-        QString colorStr() { return m_enumUids.at((int)m_dColor ); }
+        QString colorStr() { return m_dColor; }
         void setColorStr( QString color );
 
         int width() { return m_width; }
@@ -59,7 +54,7 @@ class Ssd1306 : public Component, public TwiModule
         void clearDDRAM();
         void updateSize();
 
-        dispColor m_dColor;
+        QString m_dColor;
 
         unsigned char m_aDispRam[128][8]; //128x64 DDRAM
 

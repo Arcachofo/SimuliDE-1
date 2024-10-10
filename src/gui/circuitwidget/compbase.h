@@ -44,10 +44,6 @@ class CompBase
         void loadProperties( QDomElement* el );
         QList<propGroup>* properties() { return &m_propGroups; } // Circuit needs pointer bcos properties can change (ex: loadHex changes Config)
 
-        virtual QStringList getEnumUids( QString )  { return m_enumUids; }
-        virtual QStringList getEnumNames( QString ) { return m_enumNames; }
-        int getEnumIndex( QString prop );
-
         virtual bool    setPropStr( QString prop, QString val );
         virtual QString getPropStr( QString prop );
 
@@ -70,8 +66,8 @@ class CompBase
         QList<propGroup> m_propGroups;
         QHash<QString, ComProperty*> m_propHash;
 
-        QStringList m_enumUids;
-        QStringList m_enumNames;
+        //QStringList m_enumUids;
+        //QStringList m_enumNames;
 };
 
 #endif

@@ -73,7 +73,7 @@ QList<ComProperty*> IoComponent::outputType()
                                  , this, &IoComponent::invertOuts, &IoComponent::setInvertOuts, propNoCopy ),
 
         new BoolProp<IoComponent>("Open_Collector", tr("Open Drain"), ""
-                                 , this, &IoComponent::openCol, &IoComponent::setOpenCol   , propNoCopy )};
+                                 , this, &IoComponent::openCol, &IoComponent::setOpenCol, propNoCopy )};
 }
 
 QList<ComProperty*> IoComponent::edgeProps()

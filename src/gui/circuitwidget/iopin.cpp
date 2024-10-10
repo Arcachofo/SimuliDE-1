@@ -72,7 +72,7 @@ void IoPin::updateStep()
 
     if( m_stateZ ) m_pinState = undef_state;
     else{
-        bool state = getInpState();
+        bool state = IoPin::getInpState();
         if( m_inverted ) state = !state;
         switch( m_pinMode ) // Pin colors in animation
         {
@@ -328,5 +328,9 @@ void IoPin::registerScript( asIScriptEngine* engine )
 
     engine->RegisterObjectMethod("IoPin", "void changeCallBack(eElement@ p, bool s)"
                                    , asMETHODPR( IoPin, changeCallBack, (eElement*, bool), void)
+                                   , asCALL_THISCALL );
+
+    engine->RegisterObjectMethod("IoPin", "bool isConnected()"
+                                   , asMETHODPR( IoPin, isConnected, (), bool)
                                    , asCALL_THISCALL );
 }

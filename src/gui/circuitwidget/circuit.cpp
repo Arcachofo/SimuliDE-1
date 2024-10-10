@@ -392,7 +392,8 @@ void Circuit::loadStrDoc( QString &doc )
                     }
                     if( comp->itemType() == "Subcircuit")
                     {
-                        if( m_subCircuit->subcType() >= Chip::Shield )
+                        QString subcType = m_subCircuit->subcTypeStr();
+                        if( subcType == "Shield" || subcType == "Module" )
                         {
                             ShieldSubc* shield = static_cast<ShieldSubc*>(comp);
                             shieldList.append( shield );

@@ -25,21 +25,8 @@ Chip::Chip( QString type, QString id )
     QStringList list = id.split("-");
     if( list.size() > 1 ) m_name = list.at( list.size()-2 ); // for example: "atmega328-1" to: "atmega328"
 
-    m_enumUids = QStringList()
-        << "None"
-        << "Logic"
-        << "Board"
-        << "Shield"
-        << "Module";
-
-    m_enumNames = QStringList()
-        << tr("None")
-        << tr("Logic")
-        << tr("Board")
-        << tr("Shield")
-        << tr("Module");
-
-    m_subcType = None;
+    m_subcType = "None";
+    m_isBoard = false;
     m_isLS = false;
     m_initialized = false;
     m_pkgeFile = "";
@@ -135,8 +122,8 @@ void Chip::initPackage( QDomElement root )
 
     if( root.hasAttribute("type") ) setSubcTypeStr( root.attribute("type") );
     if( root.hasAttribute("background") ) setBackground( root.attribute("background") );
-    if( m_subcType >= Board ) setTransformOriginPoint( toGrid( boundingRect().center()) );
-    if( root.hasAttribute("name"))
+    if( this->isBoard() ) setTransformOriginPoint( toGrid( boundingRect().center()) );
+    if( root.hasAttribute("name") )
     {
         QString name = root.attribute("name");
         if( name.toLower() != "package" ) m_name = name;
@@ -239,7 +226,6 @@ void Chip::setBackground( QString bck )
     }
     update();
 }
-
 
 void Chip::setflip()
 {

@@ -108,8 +108,7 @@ void PropDialog::setComponent( CompBase* comp, bool isComp )
                 else if( type == "textEdit") mp = new TextVal( this, comp, prop );
                 else if( type == "enum"    ) mp = new EnumVal( this, comp, prop );
                 else if( type == "bool"    ) mp = new BoolVal( this, comp, prop );
-
-                if( !mp ) continue;
+                else continue;
 
                 mp->setup( isComp );
                 m_propList.append( mp );
@@ -123,6 +122,14 @@ void PropDialog::setComponent( CompBase* comp, bool isComp )
             tabList->addTab( groupWidget, group.name );
     }   }
     if( tabList->count() == 0 ) tabList->setVisible( false ); // Hide tab widget if empty
+}
+
+PropVal* PropDialog::getPropWidget( QString propName )
+{
+    for( PropVal* widget : m_propList )
+        if( widget->propName() == propName ) return widget;
+
+    return NULL;
 }
 
 void PropDialog::showProp( QString name, bool show )

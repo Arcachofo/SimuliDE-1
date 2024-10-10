@@ -207,6 +207,7 @@ int ScriptCpu::compileScript()
     {
         QString propName = p->name();
         QString type = p->type();
+        if( type == "enum" ) type = "string";
 
         QString getter = type+" get"+propName+"()";
         asIScriptFunction* asFunc = m_aEngine->GetModule(0)->GetFunctionByDecl( getter.toLocal8Bit().constData() );
@@ -433,6 +434,11 @@ QString ScriptCpu::getProp( ComProperty* p )
         QString retStr = ret ? "true" : "false";
         return retStr;
     }
+    else if( type == "enum" )
+    {
+        std::string str = *(string*)m_context->GetReturnObject();
+        return QString::fromStdString( str );
+    }
     return "";
 }
 
@@ -446,6 +452,11 @@ void ScriptCpu::setProp( ComProperty* p, QString val )
     if( !asFunc ) return; // Repeated in command(), create a function for this
     prepare( asFunc );
     if( type == "string" )
+    {
+        std::string str = val.toStdString();
+        m_context->SetArgObject( 0, &str );
+    }
+    else if( type == "enum" )
     {
         std::string str = val.toStdString();
         m_context->SetArgObject( 0, &str );

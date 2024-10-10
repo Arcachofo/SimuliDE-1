@@ -26,6 +26,7 @@ class ScriptCpu;
 class Mcu : public Chip, public Linker
 {
         friend class McuCreator;
+        friend class SubCircuit;
 
     public:
         Mcu( QString type, QString id );
@@ -105,9 +106,6 @@ class Mcu : public Chip, public Linker
         virtual void setLinkedValue( double v, int i=0  ) override;
         virtual void setLinkedString( QString str, int i=0 ) override;
 
-        virtual QStringList getEnumUids( QString ) override;
-        virtual QStringList getEnumNames( QString ) override;
-
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w ) override;
 
     public slots:
@@ -141,6 +139,7 @@ class Mcu : public Chip, public Linker
 
         QString m_lastFirmDir;  // Last firmware folder used
         QString m_device;       // Name of device
+        QString m_subcFolder;   // Subcircuit path
 
         eMcu m_eMcu;
 

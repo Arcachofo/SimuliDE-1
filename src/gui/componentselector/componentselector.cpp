@@ -103,7 +103,7 @@ void ComponentSelector::LoadCompSetAt( QDir compSetDir )
 
                 if( compSetDir.exists( path+".sim1") )
                 {
-                    if( icon.isEmpty() ) icon = ":/subc.png";
+                    if( icon.isEmpty() ) icon = ":/subc2.png";
                     type = "Subcircuit";
                 }
                 else if( compSetDir.exists( path+".mcu") )

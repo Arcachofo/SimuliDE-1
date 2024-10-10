@@ -10,6 +10,7 @@
 #include "connector.h"
 #include "simulator.h"
 #include "iopin.h"
+#include "ledbase.h"
 
 #include "stringprop.h"
 #include "intprop.h"
@@ -36,23 +37,7 @@ Max72xx_matrix::Max72xx_matrix( QString type, QString id )
     m_numDisplays = 4;
     m_area = QRectF(-36, -44, 4+64*m_numDisplays+4, 88 );
 
-    m_enumUids = QStringList()
-        << "Yellow"
-        << "Red"
-        << "Green"
-        << "Blue"
-        << "Orange"
-        << "Purple"
-        << "White";
-
-    m_enumNames = QStringList()
-        << tr("Yellow")
-        << tr("Red")
-        << tr("Green")
-        << tr("Blue")
-        << tr("Orange")
-        << tr("Purple")
-        << tr("White");
+    m_colorList << "Yellow"<<"Red"<<"Green"<<"Blue"<<"Orange"<<"Purple"<<"White";
 
     m_colors[0] = QColor( 255-25, 255-25,   0    ); // Yellow
     m_colors[1] = QColor( 255-25, 140-25, 100-25 ); // Red
@@ -86,8 +71,8 @@ Max72xx_matrix::Max72xx_matrix( QString type, QString id )
     Max72xx_matrix::initialize();
 
     addPropGroup( { tr("Main"), {
-        new StrProp<Max72xx_matrix>("Color", tr("Color"),""
-                                   , this, &Max72xx_matrix::colorStr,    &Max72xx_matrix::setColorStr,0,"enum" ),
+        new StrProp<Max72xx_matrix>("Color", tr("Color"), LedBase::getColorList()
+                                   , this, &Max72xx_matrix::colorStr, &Max72xx_matrix::setColorStr,0,"enum" ),
         new IntProp<Max72xx_matrix>("NumDisplays", tr("Size"),""
                                    , this, &Max72xx_matrix::numDisplays, &Max72xx_matrix::setNumDisplays,0,"uint" ),
     }, groupNoCopy } );
@@ -196,9 +181,9 @@ void Max72xx_matrix::setNumDisplays( int displays )
 
 void Max72xx_matrix::setColorStr( QString color )
 {
-    m_ledColor = getEnumIndex( color );
+    m_ledColor = m_colorList.indexOf( color );
     if( m_showVal && (m_showProperty == "Color") )
-        setValLabelText( m_enumNames.at( m_ledColor ) );
+        setValLabelText( color );
 }
 
 void Max72xx_matrix::setHidden( bool hid, bool hidArea, bool hidLabel )
@@ -208,9 +193,9 @@ void Max72xx_matrix::setHidden( bool hid, bool hidArea, bool hidLabel )
     else      m_area = QRectF(-36,-44, 4+64*m_numDisplays+4, 88 );
 }
 
-void Max72xx_matrix::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void Max72xx_matrix::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w )
 {
-    Component::paint( p, option, widget );
+    Component::paint( p, o, w );
     p->setRenderHint( QPainter::Antialiasing );
 
     QPen pen( Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );

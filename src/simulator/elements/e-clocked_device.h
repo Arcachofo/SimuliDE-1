@@ -34,7 +34,7 @@ class eClockedDevice : public eElement
 
         virtual void stamp() override;
 
-        trigger_t trigger() { return m_trigger; }
+        //trigger_t trigger() { return m_trigger; }
         virtual void setTrigger( trigger_t trigger );
 
         void setClockPin( IoPin* clockPin ) { m_clkPin = clockPin; }

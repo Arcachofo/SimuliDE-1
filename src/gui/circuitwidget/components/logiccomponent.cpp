@@ -12,6 +12,8 @@
 
 #define tr(str) simulideTr("LogicComponent",str)
 
+const QString LogicComponent::m_triggerList = "None,Clock,Enable;"+tr("None")+","+tr("Clock")+","+tr("Enable");
+
 LogicComponent::LogicComponent( QString type, QString id )
               : IoComponent( type, id )
               , eClockedDevice( id )
@@ -21,15 +23,7 @@ LogicComponent::LogicComponent( QString type, QString id )
     m_openCol   = false;
     m_outEnable = true;
 
-    m_enumUids = QStringList()
-        << "None"
-        << "Clock"
-        << "Enable";
-
-    m_enumNames = QStringList()
-        << tr("None")
-        << tr("Clock")
-        << tr("Enable");
+    m_triggerStr = "Clock";
 }
 LogicComponent::~LogicComponent(){}
 
@@ -97,11 +91,17 @@ void LogicComponent::setTristate( bool t )  // Activate or deactivate OE Pin
 
 void LogicComponent::setTriggerStr( QString t )
 {
-    int index = getEnumIndex( t );
-    setTrigger( (trigger_t)index );
+    m_triggerStr = t;
+
+    trigger_t trigger;
+    if     ( t == "None"    ) trigger = None;
+    else if( t == "Clock"   ) trigger = Clock;
+    else if( t == "InEnable") trigger = InEnable;
+
+    eClockedDevice::setTrigger( trigger );
 
     if( m_showVal && (m_showProperty == "Trigger") )
-        setValLabelText( m_enumNames.at( index ) );
+        setValLabelText( t );
 }
 
 void LogicComponent::enableOutputs( bool en )

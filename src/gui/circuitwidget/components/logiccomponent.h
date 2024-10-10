@@ -32,16 +32,20 @@ class LogicComponent : public IoComponent, public eClockedDevice
         bool tristate() { return m_tristate; }
         virtual void setTristate( bool t );
 
-        QString triggerStr() { return m_enumUids.at( (int)m_trigger ); }
+        QString triggerStr() { return m_triggerStr; }
         void setTriggerStr( QString t );
 
         virtual std::vector<Pin*> getPins() override;
 
         virtual void remove() override;
 
+static const QString m_triggerList;
+
     protected:
         bool m_outEnable;
         bool m_tristate;
+
+        QString m_triggerStr;
 
         IoPin*  m_oePin;
 };

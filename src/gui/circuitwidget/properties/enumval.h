@@ -20,6 +20,8 @@ class EnumVal : public PropVal, private Ui::EnumVal
         EnumVal( PropDialog* parent, CompBase* comp, ComProperty* prop );
         ~EnumVal();
 
+        void setEnums( QString e );
+
         virtual void setup( bool isComp ) override;
         virtual void updtValues() override;
 
