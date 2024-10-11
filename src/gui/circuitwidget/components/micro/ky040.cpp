@@ -186,6 +186,13 @@ void KY040::setSteps( int s )
     m_dial->setMaximum( s*2*RESOLUTION );
 }
 
+void KY040::setLinkedValue( double v, int )
+{
+    double val = v*m_steps*2*RESOLUTION/1000;
+    m_dial->setValue( val );
+    m_changed = true;
+}
+
 void KY040::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
     Component::paint( p, option, widget );

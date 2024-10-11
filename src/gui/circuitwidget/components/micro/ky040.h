@@ -31,6 +31,8 @@ class KY040 : public Component, public eElement
         int steps() { return m_steps; }
         void setSteps( int s );
 
+        virtual void setLinkedValue( double v, int i=0 ) override;
+
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget ) override;
         
     public slots:
