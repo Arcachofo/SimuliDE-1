@@ -83,14 +83,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Feri</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       kellneka.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sergey Roenko.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -116,14 +108,6 @@
     </message>
     <message>
         <source>Jan K. S.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>acebrian.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       bjacquot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -224,6 +208,26 @@
     </message>
     <message>
         <source>tomas714</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main contributors:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Bastien Jacquot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Giordano.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Kai Kellner.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A. Cebrian.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -503,6 +507,10 @@ p, li { white-space: pre-wrap; }
         <source>Font</source>
         <translation type="unfinished">字体</translation>
     </message>
+    <message>
+        <source>Restart required to apply new settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AudioOut</name>
@@ -521,6 +529,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Impedance</source>
         <translation>阻抗</translation>
+    </message>
+    <message>
+        <source>Frequency</source>
+        <translation type="unfinished">频率</translation>
     </message>
 </context>
 <context>
@@ -816,23 +828,23 @@ p, li { white-space: pre-wrap; }
     <name>Chip</name>
     <message>
         <source>None</source>
-        <translation>无(None)</translation>
+        <translation type="vanished">无(None)</translation>
     </message>
     <message>
         <source>Logic</source>
-        <translation>逻辑芯片(Logic)</translation>
+        <translation type="vanished">逻辑芯片(Logic)</translation>
     </message>
     <message>
         <source>Board</source>
-        <translation>板(Board)</translation>
+        <translation type="vanished">板(Board)</translation>
     </message>
     <message>
         <source>Shield</source>
-        <translation>Shield</translation>
+        <translation type="vanished">Shield</translation>
     </message>
     <message>
         <source>Module</source>
-        <translation>模块(Module)</translation>
+        <translation type="vanished">模块(Module)</translation>
     </message>
 </context>
 <context>
@@ -2799,7 +2811,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>custom</source>
-        <translation>自定义</translation>
+        <translation type="vanished">自定义</translation>
     </message>
     <message>
         <source>Compiler Settings</source>
@@ -2820,6 +2832,10 @@ Can&apos;t find file:
     <message>
         <source>Custom Library Path</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation type="unfinished">自定义</translation>
     </message>
 </context>
 <context>
@@ -3566,31 +3582,31 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Yellow</source>
-        <translation>黄</translation>
+        <translation type="vanished">黄</translation>
     </message>
     <message>
         <source>Red</source>
-        <translation>红</translation>
+        <translation type="vanished">红</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation>绿</translation>
+        <translation type="vanished">绿</translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation>蓝</translation>
+        <translation type="vanished">蓝</translation>
     </message>
     <message>
         <source>Orange</source>
-        <translation>桔黄</translation>
+        <translation type="vanished">桔黄</translation>
     </message>
     <message>
         <source>Purple</source>
-        <translation>紫</translation>
+        <translation type="vanished">紫</translation>
     </message>
     <message>
         <source>White</source>
-        <translation>白</translation>
+        <translation type="vanished">白</translation>
     </message>
     <message>
         <source>Color</source>
@@ -3689,7 +3705,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Files not found for: %1</source>
-        <translation>未找到文件: %1</translation>
+        <translation type="vanished">未找到文件: %1</translation>
     </message>
     <message>
         <source>EEPROM persitent</source>
@@ -4116,10 +4132,6 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Screen Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>_Px</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5261,10 +5273,6 @@ Not valid Package file:
         <source>I2C</source>
         <translation type="unfinished">I2C</translation>
     </message>
-    <message>
-        <source>_px</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Stepper</name>
@@ -5872,6 +5880,30 @@ Do you want to save your changes?
         <source>_Leds</source>
         <translation type="vanished">_Leds</translation>
     </message>
+    <message>
+        <source>Timing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum Reset pulse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Watcher</name>
@@ -6019,6 +6051,14 @@ Do you want to save your changes?
     <message>
         <source>Zener Diode</source>
         <translation>稳压二极管</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished">主要特性</translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished">型号</translation>
     </message>
 </context>
 <context>

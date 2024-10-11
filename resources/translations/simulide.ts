@@ -75,14 +75,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Feri</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       kellneka.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sergey Roenko.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -108,14 +100,6 @@
     </message>
     <message>
         <source>Jan K. S.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>acebrian.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       bjacquot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -216,6 +200,26 @@
     </message>
     <message>
         <source>tomas714</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main contributors:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Bastien Jacquot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Giordano.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Kai Kellner.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A. Cebrian.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -442,6 +446,10 @@ p, li { white-space: pre-wrap; }
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Restart required to apply new settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AudioOut</name>
@@ -459,6 +467,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Impedance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -681,29 +693,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reactive Step</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Chip</name>
-    <message>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Board</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shield</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Module</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2342,10 +2331,6 @@ Do you want to save your changes?
 <context>
     <name>InoDebugger</name>
     <message>
-        <source>custom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Compiler Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2359,6 +2344,10 @@ Do you want to save your changes?
     </message>
     <message>
         <source>Custom Library Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3023,34 +3012,6 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Yellow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Red</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Blue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Orange</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Purple</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Main</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3067,10 +3028,6 @@ Do you want to save your changes?
     <name>Mcu</name>
     <message>
         <source>Main</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Files not found for: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3462,10 +3419,6 @@ Do you want to save your changes?
     </message>
     <message>
         <source>Screen Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>_Px</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4365,10 +4318,6 @@ p, li { white-space: pre-wrap; }
         <source>I2C</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>_px</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Stepper</name>
@@ -4901,6 +4850,30 @@ Do you want to save your changes?
         <source>Columns</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Timing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum Reset pulse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Watcher</name>
@@ -5023,6 +4996,14 @@ Do you want to save your changes?
     <name>Zener</name>
     <message>
         <source>Zener Diode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

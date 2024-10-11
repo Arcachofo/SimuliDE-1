@@ -83,14 +83,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Feri</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       kellneka.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sergey Roenko.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -116,14 +108,6 @@
     </message>
     <message>
         <source>Jan K. S.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>acebrian.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       bjacquot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -224,6 +208,26 @@
     </message>
     <message>
         <source>tomas714</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main contributors:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Bastien Jacquot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Giordano.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Kai Kellner.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A. Cebrian.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -499,6 +503,10 @@ p, li { white-space: pre-wrap; }
         <source>Font</source>
         <translation type="unfinished">Písmo</translation>
     </message>
+    <message>
+        <source>Restart required to apply new settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AudioOut</name>
@@ -517,6 +525,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Impedance</source>
         <translation>Impedancia</translation>
+    </message>
+    <message>
+        <source>Frequency</source>
+        <translation type="unfinished">Frekvencia</translation>
     </message>
 </context>
 <context>
@@ -812,23 +824,19 @@ p, li { white-space: pre-wrap; }
     <name>Chip</name>
     <message>
         <source>None</source>
-        <translation type="unfinished">Žiadny</translation>
+        <translation type="obsolete">Žiadny</translation>
     </message>
     <message>
         <source>Logic</source>
-        <translation type="unfinished">Logické</translation>
+        <translation type="obsolete">Logické</translation>
     </message>
     <message>
         <source>Board</source>
-        <translation type="unfinished">Doska</translation>
+        <translation type="obsolete">Doska</translation>
     </message>
     <message>
         <source>Shield</source>
-        <translation type="unfinished">Nadstavba</translation>
-    </message>
-    <message>
-        <source>Module</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Nadstavba</translation>
     </message>
 </context>
 <context>
@@ -2790,10 +2798,6 @@ Súbor nemožno nájsť:
         <translation type="vanished">Nájdená definícia dosky v súbore: </translation>
     </message>
     <message>
-        <source>custom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Compiler Settings</source>
         <translation type="unfinished">Nastavenia prekladača</translation>
     </message>
@@ -2812,6 +2816,10 @@ Súbor nemožno nájsť:
     <message>
         <source>Custom Library Path</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation type="unfinished">Vlastná</translation>
     </message>
 </context>
 <context>
@@ -3544,31 +3552,31 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>Yellow</source>
-        <translation type="unfinished">Žltá</translation>
+        <translation type="obsolete">Žltá</translation>
     </message>
     <message>
         <source>Red</source>
-        <translation type="unfinished">Červená</translation>
+        <translation type="obsolete">Červená</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation type="unfinished">Zelená</translation>
+        <translation type="obsolete">Zelená</translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation type="unfinished">Modrá</translation>
+        <translation type="obsolete">Modrá</translation>
     </message>
     <message>
         <source>Orange</source>
-        <translation type="unfinished">Oranžová</translation>
+        <translation type="obsolete">Oranžová</translation>
     </message>
     <message>
         <source>Purple</source>
-        <translation type="unfinished">Fialová</translation>
+        <translation type="obsolete">Fialová</translation>
     </message>
     <message>
         <source>White</source>
-        <translation type="unfinished">Biela</translation>
+        <translation type="obsolete">Biela</translation>
     </message>
     <message>
         <source>Color</source>
@@ -3664,10 +3672,6 @@ Súbor nemožno nájsť:
     <message>
         <source>Properties</source>
         <translation type="vanished">Vlastnosti</translation>
-    </message>
-    <message>
-        <source>Files not found for: %1</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>EEPROM persitent</source>
@@ -4094,10 +4098,6 @@ Súbor nemožno nájsť:
     </message>
     <message>
         <source>Screen Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>_Px</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5219,10 +5219,6 @@ Neplatný súbor balíka:
         <source>I2C</source>
         <translation type="unfinished">I2C</translation>
     </message>
-    <message>
-        <source>_px</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Stepper</name>
@@ -5815,6 +5811,30 @@ Chcete uložiť zmeny?
         <source>_Leds</source>
         <translation type="vanished">_lediek</translation>
     </message>
+    <message>
+        <source>Timing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum Reset pulse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Watcher</name>
@@ -5962,6 +5982,14 @@ Chcete uložiť zmeny?
     <message>
         <source>Zener Diode</source>
         <translation>Zenerová dióda</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished">Základné</translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished">Model</translation>
     </message>
 </context>
 <context>

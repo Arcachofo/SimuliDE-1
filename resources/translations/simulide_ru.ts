@@ -91,14 +91,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Feri</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       kellneka.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sergey Roenko.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -124,14 +116,6 @@
     </message>
     <message>
         <source>Jan K. S.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>acebrian.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>       bjacquot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -232,6 +216,26 @@
     </message>
     <message>
         <source>tomas714</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main contributors:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Bastien Jacquot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Giordano.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>       Kai Kellner.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A. Cebrian.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -533,6 +537,10 @@ p, li { white-space: pre-wrap; }
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
+    <message>
+        <source>Restart required to apply new settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AudioOut</name>
@@ -555,6 +563,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Impedance</source>
         <translation>Импеданс</translation>
+    </message>
+    <message>
+        <source>Frequency</source>
+        <translation type="unfinished">Частота</translation>
     </message>
 </context>
 <context>
@@ -886,23 +898,23 @@ p, li { white-space: pre-wrap; }
     <name>Chip</name>
     <message>
         <source>None</source>
-        <translation>Не выбран</translation>
+        <translation type="vanished">Не выбран</translation>
     </message>
     <message>
         <source>Logic</source>
-        <translation>Логика</translation>
+        <translation type="vanished">Логика</translation>
     </message>
     <message>
         <source>Board</source>
-        <translation>Плата</translation>
+        <translation type="vanished">Плата</translation>
     </message>
     <message>
         <source>Shield</source>
-        <translation>Шилд</translation>
+        <translation type="vanished">Шилд</translation>
     </message>
     <message>
         <source>Module</source>
-        <translation>Модуль</translation>
+        <translation type="vanished">Модуль</translation>
     </message>
 </context>
 <context>
@@ -3043,7 +3055,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>custom</source>
-        <translation>Настраиваемый</translation>
+        <translation type="vanished">Настраиваемый</translation>
     </message>
     <message>
         <source>Compiler Settings</source>
@@ -3064,6 +3076,10 @@ Can&apos;t find file:
     <message>
         <source>Custom Library Path</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation type="unfinished">Настройка</translation>
     </message>
 </context>
 <context>
@@ -3871,31 +3887,31 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Yellow</source>
-        <translation>Желтый</translation>
+        <translation type="vanished">Желтый</translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation>Синий</translation>
+        <translation type="vanished">Синий</translation>
     </message>
     <message>
         <source>Red</source>
-        <translation>Красный</translation>
+        <translation type="vanished">Красный</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation>Зелёный</translation>
+        <translation type="vanished">Зелёный</translation>
     </message>
     <message>
         <source>Orange</source>
-        <translation>Оранжевый</translation>
+        <translation type="vanished">Оранжевый</translation>
     </message>
     <message>
         <source>Purple</source>
-        <translation>Фиолетовый</translation>
+        <translation type="vanished">Фиолетовый</translation>
     </message>
     <message>
         <source>White</source>
-        <translation>Белый</translation>
+        <translation type="vanished">Белый</translation>
     </message>
     <message>
         <source>Max72xx matrix</source>
@@ -4002,7 +4018,7 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Files not found for: %1</source>
-        <translation>Файлы не найдены для: %1</translation>
+        <translation type="vanished">Файлы не найдены для: %1</translation>
     </message>
     <message>
         <source>Changes applied after Simulation Restart</source>
@@ -4461,10 +4477,6 @@ Can&apos;t find file:
     </message>
     <message>
         <source>Screen Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>_Px</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5724,10 +5736,6 @@ Not valid Package file:
         <source>I2C</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>_px</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Stepper</name>
@@ -6450,6 +6458,30 @@ Do you want to save your changes?
         <source>_Leds</source>
         <translation type="vanished">_Диодов</translation>
     </message>
+    <message>
+        <source>Timing</source>
+        <translation type="unfinished">Задержки</translation>
+    </message>
+    <message>
+        <source>Minimum Reset pulse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, High time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1, Low time</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Watcher</name>
@@ -6609,6 +6641,14 @@ Do you want to save your changes?
     <message>
         <source>Rectifiers</source>
         <translation type="vanished">Выпрямители</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation type="unfinished">Основные</translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished">Модель</translation>
     </message>
 </context>
 <context>
