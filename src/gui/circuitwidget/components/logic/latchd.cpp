@@ -41,7 +41,7 @@ LatchD::LatchD( QString type, QString id )
 
     m_clkPin = new IoPin( 180, QPoint( -24,0 ), m_id+"-Pin_clock", 0, this, input );
     m_clkPin->setLabelColor( QColor( 0, 0, 0 ) );
-    LatchD::setTrigger( InEnable );
+    setTriggerStr("Enable");
 
     m_channels = 0;
     setChannels( 8 );

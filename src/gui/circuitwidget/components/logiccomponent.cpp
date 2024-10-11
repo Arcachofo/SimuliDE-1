@@ -93,12 +93,12 @@ void LogicComponent::setTriggerStr( QString t )
 {
     m_triggerStr = t;
 
-    trigger_t trigger;
-    if     ( t == "None"    ) trigger = None;
-    else if( t == "Clock"   ) trigger = Clock;
-    else if( t == "InEnable") trigger = InEnable;
+    trigger_t trigger = Clock;
+    if     ( t == "None"  ) trigger = None;
+    else if( t == "Clock" ) trigger = Clock;
+    else if( t == "Enable") trigger = InEnable;
 
-    eClockedDevice::setTrigger( trigger );
+    setTrigger( trigger );
 
     if( m_showVal && (m_showProperty == "Trigger") )
         setValLabelText( t );
