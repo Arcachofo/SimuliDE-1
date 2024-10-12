@@ -46,8 +46,10 @@ void EnumVal::setEnums( QString e )
     if( list.size() ) enumNames = list.first().split(",");
     else              enumNames = m_enums;
 
+    m_blocked = true;
     valueBox->clear();
     for( QString val : enumNames ) valueBox->addItem( val );
+    m_blocked = false;
 }
 
 void EnumVal::on_showVal_toggled( bool checked )
