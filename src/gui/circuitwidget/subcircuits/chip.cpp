@@ -254,21 +254,23 @@ void Chip::paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w )
         if( m_backData  )
         {
             double w = m_backData->size();
-            double h = m_backData->at(0).size();
+            if( w ){
+                double h = m_backData->at(0).size();
 
-            QImage img( w*3, h*3, QImage::Format_RGB32 );
-            QPainter painter;
-            painter.begin( &img );
+                QImage img( w*3, h*3, QImage::Format_RGB32 );
+                QPainter painter;
+                painter.begin( &img );
 
-            for( int col=0; col<w; col++ )
-            {
-                int x = col*3;
+                for( int col=0; col<w; col++ )
+                {
+                    int x = col*3;
 
-                for( int y=0; y<h; y++ )
-                    painter.fillRect( QRectF( x, y*3, 3, 3 ), QColor(m_backData->at(col).at(y) ) );
+                    for( int y=0; y<h; y++ )
+                        painter.fillRect( QRectF( x, y*3, 3, 3 ), QColor(m_backData->at(col).at(y) ) );
+                }
+                painter.end();
+                p->drawImage( m_area, img );
             }
-            painter.end();
-            p->drawImage( m_area, img );
         }
         else if( !m_isLS && m_background.isEmpty() )
         {

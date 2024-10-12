@@ -30,6 +30,7 @@ void Display::initialize()
     //if( m_clear ) m_scriptCpu->callFunction( m_clear );
     m_x = 0;
     m_y = 0;
+    updtImageSize();
 }
 
 void Display::updateStep()
