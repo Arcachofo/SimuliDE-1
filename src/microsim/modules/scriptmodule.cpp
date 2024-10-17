@@ -64,6 +64,8 @@ ScriptModule::ScriptModule( QString name )
 }
 ScriptModule::~ScriptModule()
 {
+    m_aEngine->GarbageCollect( asGC_FULL_CYCLE );
+
     if( m_context ) m_context->Release();
     if( m_aEngine ) m_aEngine->ShutDownAndRelease();
     if( m_jit )     delete m_jit;

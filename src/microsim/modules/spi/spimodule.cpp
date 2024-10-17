@@ -161,7 +161,7 @@ void SpiModule::setMode( spiMode_t mode )
         if( !m_MOSI || !m_clkPin ) { m_mode = SPI_OFF; return; }
         m_dataOutPin = m_MISO;
         m_dataInPin  = m_MOSI;
-        //m_clkPin->changeCallBack( this, true );
+        m_clkPin->changeCallBack( this, true );
         if( m_useSS && m_SS )
         {
             m_SS->changeCallBack( this, true );

@@ -22,6 +22,7 @@ ScriptSpi::~ScriptSpi(){}
 
 void ScriptSpi::reset()
 {
+
 }
 
 void ScriptSpi::registerScript( ScriptCpu* cpu )
