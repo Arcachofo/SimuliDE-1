@@ -42,6 +42,8 @@ class Shape : public Component
         void setColorStr( QString n ) { setColor( QColor(n) ); }
         
     protected:
+        void changed();
+
         int m_hSize;
         int m_vSize;
         int m_border;
