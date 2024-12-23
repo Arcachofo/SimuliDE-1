@@ -1271,6 +1271,10 @@ void McuCreator::createDisplay( QDomElement* e )
         double scale = e->attribute("scale").toDouble();
         display->setMonitorScale( scale );
     }
+    if( e->hasAttribute("monitorscale") ){
+        double scale = e->attribute("monitorscale").toDouble();
+        display->setMonitorScale( scale );
+    }
 
     if( e->hasAttribute("margins") ) m_mcuComp->setMargins( e->attribute("margins") );
 }

@@ -20,19 +20,19 @@ Display::Display( uint w, uint h, QString name, QWidget* parent )
 
     m_background= 0;
     m_changed = false;
-    m_embed = false;
+    m_embed   = true;
 
     updtImageSize();
+
+    Simulator::self()->addToUpdateList( this );
 }
 Display::~Display(){}
-
 
 void Display::initialize()
 {
     //if( m_clear ) m_scriptCpu->callFunction( m_clear );
     m_x = 0;
     m_y = 0;
-    updtImageSize();
 }
 
 void Display::updateStep()
@@ -40,6 +40,8 @@ void Display::updateStep()
     if( m_changed )
     {
         m_changed = false;
+        m_width  = m_newWidth;
+        m_height = m_newHeight;
         updtImageSize();
     }
     update();
@@ -48,22 +50,22 @@ void Display::updateStep()
 void Display::setWidth( uint w )
 {
     if( m_width == w || w < 1 ) return;
-    m_width = w;
+    m_newWidth = w;
     m_changed = true;
 }
 
 void Display::setHeight( uint h )
 {
     if( m_height == h || h < 1 ) return;
-    m_height = h;
+    m_newHeight = h;
     m_changed = true;
 }
 
 void Display::setSize( uint w, uint h )
 {
     if( w < 1 || h < 1 ) return;
-    m_width  = w;
-    m_height = h;
+    m_newWidth  = w;
+    m_newHeight = h;
     m_changed = true;
 }
 
@@ -74,8 +76,6 @@ void Display::setMonitorScale( double scale )
 
     this->setFixedSize( m_width*scale, m_height*scale );
 
-    Simulator::self()->addToUpdateList( this );
-
     show();
 }
 
@@ -83,7 +83,7 @@ void Display::setBackground( int b )
 {
     if( m_background == b ) return;
     m_background = b;
-    updtImageSize();
+    m_changed = true;
 }
 
 void Display::clear()
@@ -122,26 +122,6 @@ void Display::drawLine( int x0, int y0, int x1, int y1, int color )
     }
 }
 
-/*void Display::setLine( std::vector<int> line )
-{
-    for( uint x=0; x<line.size(); x++ )
-    {
-        setNextPixel( line.at( x ) );
-    }
-}*/
-
-/*void Display::setNextPixel( int color )
-{
-    m_x++;
-    if( m_x >= m_width )
-    {
-        m_x = 0;
-        m_y++;
-        if( m_y >= m_height ) m_y = 0;
-    }
-    setPixel( m_x, m_y, color );
-}*/
-
 void Display::setPixel( uint x, uint y, int color )
 {
     if( x >= m_width || y >= m_height ) return;
@@ -150,7 +130,7 @@ void Display::setPixel( uint x, uint y, int color )
 
 void Display::updtImageSize()
 {
-    m_data.resize( 0, std::vector<int>(0) );
+    m_data.clear();
     m_data.resize( m_width, std::vector<int>(m_height, m_background) );
     this->setFixedSize( m_width*m_scale, m_height*m_scale );
 }
@@ -158,7 +138,6 @@ void Display::updtImageSize()
 void Display::paintEvent( QPaintEvent* )
 {
     if( m_embed ) return;
-
     QPainter p(this);
 
     for( uint x=0; x<m_width; x++ )

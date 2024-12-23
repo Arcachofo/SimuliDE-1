@@ -8,6 +8,6 @@
     
     <ioport name="CPORT0" pins="RAS,CAS,DRAMWE,MREQ,IORQ,RD,WR,A14,A15,INT,ROMCS,PHICPU,U,V,Y,MICTAPE" />
     
-    <display name="screen" width="448" height="312" monitorscale="2"/>
+    <display name="screen" width="448" height="312" scale="2"/>
     
 </mpu>

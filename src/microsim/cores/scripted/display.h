@@ -45,6 +45,8 @@ class Display : public QWidget, public Updatable, public eElement
 
         uint m_width;
         uint m_height;
+        uint m_newWidth;
+        uint m_newHeight;
 
         int m_x;
         int m_y;
