@@ -396,9 +396,7 @@ void Mcs65Cpu::Read()
                     readMem( m_u8Tmp0 );
                 }break;
                 case 3:{             // Discard reading
-                    if     ( m_aFlags & iX ) m_u8Tmp0 += m_rX;
-                    else if( m_aFlags & iY ) m_u8Tmp0 += m_rY;
-                    m_opAddr = m_u8Tmp0;
+                    m_opAddr = m_u8Tmp0+m_rX;
                     readMem( m_opAddr );
                 }break;
                 case 4: m_op0 = readDataBus();    // Finish read operation
