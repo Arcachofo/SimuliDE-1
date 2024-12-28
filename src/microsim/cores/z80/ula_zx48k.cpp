@@ -108,11 +108,11 @@ int ULA_ZX48k::getCpuReg( QString reg ) // Called by Mcu Monitor to get Integer 
 {
     int value = -1;
     if     ( reg == "Horizontal Counter") value = m_C;
-    else if( reg == "Vertical Counter" ) value = m_V;
-    else if( reg == "Border Colour"  ) value = m_borderColour;
-    else if( reg == "Data Latch"     ) value = m_dataLatch;
-    else if( reg == "Atr. Data Latch") value = m_attrDataLatch;
-    else if( reg == "Shift Register" ) value = m_shiftReg;
+    else if( reg == "Vertical Counter"  ) value = m_V;
+    else if( reg == "Border Colour"     ) value = m_borderColour;
+    else if( reg == "Data Latch"        ) value = m_dataLatch;
+    else if( reg == "Atr. Data Latch"   ) value = m_attrDataLatch;
+    else if( reg == "Shift Register"    ) value = m_shiftReg;
     return value;
 }
 
