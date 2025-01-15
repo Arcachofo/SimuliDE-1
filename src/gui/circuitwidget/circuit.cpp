@@ -302,13 +302,13 @@ void Circuit::loadStrDoc( QString &doc )
                     endpin   = m_LdPinMap.value( endpinid );
                 }
 
-                if( !startpin && !m_pasting ) // Pin not found by name... find it by pos
+                if( !startpin ) // Pin not found by name... find it by pos
                 {
                     int itemX = pointList.first().toInt();
                     int itemY = pointList.at(1).toInt();
                     startpin = findPin( itemX, itemY, startpinid );
                 }
-                if( !endpin && !m_pasting ) // Pin not found by name... find it by pos
+                if( !endpin ) // Pin not found by name... find it by pos
                 {
                     int itemX = pointList.at( pointList.size()-2 ).toInt();
                     int itemY = pointList.last().toInt();
