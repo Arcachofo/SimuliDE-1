@@ -57,7 +57,8 @@ LibraryItem* Mcu::libraryItem()
 Component* Mcu::construct( QString type, QString id )
 {
     m_error = 0;
-    Mcu* mcu = new Mcu( type, id );
+    QString device = Chip::getDevice( id );
+    Mcu* mcu = new Mcu( type, id, device );
     if( !m_error) m_error = McuCreator::createMcu( mcu, id );
     if( !m_error) mcu->setLogicSymbol( false );
 
@@ -71,16 +72,16 @@ Component* Mcu::construct( QString type, QString id )
     return mcu;
 }
 
-Mcu::Mcu( QString type, QString id )
-   : Chip( type, id )
+Mcu::Mcu( QString type, QString id, QString device )
+   : Chip( type, id, device )
    , m_eMcu( this, id )
 {
     qDebug() << "        Initializing"<<id;
 
     addPropGroup( { tr("Main"), {},0} );
 
-    m_device = m_name;//.split("_").last(); // for example: "atmega328-1" to: "atmega328"
-    if( m_device.contains("@") ) m_device = m_device.split("@").last(); // MCU in Subcircuit
+    //m_device = m_name;//.split("_").last(); // for example: "atmega328-1" to: "atmega328"
+    //if( m_device.contains("@") ) m_device = m_device.split("@").last(); // MCU in Subcircuit
     //else if( m_device.contains("_") ) m_device = m_device.split("_").last(); // MCU in Subcircuit Old
 
     if( m_device.startsWith("p") ) // PICs TODELETE

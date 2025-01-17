@@ -14,7 +14,7 @@ class QDomElement;
 class Chip : public Component, public eElement
 {
     public:
-        Chip( QString type, QString id );
+        Chip( QString type, QString id, QString device="" );
         ~Chip();
 
         bool isBoard() { return m_isBoard; }
@@ -26,7 +26,6 @@ class Chip : public Component, public eElement
 
         QString name() { return m_name; }
         virtual void setName( QString name );
-
 
         //subcType_t subcType() { return m_subcType; }
 
@@ -43,6 +42,8 @@ class Chip : public Component, public eElement
         virtual void setflip() override;
 
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* o, QWidget* w ) override;
+
+ static QString getDevice( QString id );
 
     protected:
         virtual Pin* addPin( QString id, QString type, QString label,
@@ -77,6 +78,7 @@ class Chip : public Component, public eElement
         QColor m_icColor;
 
         QString m_name;
+        QString m_device;
         QString m_pkgeFile;     // file containig package defs
         QString m_dataFile;
 

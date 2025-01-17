@@ -13,8 +13,8 @@
 
 #define tr(str) simulideTr("ModuleSubc",str)
 
-ModuleSubc::ModuleSubc( QString type, QString id )
-          : ShieldSubc( type, id )
+ModuleSubc::ModuleSubc( QString type, QString id, QString device )
+          : ShieldSubc( type, id, device )
 {
     m_subcType = "Module";
     setZValue( 2 );

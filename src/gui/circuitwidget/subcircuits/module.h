@@ -11,7 +11,7 @@
 class ModuleSubc : public ShieldSubc
 {
     public:
-        ModuleSubc( QString type, QString id );
+        ModuleSubc( QString type, QString id, QString device );
         ~ModuleSubc();
         
         double zVal() { return zValue(); }

@@ -35,38 +35,23 @@ Component* SubCircuit::construct( QString type, QString id )
     m_error = 0;
     m_subcDir = "";
 
-    QString name;
-    QStringList list = id.split("-");
-    if( list.size() > 1 ){
-        name = list.at( list.size()-2 ); // for example: "atmega328-1" to: "atmega328"
-        list.takeLast();
-    }
-
-    if( Circuit::self()->getSubcircuit() ) // Nested SubCircuit
-    {
-        int rev = MainWindow::self()->revision();
-        if( rev >= 1916 ){ if( name.contains("@") ) list = name.split("@");}
-        else if( name.contains("_") ) list = name.split("_");
-    }
-    if( list.size() > 1 )  // Subcircuit inside Subcircuit: 1_74HC00 to 74HC00
-    {
-        QString n = list.first();
-        bool ok = false;
-        n.toInt(&ok);
-        if( ok ) name = list.at( 1 );
-    }
-    QString dataFile = ComponentSelector::self()->getXmlFile( name );
+    QString device = Chip::getDevice( id );
+    QString dataFile = ComponentSelector::self()->getXmlFile( device );
 
     if( dataFile == "" ) // Component is not in SimulIDE, search in Circuit folder
     {
-        m_subcDir = ComponentSelector::self()->getFileDir( name ); // Found in folder (no xml file)
-        if( m_subcDir.isEmpty() )                                  // Try to find a "data" folder in Circuit folder
+        m_subcDir = ComponentSelector::self()->getFileDir( device ); // Try to find in folder (no xml file)
+        if( m_subcDir.isEmpty() )                                    // Try to find a "data" folder in Circuit folder
         {
             QDir circuitDir = QFileInfo( Circuit::self()->getFilePath() ).absoluteDir();
-            m_subcDir = circuitDir.absoluteFilePath( "data/"+name );
+            m_subcDir = circuitDir.absoluteFilePath( "data/"+device );
         }
-    }
-    else{
+        if( m_subcDir.isEmpty() )                                    // Not found, give up
+        {
+            qDebug() << "SubCircuit::construct: No Circuit files found for"<<device<<endl;
+            return NULL;
+        }
+    }else{
         QDomDocument domDoc = fileToDomDoc( dataFile, "SubCircuit::construct");
         if( domDoc.isNull() ) return NULL; // m_error = 1;
 
@@ -86,10 +71,10 @@ Component* SubCircuit::construct( QString type, QString id )
             {
                 QDomElement element = node.toElement();
 
-                if( element.attribute("name") == name )
+                if( element.attribute("name") == device )
                 {
                     if( element.hasAttribute("folder") ) folder = element.attribute("folder");
-                    m_subcDir = MainWindow::self()->getDataFilePath( folder+"/"+name );
+                    m_subcDir = MainWindow::self()->getDataFilePath( folder+"/"+device );
                     found = true;
                 }
                 if( found ) break;
@@ -99,23 +84,17 @@ Component* SubCircuit::construct( QString type, QString id )
             rNode = rNode.nextSibling();
         }
     }
-    if( m_subcDir.isEmpty() ){
-        qDebug() << "SubCircuit::construct: No Circuit files found for"<<name<<endl;
-        return NULL;
-    }
-    QString pkgeFile  = m_subcDir+"/"+name+".package";
-    QString pkgFileLS = m_subcDir+"/"+name+"_LS.package";
-    QString subcFile  = m_subcDir+"/"+name+".sim1";
+    QString pkgeFile  = m_subcDir+"/"+device+".package";
+    QString pkgFileLS = m_subcDir+"/"+device+"_LS.package";
+    QString subcFile  = m_subcDir+"/"+device+".sim1";
 
     // Package in sim file
-
-
     bool dip = QFile::exists( pkgeFile );
     bool ls  = QFile::exists( pkgFileLS );
 
     if( !dip ){        // Check if package file exist, if not try LS
         if( !ls ){
-            qDebug() << "SubCircuit::construct: No package files found for "<<name<<endl<<pkgeFile<<endl;
+            qDebug() << "SubCircuit::construct: No package files found for "<<device<<endl<<pkgeFile<<endl;
             return NULL;
         }
         pkgeFile = pkgFileLS;
@@ -127,11 +106,11 @@ Component* SubCircuit::construct( QString type, QString id )
     if( root1.hasAttribute("type") ) subcTyp = root1.attribute("type").remove("subc");
 
     SubCircuit* subcircuit = NULL;
-    if     ( subcTyp == "Logic"  ) subcircuit = new LogicSubc( type, id );
-    else if( subcTyp == "Board"  ) subcircuit = new BoardSubc( type, id );
-    else if( subcTyp == "Shield" ) subcircuit = new ShieldSubc( type, id );
-    else if( subcTyp == "Module" ) subcircuit = new ModuleSubc( type, id );
-    else                           subcircuit = new SubCircuit( type, id );
+    if     ( subcTyp == "Logic"  ) subcircuit = new LogicSubc(  type, id, device );
+    else if( subcTyp == "Board"  ) subcircuit = new BoardSubc(  type, id, device );
+    else if( subcTyp == "Shield" ) subcircuit = new ShieldSubc( type, id, device );
+    else if( subcTyp == "Module" ) subcircuit = new ModuleSubc( type, id, device );
+    else                           subcircuit = new SubCircuit( type, id, device );
 
     if( m_error != 0 )
     {
@@ -170,8 +149,8 @@ LibraryItem* SubCircuit::libraryItem()
         SubCircuit::construct );
 }
 
-SubCircuit::SubCircuit( QString type, QString id )
-          : Chip( type, id )
+SubCircuit::SubCircuit( QString type, QString id, QString device )
+          : Chip( type, id, device )
 {
     m_lsColor = QColor( 235, 240, 255 );
     m_icColor = QColor( 20, 30, 60 );
@@ -193,11 +172,10 @@ void SubCircuit::loadSubCircuit( QString file )
         for( ComProperty* prop : pg.propList ) graphProps.append( prop->name() );
         break;
     }
-
     QString numId = m_id;
-    numId = numId.split("-").last();
-    Circuit* circ = Circuit::self();
+    numId.remove( m_device+"-");
 
+    Circuit* circ = Circuit::self();
     QList<Linker*> linkList;   // Linked  Component list
 
     QVector<QStringRef> docLines = doc.splitRef("\n");

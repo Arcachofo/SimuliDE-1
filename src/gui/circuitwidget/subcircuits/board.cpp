@@ -7,8 +7,8 @@
 #include "circuit.h"
 #include "shield.h"
 
-BoardSubc::BoardSubc( QString type, QString id )
-         : SubCircuit( type, id )
+BoardSubc::BoardSubc( QString type, QString id, QString device )
+         : SubCircuit( type, id, device )
 {
     m_graphical = true;
     m_isBoard = true;

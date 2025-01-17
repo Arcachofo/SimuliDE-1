@@ -11,7 +11,7 @@
 class ShieldSubc : public BoardSubc
 {
     public:
-        ShieldSubc( QString type, QString id );
+        ShieldSubc( QString type, QString id, QString device );
         ~ShieldSubc();
 
         QString boardId() { return m_boardId; }

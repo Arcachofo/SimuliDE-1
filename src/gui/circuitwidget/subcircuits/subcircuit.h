@@ -14,7 +14,7 @@ class LibraryItem;
 class SubCircuit : public Chip
 {
     public:
-        SubCircuit( QString type, QString id );
+        SubCircuit( QString type, QString id, QString device );
         ~SubCircuit();
 
  static Component* construct( QString type, QString id );
@@ -43,7 +43,7 @@ class SubCircuit : public Chip
                                 int xpos, int ypos, int angle, int length=8, int space=0 ) override;
 
         QHash<QString, Component*> m_mainComponents;
-        static QString m_subcDir;      // Subcircuit Path
+ static QString m_subcDir;      // Subcircuit Path
 
         QList<Component*>       m_compList;
         QList<Tunnel*>          m_subcTunnels;

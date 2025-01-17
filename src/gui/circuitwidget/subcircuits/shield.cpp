@@ -18,8 +18,8 @@
 
 #define tr(str) simulideTr("ShieldSubc",str)
 
-ShieldSubc::ShieldSubc( QString type, QString id )
-          : BoardSubc( type, id )
+ShieldSubc::ShieldSubc( QString type, QString id, QString device )
+          : BoardSubc( type, id, device )
 {
     m_subcType = "Shield";
     m_boardId = "";
