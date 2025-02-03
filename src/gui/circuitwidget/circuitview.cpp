@@ -252,19 +252,23 @@ void CircuitView::contextMenuEvent( QContextMenuEvent* event )
         menu.exec( mapFromScene( eventPos ) );
 }   }
 
+QRectF CircuitView::selectedRect()
+{
+    QRectF rect;
+    for( QGraphicsItem* item : m_circuit->items() )
+        if( item->isSelected() ) rect |= item->sceneBoundingRect();
+    return rect;
+}
+
 void CircuitView::zoomToFit()
 {
-    QRectF r = m_circuit->itemsBoundingRect();
-    fitInView( r, Qt::KeepAspectRatio );
+    QRectF rect = m_circuit->itemsBoundingRect();
+    fitInView( rect, Qt::KeepAspectRatio );
 }
 
 void CircuitView::zoomSelected()
 {
-    QRectF r;
-    for( QGraphicsItem *item : m_circuit->items() )
-      if( item->isSelected() ) r |= item->sceneBoundingRect();
-
-    fitInView( r, Qt::KeepAspectRatio );
+    fitInView( selectedRect(), Qt::KeepAspectRatio );
 }
 
 void CircuitView::zoomOne()

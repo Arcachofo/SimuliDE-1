@@ -906,16 +906,9 @@ void Circuit::paste( QPointF eventpoint )
     m_busy    = true;
     m_pasting = true;
 
-    if( m_eventpoint == QPointF(1e6,1e6) ) // We don't have origin point
-    {
-        QRectF itemsRect = selectionArea().boundingRect();
-        m_eventpoint = toGrid( itemsRect.topLeft() );
-    }
-    if( eventpoint == QPointF(1e6,1e6) ) eventpoint = m_eventpoint+QPointF( 8, 8 );
-
     for( QGraphicsItem*item : selectedItems() ) item->setSelected( false );
 
-    m_deltaMove = toGrid(eventpoint) - m_eventpoint;
+    m_deltaMove = toGrid( eventpoint ) - m_eventpoint;
 
     QString circuit = QApplication::clipboard()->text();
 
@@ -1098,22 +1091,20 @@ void Circuit::keyPressEvent( QKeyEvent* event )
     {
         if( key == Qt::Key_C )
         {
-            //QPoint p = CircuitWidget::self()->mapFromGlobal(QCursor::pos());
-            //copy( m_graphicView->mapToScene( p ) );
-            copy( QPointF(1e6,1e6) ); // We don't have an origin
+            QRectF itemsRect = m_graphicView->selectedRect();
+            copy( itemsRect.topLeft() );
             clearSelection();
         }
         if( key == Qt::Key_X )
         {
-            QPoint p = CircuitWidget::self()->mapFromGlobal(QCursor::pos());
-            copy( m_graphicView->mapToScene( p ) );
+            QRectF itemsRect = m_graphicView->selectedRect();
+            copy( itemsRect.topLeft() );
             removeItems();
         }
         else if( key == Qt::Key_V )
         {
-            //QPoint p = CircuitWidget::self()->mapFromGlobal(QCursor::pos());
-            //paste( m_graphicView->mapToScene( p ) );
-            paste( QPointF(1e6,1e6) ); // We don't have a destination
+            QPoint p = m_graphicView->rect().center();
+            paste( m_graphicView->mapToScene( p ) );
         }
         else if( key == Qt::Key_Z )
         {
