@@ -4,6 +4,7 @@
  ***( see copyright.txt file at root folder )*******************************/
 
 #include <QApplication>
+#include <QStandardPaths>
 #include <QSettings>
 //#include <QDebug>
 
@@ -50,9 +51,9 @@ InoDebugger::~InoDebugger() {}
 void InoDebugger::setToolPath( QString path )
 {
     QString builder = "arduino-builder";
-    #ifndef Q_OS_UNIX
+#ifndef Q_OS_UNIX
     builder += ".exe";
-    #endif
+#endif
     if( QFile::exists( path+builder) )
     {
         m_version = 1;
@@ -60,9 +61,9 @@ void InoDebugger::setToolPath( QString path )
 
         // Find sketchBook
         QString Scommand = path+"arduino";
-        #ifndef Q_OS_UNIX
+#ifndef Q_OS_UNIX
         Scommand += "_debug.exe";
-        #endif
+#endif
         Scommand = addQuotes( Scommand );
         Scommand += " --get-pref sketchbook.path";
 
@@ -77,9 +78,9 @@ void InoDebugger::setToolPath( QString path )
     }
     else{
         builder = "arduino-cli";
-        #ifndef Q_OS_UNIX
+#ifndef Q_OS_UNIX
         builder += ".exe";
-        #endif
+#endif
 
         builder = findFile( path+"resources/app/", builder );
 
@@ -101,11 +102,29 @@ void InoDebugger::setToolPath( QString path )
             for( QString line : configLines )
             {
                 if( !line.contains("data: ") ) continue;
-                m_toolPath = QDir::fromNativeSeparators( line. split("data: ").last() )+"/packages/arduino/tools/avr-gcc/";
+                m_toolPath = QDir::fromNativeSeparators( line. split("data: ").last() );
+                break;
+            }
+
+            if (m_toolPath.isEmpty()) // Fix empty config
+            {
+#ifndef Q_OS_UNIX   // Windows
+                m_toolPath = QStandardPaths::writableLocation( QStandardPaths::GenericDataLocation )+"/Arduino15";
+#else
+#ifdef Q_OS_LINUX // Linux
+                m_toolPath = QStandardPaths::writableLocation( QStandardPaths::HomeLocation )+"/.arduino15";
+#else             // MacOS
+                m_toolPath = QStandardPaths::writableLocation( QStandardPaths::GenericDataLocation )+"/../Arduino15";
+#endif
+#endif
+            }
+
+            if (!m_toolPath.isEmpty())
+            {
+                m_toolPath += "/packages/arduino/tools/avr-gcc/";
                 QDir toolDir( m_toolPath );
                 QStringList dirList = toolDir.entryList( QDir::Dirs, QDir::Name | QDir::Reversed );
                 if( !dirList.isEmpty() ) m_toolPath += dirList[0]+"/bin/";
-                break;
             }
 
             command = builder;
