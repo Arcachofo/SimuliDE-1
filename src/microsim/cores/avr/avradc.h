@@ -156,4 +156,18 @@ class AvrAdc11 : public AvrAdc10
 
         regBits_t m_REFS2;
 };
+
+class AvrAdc20 : public AvrAdc
+{
+    public:
+        AvrAdc20( eMcu* mcu, QString name );
+        ~AvrAdc20();
+
+        virtual void configureB( uint8_t newSFIOR ) override;
+
+    protected:
+        virtual void autotriggerConf() override;
+        virtual void updtVref() override;
+};
+
 #endif

@@ -22,6 +22,7 @@ AvrAdc* AvrAdc::createAdc( eMcu* mcu, QString name, int type )
         case 04: return new AvrAdc04( mcu, name ); break;
         case 10: return new AvrAdc10( mcu, name ); break;
         case 11: return new AvrAdc11( mcu, name ); break;
+        case 20: return new AvrAdc20( mcu, name ); break;
         default: return NULL;
 }   }
 
@@ -411,3 +412,41 @@ void AvrAdc11::updtVref()
     case 6:                                           // Internal 2.56V Voltage Reference without external capacitor
     case 7: m_vRefP = 2.56;                    break; // Internal 2.56V Voltage Reference with external capacitor
     }   }
+
+//------------------------------------------------------
+//-- AVR ADC Type 20 -----------------------------------
+
+AvrAdc20::AvrAdc20( eMcu* mcu, QString name )
+        : AvrAdc( mcu, name )
+{
+    m_MUX   = getRegBits("MUX0,MUX1,MUX2,MUX3", m_mcu );
+    m_ADATE = getRegBits("ADFR", m_mcu ); // Same bit, different name: Autotrigger
+
+    m_fixedVref = 2.56;
+}
+AvrAdc20::~AvrAdc20(){}
+
+
+void AvrAdc20::configureB( uint8_t newSFIOR ) // SFIOR(Atmega8)
+{
+    updateAcme( newSFIOR );
+}
+
+void AvrAdc20::autotriggerConf()
+{
+    m_freeRunning = m_autoTrigger;
+}
+
+void AvrAdc20::updtVref()
+{
+    double vRefP = 0;
+
+    if( m_refSelect & 1 ) // Connect aRefPin to multiplexer
+    {
+        if( m_refSelect & 2 ) vRefP = m_fixedVref;
+        else                  vRefP = m_aVccPin->getVoltage();
+    }
+    m_aRefPin->setVoltage( vRefP );
+
+    m_vRefP = m_aRefPin->getVoltage();
+}
