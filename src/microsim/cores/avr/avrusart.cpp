@@ -31,6 +31,7 @@ AvrUsart::AvrUsart( eMcu* mcu,  QString name, int number )
 
     if( n == "" ) m_modeRB = getRegBits( "UMSEL", mcu ); // atmega8
     else          m_modeRB = getRegBits( "UMSEL"+n+"0,UMSEL"+n+"1", mcu );
+
     m_pariRB = getRegBits( "UPM"+n+"0,UPM"+n+"1", mcu );
     m_stopRB = getRegBits( "USBS"+n, mcu );
     m_UCSZ01 = getRegBits( "UCSZ"+n+"0,UCSZ"+n+"1", mcu );
@@ -39,10 +40,13 @@ AvrUsart::AvrUsart( eMcu* mcu,  QString name, int number )
     m_UBRRnL = mcu->getReg( "UBRR"+n+"L" );
     watchRegNames( "UBRR"+n+"L", R_WRITE, this, &AvrUsart::setUBRRnL, mcu );
 
-    if( n == "" ) m_UBRRnH = NULL; // atmega8
-    else{         m_UBRRnH = mcu->getReg( "UBRR"+n+"H" );
+    if( mcu->regExist("UBRR"+n+"H") )
+    {
+        m_UBRRnH = mcu->getReg("UBRR"+n+"H");
         watchRegNames( "UBRR"+n+"H", R_WRITE, this, &AvrUsart::setUBRRnH, mcu );
     }
+    else m_UBRRnH = NULL; // atmega8
+
     m_UDRIE = getRegBits( "UDRIE"+n, mcu );
     m_UDRE  = getRegBits( "UDRE"+n, mcu );
     m_TXC   = getRegBits( "TXC"+n, mcu );

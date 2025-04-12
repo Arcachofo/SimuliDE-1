@@ -1,6 +1,5 @@
 <parts>
   <regblock  name="I/O_REG" start="0x0020" end="0x005F" offset="32">
-    <register  name="UBRRH"   addr="0x0000"  reset="" />
 
     <register  name="DIDR"    addr="0x0001"  reset=""  mask="00000011" 
                bits="AIN0D,AIN1D,0,0,0,0,0,0"/>
@@ -19,7 +18,7 @@
     <register  name="UBRRL"   addr="0x0009"  reset=""  mask="" />
     
     <register  name="UCSRB"   addr="0x000A"  reset=""  mask="11111101" 
-               bits="TXB8,RXB8,UCSZ2,TXEN,RXEN0,UDRIE,TXCIE,RXCIE" />
+               bits="TXB8,RXB8,UCSZ2,TXEN,RXEN,UDRIE,TXCIE,RXCIE" />
                
     <register  name="UCSRA"   addr="0x000B"  reset="00100000"  mask="01000011" 
                bits="MPCM,U2X,UPE,DOR,FE,UDRE,TXC,RXC" />
