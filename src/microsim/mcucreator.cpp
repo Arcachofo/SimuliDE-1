@@ -418,6 +418,7 @@ void McuCreator::createRegisters( QDomElement* e )
 
     getRegisters( e, offset );
 }
+
 void McuCreator::getRegisters( QDomElement* e, uint16_t offset )
 {
     QString stReg;

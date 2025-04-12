@@ -116,8 +116,8 @@ void Hd44780_Base::C_D_Shift( int data )
         m_shiftPos += dir;
         int lineEnd = m_lineLength-1;
 
-        if( m_shiftPos>lineEnd ) m_shiftPos = 0;
-        if( m_shiftPos<0 )       m_shiftPos = lineEnd;
+        if( m_shiftPos > lineEnd ) m_shiftPos = 0;
+        if( m_shiftPos < 0 )       m_shiftPos = lineEnd;
     }
     else                            // Shift Cursor
     {

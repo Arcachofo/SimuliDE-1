@@ -22,7 +22,7 @@ void eReactive::stamp()
 {
     eResistor::stamp();
 
-    if( m_ePin[0]->isConnected() && m_ePin[1]->isConnected())
+    if( m_ePin[0]->isConnected() && m_ePin[1]->isConnected() )
     {
         m_ePin[0]->createCurrent();
         m_ePin[1]->createCurrent();
@@ -48,6 +48,7 @@ void eReactive::voltChanged()
 {
     if( m_running ) return;
     m_running = true;
+
     Simulator::self()->addEvent( m_timeStep, this );
 }
 
@@ -58,10 +59,12 @@ void eReactive::runEvent()
     if( m_volt != volt )
     {
         m_volt = volt;
+
         m_curSource = updtCurr();
 
         m_ePin[0]->stampCurrent( m_curSource );
         m_ePin[1]->stampCurrent(-m_curSource );
+
         Simulator::self()->addEvent( m_timeStep, this );
     }
     else m_running = false;
