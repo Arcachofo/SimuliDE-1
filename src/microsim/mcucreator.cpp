@@ -389,7 +389,7 @@ void McuCreator::createDataBlock( QDomElement* d )
 
     for( int i=datStart; i<=datEnd; ++i )
     {
-        mcu->m_addrMap[i] = mapTo;
+        mcu->m_addrMap.at(i) = mapTo;
         mapTo++;
     }
     getRegisters( d );
@@ -440,6 +440,12 @@ void McuCreator::getRegisters( QDomElement* e, uint16_t offset )
                 qDebug() << "dataMemSize  = " << mcu->m_ramSize;
                 qDebug() << "Register Address = " << regAddr<<"\n";
             }
+            else if( regAddr >= mcu->m_regMask.size() )
+            {
+                qDebug() << "McuCreator::getRegisters  ERROR creating Register"<< regName ;
+                qDebug() << "regMask Size  = " << mcu->m_regMask.size();
+                qDebug() << "Register Address = " << regAddr<<"\n";
+            }
             else{
                 uint8_t resetVal = el.attribute("reset").toUInt(0,2);
                 QString    wMask = el.attribute("mask");
@@ -477,7 +483,7 @@ void McuCreator::getRegisters( QDomElement* e, uint16_t offset )
         {
             uint16_t regAddr = el.attribute("addr").toUInt(0,0)+offset;
             uint16_t mapTo   = el.attribute("mapto").toUInt(0,0);
-            mcu->m_addrMap[regAddr] = mapTo;
+            mcu->m_addrMap.at(regAddr) = mapTo;
         }
         node = node.nextSibling();
 }   }
