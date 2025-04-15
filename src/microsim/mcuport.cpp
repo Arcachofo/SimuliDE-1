@@ -111,7 +111,7 @@ uint McuPort::getInpState()
 {
     uint data = 0;
     for( int i=0; i<m_numPins; ++i )
-        if( m_pins[i]->getInpState() ) data |= (1 << i);
+        if( m_pins[i] && m_pins[i]->getInpState() ) data |= (1 << i);
     return data;
 }
 
