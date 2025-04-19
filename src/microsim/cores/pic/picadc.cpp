@@ -15,6 +15,7 @@ PicAdc* PicAdc::createAdc( eMcu* mcu, QString name, int type )
 {
     switch( type ){
         case 00: return new PicAdc00( mcu, name ); break;
+        case 01: return new PicAdc01( mcu, name ); break;
         case 10: return new PicAdc10( mcu, name ); break;
         case 11: return new PicAdc11( mcu, name ); break;
         case 20: return new PicAdc20( mcu, name ); break;
@@ -57,7 +58,6 @@ void PicAdc::configureA( uint8_t newADCON0 ) // ADCON0
 
 void PicAdc::endConversion()
 {
-    if( m_leftAdjust ) m_adcValue <<= 6;
     clearRegBits( m_GODO ); // Clear GO/DONE bit
 }
 
@@ -77,7 +77,7 @@ void PicAdc::sleep( int mode )
 }
 
 //------------------------------------------------------
-//-- PIC ADC Type 0 ------------------------------------
+//-- PIC ADC Type 00 -----------------------------------
 
 PicAdc00::PicAdc00( eMcu* mcu, QString name )
         : PicAdc( mcu, name )
@@ -135,6 +135,54 @@ void PicAdc00::updtVref()
         case 15: m_vRefP = m_pRefPin->getVoltage();
                  m_vRefN = m_nRefPin->getVoltage();
 }   }
+
+//------------------------------------------------------
+//-- PIC ADC Type 01 -----------------------------------
+
+PicAdc01::PicAdc01( eMcu* mcu, QString name )
+    : PicAdc( mcu, name )
+{
+    m_leftAdjust = false; // 8 bits
+
+    m_ADSC = getRegBits( "ADSC0,ADCS1", mcu );
+    m_CHS  = getRegBits( "CHS0,CHS1,CHS2", mcu );
+    m_PCFG = getRegBits( "PCFG0,PCFG1,PCFG2", mcu );
+}
+PicAdc01::~PicAdc01(){}
+
+void PicAdc01::configureB( uint8_t newADCON1 ) // ADCON1
+{
+    uint8_t mode = getRegBitsVal( newADCON1, m_PCFG );
+    if( mode != m_mode )
+    {
+        m_mode = mode;
+        uint8_t analog = 0;
+
+        switch( mode ) {
+        case 0: analog = 0b11111; break;
+        case 1: analog = 0b10111; break;
+        case 2: analog = 0b11111; break;
+        case 3: analog = 0b10111; break;
+        case 4: analog = 0b01011; break;
+        case 5: analog = 0b00011; break;
+        case 6:
+        case 7: analog = 0b00000;
+        }
+        for( uint i=0; i<m_adcPin.size(); ++i)
+            if( m_adcPin[i] ) m_adcPin[i]->setAnalog( analog & (1<<i) );
+}   }
+
+void PicAdc01::updtVref()
+{
+    m_vRefP = m_mcu->vdd();
+    m_vRefN = 0;
+
+    switch( m_mode ){
+    case 1:
+    case 3:
+    case 5: m_vRefP = m_pRefPin->getVoltage(); break;
+    }
+}
 
 //------------------------------------------------------
 //-- PIC ADC Type 1 ------------------------------------
