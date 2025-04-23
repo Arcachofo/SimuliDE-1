@@ -839,7 +839,7 @@ void McuCreator::createTimer( QDomElement* t )
 
             if( el.hasAttribute("bits") )
             {
-                QString configBits = el.attribute("configbits");
+                QString configBits = el.attribute("bits");
                 watchBitNames( configBits, R_WRITE, icUnit, &McuIcUnit::configure, mcu );
             }
             setInterrupt( el.attribute("interrupt"), icUnit );
