@@ -101,7 +101,7 @@ uint8_t* DataSpace::getReg( QString reg )                // Get pointer to Reg d
 uint8_t DataSpace::getRamValue( int address ) // Read RAM from Mcu Monitor
 {
     m_isCpuRead = false;
-    uint8_t value = m_dataMem[getMapperAddr(address)]; //readReg( getMapperAddr(address) );
+    uint8_t value = readReg( getMapperAddr(address) );
     m_isCpuRead = true;
     return value;
 }

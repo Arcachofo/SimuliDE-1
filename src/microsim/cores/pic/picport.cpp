@@ -30,7 +30,9 @@ void PicPort::outChanged( uint8_t val )
 
 void PicPort::readPort( uint8_t )
 {
-    m_mcu->m_regOverride = McuPort::getInpState();
+    if( m_mcu->isCpuRead()) m_mcu->m_regOverride = McuPort::getInpState();
+    else                    m_mcu->m_regOverride = *m_outReg;               // RAM Table reads actual RAM value
+
     if( m_interrupt ) m_interrupt->clearFlag(); // Clear interrupt flag
 }
 
