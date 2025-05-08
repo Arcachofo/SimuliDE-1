@@ -1,0 +1,11 @@
+<!DOCTYPE SimulIDE>
+
+<mcu name="p16F88" core="Pic14" data="512" prog="7168" progword="2" eeprom="256"
+            inst_cycle="4" freq="4000000">
+            
+    <include file="pic/pic14_regs.xml" />
+    <include file="p16F8x/p16F88_regs.xml" />
+    <include file="p16F8x/p16F88_int.xml" />
+    <include file="p16F8x/p16F88_perif.xml" />
+    
+</mcu>

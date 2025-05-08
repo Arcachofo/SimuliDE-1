@@ -1,0 +1,61 @@
+<parts>
+  <port name="PORTA" pins="8" outreg="PORTA" dirreg="!TRISA"
+                     inpmask="11011111"
+                     resetpin="PORTA5" >
+  </port>
+
+  <port name="PORTB" pins="8" outreg="PORTB" dirreg="!TRISB" 
+                     pullups="!RBPU" >
+
+    <interrupt name="PB_INT" mask="11110000"/>
+    <extint    name="INT" pin="PORTB0" configbits="INTEDG"/>
+  </port>
+
+  <intosc name="intosc" type="00" configregsA="OSCCON" 
+                        clockpins="PORTA6,PORTA7" />
+
+  <timer name="TIMER0" type="800" configregsA="OPTION"
+                       counter="TMR0"
+                       clockpin="PORTA4"
+                       interrupt="T0_OVF"
+                       prescalers="2,4,8,16,32,64,128,256"/>
+
+  <timer name="TIMER1" type="160" configregsA="T1CON"
+                       counter="TMR1L,TMR1H"
+                       clockpin="PORTB6"
+                       interrupt="T1_OVF"
+                       prescalers="1,2,4,8"/>
+
+  <timer name="TIMER2" type="820" configregsA="T2CON" configregsB="PR2"
+                       counter="TMR2"
+                       interrupt="T2_MATCH"
+                       prescalers="1,4,16,16"/>
+
+  <ccpunit name="CCP+1" type="00" configregsA="CCP1CON"
+                       ccpreg="CCPR1L,CCPR1H"
+                       pin="PORTB0"
+                       interrupt="CCP1" />
+
+  <comp name="COMP1" type="01" configregsA="CMCON0"
+                      interrupt="CMIR"
+                      pins="PORTA0,PORTA3,PORTA2"/>
+
+  <comp name="COMP2" type="02" configregsA="CMCON0"
+                      interrupt="CMIR"
+                      pins="PORTA1,PORTA2,PORTA3"/>
+                      
+  <adc name="ADC" type="11" bits="10" configregsA="ADCON0" configregsB="ADCON1"
+                        dataregs="ADRESL,ADRESH"
+                        prescalers="2,8,32,0,4,16,64"
+                        interrupt="ADC"
+                        adcpins="PORTA0,PORTA1,PORTA2,PORTA3,PORTA4,PORTB6,PORTB7"
+                        vrefpins="PORTA2,PORTA3"/>
+
+  <wdt name="WDT" configregsA="OPTION"
+                  prescalers="1,2,4,8,16,32,64,128"/>
+
+  <configwords name="cfgWord" type="01">
+    <word name="COINFIG1" address="0x2007" value="0xFF" />
+    <word name="COINFIG2" address="0x2008" value="0xFF" />
+  </configwords>
+</parts>
