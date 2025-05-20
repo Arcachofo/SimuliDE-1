@@ -74,7 +74,12 @@
   <comp name="COMP2" type="12" configregsA="CM2CON0" configregsB="CM2CON1" configregsC="SRCON"
                      interrupt="ACOMP2"
                      pins="PORTA0,PORTA1,PORTB3,PORTB1,PORTA2,PORTA5" />
-                     
+
+  <rom name="ROM" configregsA="EECON1" configregsB="EECON2"
+                  dataregs="EEDAT" 
+                  addressreg="EEADR"
+                  interrupt="EEPR"/>
+
   <configwords name="cfgWord" type="00">
     <word name="COINFIG1" address="0x2007" value="0xFF" />
     <word name="COINFIG2" address="0x2008" value="0xFF" />
