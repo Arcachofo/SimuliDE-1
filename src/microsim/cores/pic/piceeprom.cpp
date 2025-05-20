@@ -12,10 +12,11 @@ PicEeprom::PicEeprom( eMcu* mcu, QString name )
          : McuEeprom( mcu, name )
 {
     //m_EECR  = mcu->getReg( "EECR" );
-    m_WRERR = getRegBits( "WRERR", mcu );
-    m_WREN  = getRegBits( "WREN", mcu );
-    m_WR    = getRegBits( "WR", mcu );
-    m_RD    = getRegBits( "RD", mcu );
+    m_EEPGD = getRegBits("EEPGD", mcu );
+    m_WRERR = getRegBits("WRERR", mcu );
+    m_WREN  = getRegBits("WREN" , mcu );
+    m_WR    = getRegBits("WR"   , mcu );
+    m_RD    = getRegBits("RD"   , mcu );
 }
 PicEeprom::~PicEeprom(){}
 
@@ -35,8 +36,11 @@ void PicEeprom::runEvent() // Write cycle end reached
     m_wrMask = 0;
 }
 
-void PicEeprom::configureA( uint8_t newEECON1 ) // EECR is being written
+void PicEeprom::configureA( uint8_t newEECON1 ) // EECON1 is being written
 {
+    if( getRegBitsBool( newEECON1, m_EEPGD ) ) // PGM operation
+        return;
+
     if( m_writeEnable ) // Write enabled
     {
         m_writeEnable = false;

@@ -28,6 +28,7 @@ class PicEeprom : public McuEeprom
 
         uint8_t m_wrMask;
 
+        regBits_t m_EEPGD;
         regBits_t m_WRERR;
         regBits_t m_WREN;
         regBits_t m_WR;
