@@ -287,8 +287,11 @@ void EditorWidget::loadFile( QString filePath )
 
 void EditorWidget::reload()
 {
-    QString fileName = m_fileList.key( m_docWidget->currentWidget() );
-    loadFile( fileName );
+    CodeEditor* ce = getCodeEditor();
+    QString file = m_fileList.key( m_docWidget->currentWidget() );
+    ce->setPlainText( fileToString( file, "EditorWidget::reload" ) );
+    ce->document()->setModified( false );
+    documentWasModified();
 }
 
 bool EditorWidget::save()
