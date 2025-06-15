@@ -65,11 +65,16 @@ void Interrupt::flagCleared( uint8_t )  // Interrupt flag was cleared by softwar
 
 void Interrupt::writeFlag( uint8_t v ) // Clear Interrupt flag by writting 1 to it
 {
+    int overrided = m_mcu->m_regOverride;
+    if( overrided > 0 ) v = overrided;      // Get previous overrides
+
     if( v & m_flagMask ){
-        int overrided = m_mcu->m_regOverride;
-        if( overrided > 0 ) v = overrided;      // Get previous overrides
         m_mcu->m_regOverride = v & ~m_flagMask; // Clear flag
         flagCleared();      // Pin INT continuous while low level
+    }
+    else if( m_ram[m_flagReg] & m_flagMask )
+    {
+        m_mcu->m_regOverride = v | m_flagMask; // Keep flag
     }
 }
 
