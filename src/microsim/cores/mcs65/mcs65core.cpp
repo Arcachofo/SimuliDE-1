@@ -78,12 +78,13 @@ void Mcs65Cpu::reset()
     m_cycle = 0;
     m_SP = 0;
 
-    m_IsrH = 0xFF;
-    m_IsrL = 0;
+    m_Isr = 0;
+    m_isrSource = 0;
 
     m_dataMode = input;
     m_nextClock = true;
     m_halt = false;
+    m_nmiState = false;
 
     stamp();
 }
@@ -165,6 +166,20 @@ void Mcs65Cpu::clkFallingEdge()
     m_mcu->cyclesDone = 1;
     m_cycle++;
 
+    bool nmiState = m_nmiPin->getInpState();
+    if( !m_Isr )                              // Check for interrupts
+    {
+        if( m_nmiState && !nmiState )
+        {
+            m_isrSource = 1;                 // NMI (falling edge)
+        }
+        else if( !m_isrSource && !STATUS(I) && !m_irqPin->getInpState() )
+        {
+            m_isrSource = 2;                 // IRQ
+        }
+    }
+    m_nmiState = nmiState;
+
     if( m_state == cRESET )  // Reset Sequence: 8 cycles, then state changes to FETCH
     {
         resetSeq();
@@ -176,15 +191,12 @@ void Mcs65Cpu::clkFallingEdge()
 
         m_syncPin->scheduleState( false, m_tHA ); // Reset SYNC Signal
         m_IR = readDataBus();
-        if( !m_IsrL && !m_nmiPin->getInpState() ) // NMI
+
+        if( m_isrSource )
         {
-            m_IsrL = 0xFA;
             m_EXEC = &Mcs65Cpu::BRK;
-        }
-        else if( !STATUS(I) && !m_IsrL && !m_irqPin->getInpState() ) // IRQ
-        {
-            m_IsrL = 0xFE;
-            m_EXEC = &Mcs65Cpu::BRK;
+            m_state = cEXEC;
+            m_PC--;             // Fetch did increase PC
         }
         else decode();
     }
@@ -208,6 +220,7 @@ void Mcs65Cpu::clkFallingEdge()
             if( m_aMode <= aACCU ) m_PC--;           // If dummy Read then read the same PC
             m_debugPC = m_PC;
             readPGM();                               // Read opCode
+            m_RET_ADDR = m_PC;
             m_cycle = 0;
             m_state = cDECODE;
 
@@ -242,7 +255,7 @@ void Mcs65Cpu::decode()
 
     switch( m_IR )                     // Irregular Instructions
     {
-        case 0x00: m_EXEC = &Mcs65Cpu::BRK; m_IsrL = 0xFE;   return; // BRK
+        case 0x00: m_EXEC = &Mcs65Cpu::BRK; m_isrSource = 3; return; // BRK
         case 0x08: m_EXEC = &Mcs65Cpu::PHP;                  return; // PHP
         case 0x18: m_EXEC = &Mcs65Cpu::CLC; return; // CLC
         case 0x20: m_EXEC = &Mcs65Cpu::JSR; m_aMode = aABSO; return; // JSR abs Execution controls PC
@@ -533,14 +546,43 @@ void Mcs65Cpu::BIT()
 
 void Mcs65Cpu::BRK() // Break/Interrupt : 1 byte, 7 cycles
 {
-    SET_INTERRUPT( 1 ); /// ???
     switch( m_cycle ){
-        case 2: pushStack8( m_PC >> 8 );       m_nextState = cEXEC; break; // PCH    -> Stack
-        case 3: pushStack8( m_PC /*& 0xFF*/ ); m_nextState = cEXEC; break; // PCL    -> Stack
-        case 4: pushStack8( *m_STATUS );       m_nextState = cEXEC; break; // Status -> Stack
-        case 5: readMem( m_IsrH );                 m_state = cEXEC; break; // Read IsrH
-        case 6: readMem( m_IsrL ); m_u8Tmp0 = m_op0; m_state = cEXEC; break; // Read IsrL
-        case 7: m_PC = (m_u8Tmp0 << 8) + m_op0; m_IsrL = 0;                  // Jump to Isr
+        case 1: m_state = cEXEC; break;
+        case 2:                              // PCH    -> Stack
+            pushStack8( m_PC >> 8 );
+            m_nextState = cEXEC;
+            break;
+        case 3:                              // PCL    -> Stack
+            pushStack8( m_PC /*& 0xFF*/ );
+            m_nextState = cEXEC;
+            break;
+        case 4:{                             // Status -> Stack
+            uint8_t status = *m_STATUS;
+
+            switch( m_isrSource)             // Determine ISR source
+            {
+                case 1:  m_Isr = 0xFFFA; break; // NMI (falling edge)
+                case 2:  m_Isr = 0xFFFE; break; // IRQ
+                default: m_Isr = 0xFFFE;        // Software BRK
+                         status |= 1<<B;        // Set B flag
+            }
+            pushStack8( status );
+            m_nextState = cEXEC;
+        } break;
+        case 5:                              // Read Isr L
+            readMem( m_Isr );
+            m_aMode = aIMME;
+            break;
+        case 6:                              // Read Isr H
+            readMem( m_Isr+1 );
+            m_u8Tmp0 = m_op0;
+            m_aMode = aIMME;
+            SET_INTERRUPT( 1 );
+            break;
+        case 7:                              // Jump to Isr
+            m_PC = (m_op0 << 8) | m_u8Tmp0;
+            m_isrSource = 0;
+            m_Isr = 0;
 }   }
 
 void Mcs65Cpu::CLC() { SET_CARRY(0);     }
@@ -624,6 +666,7 @@ void Mcs65Cpu::RTI() // Return from Interrupt ////
         case 3: popStack8(); *m_STATUS = readDataBus() | CONSTANT | BREAK; break;
         case 4: popStack8(); m_op0 = readDataBus();                        break;
         case 5: m_PC = (readDataBus() << 8) | m_op0; m_aMode = aIMME; // Avoid PC decrement at cFETCH case
+            SET_INTERRUPT( 0 );
 }   }
 
 void Mcs65Cpu::RTS() // Return from Subroutine

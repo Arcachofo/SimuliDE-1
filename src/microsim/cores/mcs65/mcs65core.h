@@ -82,6 +82,9 @@ class Mcs65Cpu : public Mcs65Interface
         bool m_nextClock;
         bool m_halt;
 
+        bool m_nmiState;
+        int8_t m_isrSource;
+
         //uint64_t m_psStep;
         int m_cycle;
 
@@ -117,8 +120,7 @@ class Mcs65Cpu : public Mcs65Interface
         cpuState_t m_state;
         cpuState_t m_nextState;
 
-        uint8_t m_IsrH; // Interrupt vector
-        uint8_t m_IsrL;
+        uint16_t m_Isr; // Interrupt vector
 
         addrMode_t m_aMode;
         uint8_t m_aFlags;
