@@ -32,9 +32,9 @@ class Ili9341 : public Component, public eClockedDevice
         void proccessCommand();
         void getParameter();
         void incrementPointer();
-        void incrementY();
         void reset();
         void clearDDRAM();
+        uint getPixel( int row, int col );
 
         unsigned char m_rxReg;     // Received value
         unsigned int m_aDispRam[240][320]; // DDRAM
@@ -54,6 +54,7 @@ class Ili9341 : public Component, public eClockedDevice
         int m_maxY;
         int m_dirX;
         int m_dirY;
+        int m_rowCol;
 
         int m_startLin;
         //int m_addrMode;
