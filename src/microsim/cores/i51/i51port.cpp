@@ -16,7 +16,7 @@ I51Port::~I51Port(){}
 
 void I51Port::reset()
 {
-    m_pinState = 255;
+    //m_pinState = 255;
 }
 
 void I51Port::readPort( uint8_t )

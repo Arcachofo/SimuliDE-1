@@ -144,7 +144,7 @@ void McuPin::controlPin( bool outCtrl, bool dirCtrl )
 void McuPin::setPullup( bool up )
 {
     IoPin::setPullup( up );
-    if( up == m_puMask ) return;
+    //if( up == m_puMask ) return; // Fails at stamp
     m_puMask = up;
 
     if( m_pinMode < output && !this->isConnected() ) // Input Pin not connected
