@@ -31,6 +31,7 @@ enum rxError_t{
 class IoPin;
 class UartTx;
 class UartRx;
+class UartSr;
 class SerialMonitor;
 
 class UsartModule
@@ -78,6 +79,7 @@ class UsartModule
 
         UartTx* m_sender;
         UartRx* m_receiver;
+        UartSr* m_shiftReg;
 
         bool m_sync;
         bool m_serialMon;
@@ -113,12 +115,11 @@ class UartTR : public McuModule, public eElement
 
         virtual void initialize() override;
 
-        virtual void enable( uint8_t ){;}
+        bool isEnabled() { return m_enabled; }
+        virtual void enable( uint8_t e ){ m_enabled = e; }
         virtual uint8_t getData() { return  m_data; }
 
         virtual void configureA( uint8_t val ) override;
-
-        bool isEnabled() { return m_enabled; }
 
         void setPeriod( uint64_t period ) { m_period = period; }
         bool getParity( uint16_t data );
@@ -144,7 +145,6 @@ class UartTR : public McuModule, public eElement
         state_t m_state;
 
         bool m_enabled;
-        //bool m_runHardware; // If m_ioPin is not connected don't run hardware
 
         uint64_t m_period; // Baudrate period
 };

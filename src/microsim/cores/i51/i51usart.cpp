@@ -6,9 +6,11 @@
 #include "i51usart.h"
 #include "usarttx.h"
 #include "usartrx.h"
+#include "usartsr.h"
 #include "mcutimer.h"
 #include "e_mcu.h"
 #include "datautils.h"
+#include "usartsr.h"
 
 #define SCON *m_scon
 
@@ -30,12 +32,22 @@ I51Usart::I51Usart( eMcu* mcu, QString name, int number )
     m_SM2    = getRegBits( "SM2", mcu );
 
     m_SMOD = getRegBits( "SMOD", mcu );
+
+    m_shiftReg = new UartSr( this, mcu, name+"Sr" );
 }
-I51Usart::~I51Usart(){}
+I51Usart::~I51Usart()
+{
+    delete m_shiftReg;
+}
 
 void I51Usart::reset()
 {
     m_sender->enable( true ); // Sender always enabled
+
+    m_shiftReg->setPins( {m_receiver->getPin(), m_sender->getPin()} );
+    m_shiftReg->enable( true );
+
+
     m_mode = 0xFF;
     m_smodDiv = false;
     m_smodVal = 0;
@@ -57,11 +69,9 @@ void I51Usart::configureA( uint8_t newSCON ) //SCON
 
     switch( mode )
     {
-        case 0:             // Synchronous 8 bit
-            /// TODO
-            // setPeriod(  m_mcu->psInst() );// Fixed baudrate 32 or 64
+        case 0:             // Synchronous Shift Register 8 bit
+            m_shiftReg->setPeriod( m_mcu->psInst() );// Fixed baudrate
             sm2 = 0;
-            setDataBits( 8 );
             break;
         case 1:             // Asynchronous Timer1 8 bits
             useTimer = true;
@@ -69,7 +79,7 @@ void I51Usart::configureA( uint8_t newSCON ) //SCON
             sm2 = 0;
             break;
         case 2:             // Asynchronous MCU Clock 9 bits
-            setPeriod( m_mcu->psInst() );// Fixed baudrate 32 or 64
+            setPeriod( m_mcu->psInst() );// Fixed baudrate
             setDataBits( 9 );
             break;
         case 3:             // Asynchronous Timer1 9 bits
@@ -91,10 +101,13 @@ void I51Usart::configureB( uint8_t newPCON )
 
 void I51Usart::sendByte( uint8_t data )
 {
-    if( m_mcu->state() != mcuStopped ) m_sender->processData( data );
+    if( m_mcu->state() == mcuStopped ) return;
+
+    if( m_mode == 0 ) m_shiftReg->processData( data );
+    else              m_sender->processData( data );
 }
 
-void I51Usart::callBack()
+void I51Usart::callBack() // Called by Timer 1 interrupt
 {
     if( ++m_counter != 16 ) return;
 
@@ -128,3 +141,4 @@ void I51Usart::setRxFlags( uint16_t frame )
     //writeRegBits( m_DOR, frame & dataOverrun ); // overrun error
     //writeRegBits( m_UPE, frame & parityError ); // parityError
 }
+
