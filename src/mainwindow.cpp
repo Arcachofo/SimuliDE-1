@@ -157,6 +157,7 @@ void MainWindow::writeSettings()
 
 QString MainWindow::loc()
 {
+    if( m_lang == Azerbaijani) return "az";
     if( m_lang == Chinese )    return "zh_CN";
     if( m_lang == Czech )      return "cz";
     if( m_lang == Dutch )      return "nl";
@@ -177,6 +178,7 @@ void MainWindow::setLoc( QString loc )
 {
     Langs lang = English;
     if     ( loc == "zh_CN" ) lang = Chinese;
+    else if( loc == "az" )    lang = Azerbaijani;
     else if( loc == "cz" )    lang = Czech;
     else if( loc == "nl" )    lang = Dutch;
     else if( loc == "fr" )    lang = French;

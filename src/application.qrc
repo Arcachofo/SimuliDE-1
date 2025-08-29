@@ -8,6 +8,7 @@
         <file alias="UbuntuMono-R.ttf">../resources/fonts/UbuntuMono-R.ttf</file>
         <file alias="UbuntuMono-RI.ttf">../resources/fonts/UbuntuMono-RI.ttf</file>
         
+        <file alias="simulide_az.qm">../resources/qm/simulide_az.qm</file>
         <file alias="simulide_cz.qm">../resources/qm/simulide_cz.qm</file>
         <file alias="simulide_de.qm">../resources/qm/simulide_de.qm</file>
         <file alias="simulide_en.qm">../resources/qm/simulide_en.qm</file>
