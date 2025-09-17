@@ -78,7 +78,7 @@ WS2812::WS2812( QString type, QString id )
         new IntProp<WS2812>("T1H", tr("1, High time"),"_ns"
                             , this, &WS2812::t1H, &WS2812::setT1H ),
 
-        new IntProp<WS2812>("T1H", tr("1, Low time"),"_ns"
+        new IntProp<WS2812>("T1L", tr("1, Low time"),"_ns"
                             , this, &WS2812::t1L, &WS2812::setT1L ),
     }, groupNoCopy} );
 }
