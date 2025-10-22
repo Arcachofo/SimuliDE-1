@@ -70,9 +70,8 @@ void AvrTimer::configureA( uint8_t newTCCRXA ) // TCCRXA  // WGM00,WGM01
     if( m_OCB ) m_OCB->configure( newTCCRXA );
     if( m_OCC ) m_OCC->configure( newTCCRXA );
 
-    uint8_t WGM10 = getRegBitsVal( newTCCRXA, m_WGM10 ); // WGMX1,WGMX0
-    //if( m_wgm10Val != WGM10 )
-    { m_wgm10Val = WGM10; updtWgm(); }
+    m_wgm10Val = getRegBitsVal( newTCCRXA, m_WGM10 ); // WGMX1,WGMX0
+    updtWgm();
 }
 
 void AvrTimer::configureB( uint8_t newTCCRXB ) // TCCRXB
@@ -374,10 +373,10 @@ void AvrTimer821::configureA( uint8_t newTCCRx )
 
     updtPrescaler( newTCCRx );
 
-    uint8_t WGM10 = ((( newTCCRx & 1<<6) >> 6)
-                   | (( newTCCRx & 1<<3) >> 2)); // WGM20 WGM21
+    m_wgm10Val = ((( newTCCRx & 1<<6) >> 6)
+                | (( newTCCRx & 1<<3) >> 2)); // WGM20 WGM21
 
-    if( m_wgm10Val != WGM10 ){ m_wgm10Val = WGM10; updtWgm(); }
+    updtWgm();
 }
 
 //--------------------------------------------------
