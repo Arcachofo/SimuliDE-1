@@ -103,8 +103,8 @@ macx {
 }
 
 contains( QMAKE_HOST.os, Windows ) {
-    REV_NO = $$system("echo  %date:~10,4%%date:~4,2%%date:~7,2%")       # year-month-day
-    BUILD_DATE = $$system("echo  %date:~7,2%-%date:~4,2%-%date:~10,4%") # day-month-year
+    REV_NO = $$system("powershell -Command get-date -format yy-MM-dd")     # year-month-day
+    BUILD_DATE = $$system("powershell -Command get-date -format dd-MM-yy") # day-month-year
 }
 else {
     REV_NO = $$system($(which date) +\"\\\"%y%m%d\\\"\")
