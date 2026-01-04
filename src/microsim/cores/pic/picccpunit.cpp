@@ -67,9 +67,9 @@ void PicCcpUnit::configureA( uint8_t CCPxCON ) //
     uint8_t CCPxM = getRegBitsVal( CCPxCON, m_CCPxM );
 
     m_ccpMode = ccpOFF;
-    m_capUnit->initialize();
-    m_comUnit->initialize();
-    m_pwmUnit->initialize();
+    m_capUnit->clear();
+    m_comUnit->clear();
+    m_pwmUnit->clear();
 
     if     ( CCPxM == 0 ) return;
     if     ( CCPxM < 4  ) { m_ccpMode = ccpCOM; m_comUnit->configure( CCPxM ); } // Compare Mode (Enhanced):

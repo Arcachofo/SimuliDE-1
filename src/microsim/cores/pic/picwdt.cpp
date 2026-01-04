@@ -12,7 +12,7 @@
 PicWdt* PicWdt::createWdt( eMcu* mcu, QString name, int type )
 {
     switch( type ){
-    case 00: return new PicWdt01( mcu, name ); break;
+    case 01: return new PicWdt01( mcu, name ); break;
     default: return new PicWdt00( mcu, name ); break;
     }
 }

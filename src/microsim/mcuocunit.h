@@ -51,6 +51,8 @@ class McuOcUnit : public McuModule, public eElement
         virtual void drivePin( ocAct_t act, uint64_t time=0 );
         virtual void setPinSate( bool state, uint64_t time=0 );
 
+        void clear();
+
         McuOcm*   m_ocm;
         McuTimer* m_timer;
         McuPin*   m_ocPin;

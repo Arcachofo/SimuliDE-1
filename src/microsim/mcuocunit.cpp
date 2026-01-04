@@ -24,6 +24,11 @@ void McuOcUnit::initialize()
     m_comMatch = 0;
     m_extMatch = 0;
 
+    clear();
+}
+
+void McuOcUnit::clear()
+{
     m_enabled = false;
     m_ctrlPin = false;
     m_mode = 0;
