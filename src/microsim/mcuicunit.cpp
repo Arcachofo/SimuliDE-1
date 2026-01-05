@@ -23,6 +23,7 @@ McuIcUnit::~McuIcUnit( ){}
 void McuIcUnit::initialize()
 {
     m_prescaler = 1;
+    if( m_icPin ) m_icPin->changeCallBack( this, false );
     clear();
 }
 
@@ -33,7 +34,6 @@ void McuIcUnit::clear()
     m_inState = false;
     m_fallingEdge = false;
     m_mode = 0;
-    if( m_icPin ) m_icPin->changeCallBack( this, false );
 }
 
 void McuIcUnit::voltChanged() // Pin change

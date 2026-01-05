@@ -62,8 +62,11 @@ void PicOcUnit::configure( uint8_t CCPxM )  // CCPxM0,CCPxM1,CCPxM2,CCPxM3
         case 11: ctrlPin = false; m_specEvent = true; // Special event
     }
     m_ocPin->controlPin( ctrlPin, false ); // Connect/Disconnect PORT
-    if( ctrlPin ) m_ocPin->setOutState( false );
-    m_enabled = true;
+
+    if( !m_enabled){
+        m_enabled = true;
+        m_ocPin->setOutState( false ); // Enabling, start low state
+    }
 }
 
 void PicOcUnit::ocrWriteL( uint8_t val )

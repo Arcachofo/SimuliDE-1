@@ -23,6 +23,7 @@ void McuOcUnit::initialize()
 {
     m_comMatch = 0;
     m_extMatch = 0;
+    m_ocPin->controlPin( false, false );
 
     clear();
 }
@@ -35,7 +36,6 @@ void McuOcUnit::clear()
 
     m_comAct = ocNON;
     m_tovAct = ocNON;
-    m_ocPin->controlPin( false, false );
 }
 
 void McuOcUnit::clockStep( uint16_t count )

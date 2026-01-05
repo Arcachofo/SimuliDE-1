@@ -66,13 +66,13 @@ void PicCcpUnit::configureA( uint8_t CCPxCON ) //
 
     uint8_t CCPxM = getRegBitsVal( CCPxCON, m_CCPxM );
 
-    m_ccpMode = ccpOFF;
-    m_capUnit->clear();
-    m_comUnit->clear();
-    m_pwmUnit->clear();
-
-    if     ( CCPxM == 0 ) return;
-    if     ( CCPxM < 4  ) { m_ccpMode = ccpCOM; m_comUnit->configure( CCPxM ); } // Compare Mode (Enhanced):
+    if( CCPxM == 0 ){
+        m_ccpMode = ccpOFF;
+        m_capUnit->initialize();
+        m_comUnit->initialize();
+        m_pwmUnit->initialize();
+    }
+    else if( CCPxM < 4  ) { m_ccpMode = ccpCOM; m_comUnit->configure( CCPxM ); } // Compare Mode (Enhanced):
     else if( CCPxM < 8  ) { m_ccpMode = ccpCAP; m_capUnit->configure( CCPxM ); } // Capture Mode:
     else if( CCPxM < 12 ) { m_ccpMode = ccpCOM; m_comUnit->configure( CCPxM ); } // Compare Mode:
     else                  { m_ccpMode = ccpPWM; m_pwmUnit->configure( CCPxCON );}// PWM Mode
