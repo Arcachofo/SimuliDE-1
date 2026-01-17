@@ -700,21 +700,27 @@ void CodeEditor::lineNumberAreaPaintEvent( QPaintEvent* event )
         {
             int newLine = block.blockNumber() + 1;
             int oldLine = newLine + delta;
+            if( oldLine > numLines )
+            {
+                if( brkPoints.contains( oldLine ) ) brkPoints.removeOne( oldLine );
+                if( errors.contains(    oldLine ) ) errors.removeOne(    oldLine );
+                if( warnings.contains(  oldLine ) ) warnings.removeOne(  oldLine );
+            }
             if( block == cBlock )
             {
                 if( delta > 0 ) // Line removed, check if point at cursor line and remove it
                 {
-                    if( m_brkPoints.contains( newLine ) ) brkPoints.removeOne( newLine );
-                    if( m_errors.contains( newLine )    ) errors.removeOne( newLine );
-                    if( m_warnings.contains( newLine )  ) warnings.removeOne( newLine );
+                    if( brkPoints.contains( newLine ) ) brkPoints.removeOne( newLine );
+                    if( errors.contains( newLine )    ) errors.removeOne( newLine );
+                    if( warnings.contains( newLine )  ) warnings.removeOne( newLine );
                 }
                 found = true;
             }
             if( found ) // Replace lines
             {
-                if( m_brkPoints.contains( oldLine ) ) brkPoints.replace( m_brkPoints.indexOf( oldLine ), newLine ); // Replace breakpoint line
-                if( m_errors.contains( oldLine )    ) errors.replace(    m_errors.indexOf( oldLine )   , newLine ); // Replace error line
-                if( m_warnings.contains( oldLine )  ) warnings.replace(  m_warnings.indexOf( oldLine ) , newLine ); // Replace warning line
+                if( brkPoints.contains( oldLine ) ) brkPoints.replace( brkPoints.indexOf( oldLine ), newLine ); // Replace breakpoint line
+                if( errors.contains( oldLine )    ) errors.replace(    errors.indexOf( oldLine )   , newLine ); // Replace error line
+                if( warnings.contains( oldLine )  ) warnings.replace(  warnings.indexOf( oldLine ) , newLine ); // Replace warning line
             }
             block = block.next();
         }
