@@ -50,20 +50,6 @@ void PicTimer::configureB( uint8_t val )
 {
 }
 
-/*void PicTimer::configureClock()
-{
-    m_prescaler = m_prescList.at( m_mode );
-    m_clkSrc = clkMCU;
-}
-
-void PicTimer::configureExtClock()
-{
-    m_prescaler = 1;
-    m_clkSrc = clkEXT;
-    /// if     ( m_mode == 6 ) m_clkEdge = Clock_Falling;
-    /// else if( m_mode == 7 ) m_clkEdge = Clock_Rising;
-}*/
-
 //--------------------------------------------------
 // TIMER 8 Bit--------------------------------------
 
@@ -81,10 +67,10 @@ PicTimer8bit::~PicTimer8bit(){}
 PicTimer0::PicTimer0( eMcu* mcu, QString name)
          : PicTimer8bit( mcu, name )
 {
-    m_T0CS = getRegBits( "T0CS", mcu );
-    m_T0SE = getRegBits( "T0SE", mcu );
-    m_PSA  = getRegBits( "PSA", mcu );
-    m_PS   = getRegBits( "PS0,PS1,PS2", mcu );
+    m_T0CS = getRegBits("T0CS", mcu );
+    m_T0SE = getRegBits("T0SE", mcu );
+    m_PSA  = getRegBits("PSA", mcu );
+    m_PS   = getRegBits("PS0,PS1,PS2", mcu );
 }
 PicTimer0::~PicTimer0(){}
 
@@ -102,7 +88,7 @@ void PicTimer0::configureA( uint8_t NewOPTION )
 
     if( getRegBitsBool( NewOPTION, m_PSA ) )
          m_prescaler = 1;                    // Prescaler asigned to Watchdog
-    else m_prescaler = m_prescList.at( ps ); // Prescaler asigned to TIMER0
+    else setPrescIndex( ps ); // Prescaler asigned to TIMER0
 
     m_scale = m_prescaler*m_mcu->psInst();
 
@@ -134,8 +120,8 @@ void PicTimer2::configureA( uint8_t NewT2CON )
 {
     uint8_t presc = getRegBitsVal( NewT2CON, m_T2CKPS );
     uint8_t postc = getRegBitsVal( NewT2CON, m_TOUTPS );
-    m_prescaler = m_prescList.at( presc ) * (postc+1);
-    m_scale     = m_prescaler*m_mcu->psInst();
+    setPrescIndex( presc );
+    m_scale = m_prescaler* (postc+1)*m_mcu->psInst();
 
     bool en = getRegBitsBool( NewT2CON, m_TMR2ON );
     if( en != m_running ) enable( en );
@@ -169,8 +155,7 @@ void PicTimer16bit::configureA( uint8_t NewT1CON )
     m_t1sync = getRegBitsVal( NewT1CON, m_T1SYNC ) ? 0 : 1; // Used for sleep mode
 
     uint8_t ps = getRegBitsVal( NewT1CON, m_T1CKPS );
-
-    m_prescaler = m_prescList.at( ps );
+    setPrescIndex(  ps );
 
     m_mode  = getRegBitsVal(  NewT1CON, m_TMR1CS );
     m_t1Osc = getRegBitsBool( NewT1CON, m_T1OSCEN ) && m_mode; // T1 osc depends on TMR1CS

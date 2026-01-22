@@ -88,7 +88,7 @@ void AvrTimer::updtPrescaler( uint8_t val )
 
     if( prIndex != m_prIndex )
     {
-        m_prIndex = prIndex;
+        setPrescIndex( prIndex );
         if( prIndex ) configureClock();
         enable( m_prIndex );
     }
@@ -96,8 +96,6 @@ void AvrTimer::updtPrescaler( uint8_t val )
 
 void AvrTimer::configureClock()
 {
-    m_prescaler = m_prescList.at( m_prIndex );
-
     if( m_prescaler >= 0x8000 )      // Ext clock
     {
         m_clkEdge = m_prescaler & 1; // 0 = falling edge, 1 = rising edge
@@ -233,7 +231,7 @@ void AvrTimer801::configureA( uint8_t newTCCR0 )
 
     if( prIndex != m_prIndex )
     {
-        m_prIndex = prIndex;
+        setPrescIndex( prIndex );
         if( prIndex ) configureClock();
         enable( m_prIndex );
     }
@@ -241,8 +239,6 @@ void AvrTimer801::configureA( uint8_t newTCCR0 )
 
 void AvrTimer801::configureClock() // This Timer is not derived from AvrTimer
 {
-    m_prescaler = m_prescList.at( m_prIndex );
-
     if( m_prescaler >= 0x8000 )      // Ext clock
     {
         m_clkEdge = m_prescaler & 1; // 0 = falling edge, 1 = rising edge
