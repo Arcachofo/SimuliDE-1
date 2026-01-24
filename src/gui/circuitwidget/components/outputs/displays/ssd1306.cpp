@@ -448,7 +448,7 @@ void Ssd1306::paint( QPainter* p, const QStyleOptionGraphicsItem*, QWidget* )
 
         bool scanInv = m_remap ? !m_scanInv : m_scanInv;
 
-        if( m_dispOn  ){
+        if( m_dispOn ){
             for( int col=0; col<m_width; col++ ){
                 int dx = col*3;
                 for( int row=0; row<m_rows; row++ )
@@ -485,8 +485,8 @@ void Ssd1306::paint( QPainter* p, const QStyleOptionGraphicsItem*, QWidget* )
                         else          pixel = byte1 & 1<<(bit-startBit);
 
                         if( pixel ){
-                            if( scanInv ) dy = m_height-1-dy;
-                            painter.fillRect( dx, dy*3, 3, 3, m_foreground );
+                            int screenY = scanInv ? m_height-1-dy : dy;
+                            painter.fillRect( dx, screenY*3, 3, 3, m_foreground );
                         }
                         dy++;
                         if( dy >= m_height ) dy -= m_height;
