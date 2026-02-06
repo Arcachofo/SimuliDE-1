@@ -617,7 +617,7 @@ void Circuit::removeComp( Component* comp )
     if( m_compList.contains( comp ) ) m_compList.removeOne( comp );
     removeItem( comp );
     m_compMap.remove( comp->getUid() );
-    m_removedComps.append( comp );
+    if( !m_removedComps.contains( comp ) ) m_removedComps.append( comp );
 }
 
 void Circuit::removeNode( Node* node )
@@ -627,7 +627,7 @@ void Circuit::removeNode( Node* node )
     m_nodeList.removeOne( node );
     m_compMap.remove( node->getUid() );
     removeItem( node );
-    m_removedComps.append( node );
+    if( !m_removedComps.contains( node ) ) m_removedComps.append( node );
 }
 
 void Circuit::removeConnector( Connector* conn )
@@ -636,7 +636,7 @@ void Circuit::removeConnector( Connector* conn )
     conn->remove();
     m_connList.removeOne( conn );
     m_compMap.remove( conn->getUid() );
-    m_removedComps.append( conn );
+    if( !m_removedComps.contains( conn ) ) m_removedComps.append( conn );
 }
 
 void Circuit::clearCircuit() // Remove everything ( Clear Circuit )
