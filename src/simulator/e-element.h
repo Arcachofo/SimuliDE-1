@@ -33,8 +33,8 @@ class eElement
         void pauseEvents();
         void resumeEvents();
 
-        static constexpr double cero_doub = 1e-14;
-        static constexpr double high_imp  = 1e14;
+        static constexpr double cero_doub = 1e-9;
+        static constexpr double high_imp  = 1e9;
 
         // Simulator engine
         eElement* nextChanged;
