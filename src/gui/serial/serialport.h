@@ -47,7 +47,6 @@ class SerialPort : public Component, public UsartModule, public eElement
 
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget ) override;
 
-    //public slots:
         void onbuttonclicked();
         void slotClose();
         void slotOpenTerm();
@@ -62,6 +61,7 @@ class SerialPort : public Component, public UsartModule, public eElement
     private:
         void open();
         void close();
+        void sendNextByte();
 
         CustomButton* m_button;
         QGraphicsProxyWidget* m_proxy;
@@ -71,6 +71,7 @@ class SerialPort : public Component, public UsartModule, public eElement
         bool m_receiving;
         bool m_sending;
         bool m_autoOpen;
+        bool m_blocked;
 
         QByteArray m_serData;
         QByteArray m_uartData;
@@ -84,4 +85,3 @@ class SerialPort : public Component, public UsartModule, public eElement
 };
 
 #endif
-

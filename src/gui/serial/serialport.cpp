@@ -119,6 +119,8 @@ void SerialPort::stamp()
     m_uartData.clear();
     m_sender->enable( true );
     m_receiver->enable( true );
+
+    m_blocked = false;
     m_sending = false;
     m_receiving = false;
 
@@ -134,16 +136,13 @@ void SerialPort::updateStep()
     }
     else m_receiving = false;
 
-    if( m_uartData.size() && !m_sending ) Simulator::self()->addEvent( 1, this );
-
     update();
 }
 
 void SerialPort::runEvent()
 {
     if( m_uartData.isEmpty() ) return;
-    sendByte( m_uartData.at( 0 ) ); // Start transaction
-    m_uartData = m_uartData.right( m_uartData.size()-1 );
+    sendNextByte();
     m_sending = true;
 }
 
@@ -181,7 +180,13 @@ void SerialPort::close()
 
 void SerialPort::readData()
 {
+    if( !Simulator::self()->isRunning() ) return;
+    if( m_uartData.size() > 1e6 ) return;
+
+    while( m_blocked ){;}
     m_uartData += m_serial->readAll();
+
+    if( !m_sending ) Simulator::self()->addEvent( 1, this );
 }
 
 void SerialPort::setflip()
@@ -202,13 +207,18 @@ void SerialPort::byteReceived( uint8_t byte )
 void SerialPort::frameSent( uint8_t data )
 {
     if( m_monitor ) m_monitor->printOut( data );
-    if( m_uartData.size() )
-    {
-        uint8_t byte = m_uartData.at( 0 );
-        m_uartData = m_uartData.right( m_uartData.size()-1 );
-        sendByte( byte );
-    }
-    else m_sending = false;
+
+    if( m_uartData.size() ) sendNextByte();
+    else                    m_sending = false;
+}
+
+void SerialPort::sendNextByte()
+{
+    m_blocked = true;
+    uint8_t byte = m_uartData.at( 0 );
+    m_uartData = m_uartData.right( m_uartData.size()-1 );
+    UsartModule::sendByte( byte );
+    m_blocked = false;
 }
 
 void SerialPort::slotClose()
@@ -284,5 +294,3 @@ void SerialPort::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWi
 
     Component::paintSelected( p );
 }
-
-//#include "moc_serialport.cpp"
