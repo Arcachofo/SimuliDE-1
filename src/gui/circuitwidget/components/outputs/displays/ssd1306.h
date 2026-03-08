@@ -34,6 +34,9 @@ class Ssd1306 : public Component, public TwiModule
         int height() { return m_height; }
         void setHeight( int h );
 
+        bool imgRotated() { return m_rotate; }
+        void setImgRotated( bool r ) { m_rotate = r; }
+
         virtual void initialize() override;
         virtual void stamp() override;
         virtual void updateStep() override;
@@ -47,6 +50,7 @@ class Ssd1306 : public Component, public TwiModule
         void proccessCommand();
         void parameter();
         void writeData();
+        void configScroll( uint8_t command );
         void reset();
         void clearDDRAM();
         void setSize( int w, int h );
@@ -56,6 +60,8 @@ class Ssd1306 : public Component, public TwiModule
         QColor m_foreground;
 
         IoPin* m_pinSda;
+
+        bool m_rotate;
 
         uint8_t m_Co;
         uint8_t m_start;
@@ -91,6 +97,7 @@ class Ssd1306 : public Component, public TwiModule
         uint8_t m_scrollTop;
         uint8_t m_scrollRows;
         uint8_t m_vScrollOffset;
+        uint8_t m_scrollSingle;
         uint16_t m_scrollStep;
         uint16_t m_scrollCount;
 
