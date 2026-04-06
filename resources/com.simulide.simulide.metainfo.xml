@@ -44,11 +44,10 @@
 
   <url type="bugtracker">https://simulide.com/p/forum/forum/report-bugs/</url>
   <url type="homepage">https://simulide.com</url>
-  <url type="donation">https://www.patreon.com/simulide</url>
+  <url type="donation">https://opencollective.com/simulide</url>
   <url type="contact">https://simulide.com/p/forum/</url>
   <url type="help">https://simulide.com/p/simulidekb/</url>
-  <url type="vcs-browser">https://launchpad.net/simulide/</url>
-  <url type="contribute">https://simulide.com/p/contribute/</url>
+  <url type="vcs-browser">https://github.com/Arcachofo/SimuliDE-1</url>
 
   <screenshots>
     <screenshot type="default">
