@@ -4,11 +4,16 @@
                      resetpin="PORTA3"
                      pullups="WPUA" >
                      
-    <interrupt name="PA_INT" mask="00111111"/>
+    <interrupt name="PAB_INT" mask="IOCA"/>
     <extint    name="INT" pin="PORTA2" configbits="INTEDG"/>
   </port>
   
-  <port name="PORTB" pins="8" outreg="PORTB" dirreg="!TRISB" pinmask="11110000" />
+  <port name="PORTB" pins="8" outreg="PORTB" dirreg="!TRISB" 
+                     pinmask="11110000" 
+                     pullups="WPUB" >
+
+    <interrupt name="PAB_INT" mask="IOCB"/>
+  </port>
 
   <port name="PORTC" pins="8" outreg="PORTC" dirreg="!TRISC" />
   
