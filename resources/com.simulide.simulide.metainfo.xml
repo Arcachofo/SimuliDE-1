@@ -44,11 +44,10 @@
 
   <url type="bugtracker">https://simulide.com/p/forum/forum/report-bugs/</url>
   <url type="homepage">https://simulide.com</url>
-  <url type="donation">https://www.patreon.com/simulide</url>
+  <url type="donation">https://opencollective.com/simulide</url>
   <url type="contact">https://simulide.com/p/forum/</url>
   <url type="help">https://simulide.com/p/simulidekb/</url>
-  <url type="vcs-browser">https://launchpad.net/simulide/</url>
-  <url type="contribute">https://simulide.com/p/contribute/</url>
+  <url type="vcs-browser">https://github.com/Arcachofo/SimuliDE-1</url>
 
   <screenshots>
     <screenshot type="default">
@@ -72,12 +71,8 @@
   </screenshots>
 
   <releases>
-    <release version="1.1.0" date="2024-03-25">
-    <url type="details">https://bazaar.launchpad.net/~arcachofo/simulide/1.1.0/changes</url>
-    </release>
-
+    <release version="1.1.0" date="2024-03-25"/>
     <release version="1.0.0" date="2023-03-18">
-    <url type="details">https://bazaar.launchpad.net/~arcachofo/simulide/1.0.0/changes</url>
       <description>
         <p>First stable release</p>
       </description>
